@@ -7,7 +7,8 @@ Notation and exact targets: [mathematical_specification.md](mathematical_specifi
 ## v2 decisions (supersede v1 where they conflict)
 
 1. **Lead physics:** ρ=0.9, c=1, q_a=1, λ=0.1, η=0.05, **L=8, q_w=0.02**.
-   **Secondary physics:** the oracle primary (q_w=0.5, L=8), evaluated at P1 and P2 only.
+   **Secondary physics:** the oracle primary (q_w=0.5, L=8). Clean-trained arms are evaluated at every prior (evaluation only, no extra training);
+   channel-trained arms at P1/P2 only (review 2).
    **L=32 dropped:** V_2/VOI_clean ≤ 1.6% there, and the L contrast is confounded with the per-position flip rate β/L.
 2. **Test priors are the prior-shift design:**
 
@@ -17,28 +18,47 @@ Notation and exact targets: [mathematical_specification.md](mathematical_specifi
    | P2 | 0.5 | uniform |
    | P3 | 0.2 | δ at lag 0 |
    | P4 | 0.5 | δ at lag 0 |
+   | P5 | 0.2 | recent-weighted: π_j ∝ 2^{−(L−1−j)} (lag 0 gets ≈0.50) — *added by review 2* |
+
+   P1 → P5 → P3 is a path of increasing location concentration at fixed β=0.2:
+   - P5 is in the interior of A6p-broad's Dirichlet(1) family but outside A6p-narrow's family.
+   - P3/P4 are vertices of the simplex, i.e. limits that no Dirichlet(1) draw reaches.
+
+   This separates in-family interpolation (P5) from extrapolation (P3/P4).
 
    Arms trained only on clean data (A1, A2, A3, A4, A5) are trained **once per physics** and evaluated at every prior, so β ∈ {0.2, 0.5} costs no
    extra training. Channel-trained arms (A1r, A6) are trained at P1. A6p is trained over its declared family.
 3. **Task 0 (DONE 2026-10-04):** compute exact oracle V_2, I_loss and VOI_clean at P3 and P4 for both physics. P1/P2 already exist for
    q_w=0.02 (map cells), and for q_w=0.5 they are the primary cell and the L8/q_w0.5/β0.5 cell. Fix the Δ_min table from these numbers before training.
    Report the oracle P3/P4 results as an addendum to the oracle report.
-4. **Δ_min(physics, prior) = max(0.10·V_2, 0.002·VOI_clean).** Rationale: the exact naive filter has endpoint 𝓔 = V_2, so 10% of V_2 is one tenth
-   of the gap between ignoring the channel and knowing it exactly. The absolute floor prevents instability when V_2 is small. Known values:
-   Raw values from the oracle (P3/P4 added by Task 0; [addendum](reports/oracle_v1_priors_addendum.md)):
+4. **Δ_min(physics, prior) = clip(0.10·V_2, 0.002·VOI_clean, 0.02·VOI_clean)** (revised by review 2, before any learned run).
+   - Rationale for 10% of V_2: the exact naive filter has endpoint 𝓔 = V_2, so 10% of V_2 is one tenth of the gap between ignoring the channel and
+     knowing it exactly.
+   - Floor: prevents instability when V_2 is small.
+   - Cap (new): when V_2 is comparable to or larger than the whole decision value of clean history (P3/P4: V_2/VOI_clean = 0.27–1.59),
+     "10% of V_2" would call cost differences of up to 40% of the clean-oracle cost immaterial, which is not credible. 2% of VOI_clean
+     (≈0.062 at q_w=0.02, ≈5% of the clean-oracle cost; ≈0.080 at q_w=0.5, ≈2.7%) is a clearly noticeable decision effect in raw cost units.
 
-   | physics | P1 | P2 | P3 | P4 |
-   |---|---|---|---|---|
-   | q_w=0.02 | 0.0090 | 0.0416 | 0.1708 | 0.4926 |
-   | q_w=0.5 | 0.0080 (floor binds) | 0.0305 | 0.1083 | 0.3481 |
+   Raw values ([addendum](reports/oracle_v1_priors_addendum.md); VOI_clean from the same cells):
 
-   At P3/P4 these are 4–40% of the clean-oracle cost; their practical meaning is flagged for Opus review.
+   | physics | P1 | P2 | P3 | P4 | P5 |
+   |---|---|---|---|---|---|
+   | q_w=0.02 | 0.0090 | 0.0416 | 0.0624 (cap) | 0.0620 (cap) | Task 0b |
+   | q_w=0.5 | 0.0080 (floor) | 0.0305 | 0.0794 (cap) | 0.0797 (cap) | Task 0b |
+
+   Power is set separately (Δ_min/2 half-width rule). The cap makes P3/P4 demand more precision than v2 did, so if 10 seeds do not reach it,
+   report the achieved precision rather than raising Δ_min.
 5. **Reference lines in every table:** exact aware (𝓔=0), exact naive (𝓔=V_2), learned naive A1.
    An aware-belief estimator with 𝓔 ≥ V_2 is no better than ignoring the channel exactly.
 6. **Structural notes for interpretation, not design changes:**
    - At β=½ the folded route gives weight (1−2β)=0 to μ(S), so G uses folded queries only; M and the average still use μ(S).
    - Under P3/P4 the candidate route queries S and T_{L−1}S, while the folded route queries S (unless β=½) and O_{L−1}. The inference-cost gap
      between routes therefore nearly vanishes, and H3 compute comparisons should be read per prior.
+   - **P4 reduction (predeclared, review 2):** at β=½ with π=δ_{L−1}, μ_2 = ψ_{L−1} exactly (spec T4).
+     - The folded route collapses to one masked-belief query: Ĝ = ψ̂_{L−1}. The sign head cancels.
+     - The candidate route still needs μ̂(S), μ̂(T_{L−1}S) and r̂.
+     - A G-over-M advantage at P4 is therefore partly a structural reduction. It is a valid estimation result for that prior, but must not be
+       generalised to other priors without P1/P2/P3/P5 support. A3 is not equivalent to Ĝ there.
 7. **Required diagnostics, added from the oracle:** natural-switch stratum E_{L−1} and clean-record (θ=none) harm for every arm. Use the
    hidden-mode realised-cost difference against the exact naive action.
 8. **A1r per-prior refit:** gets its own row in the H3 tables, labelled "refit per prior", with refit data and compute disclosed. It is not
@@ -85,9 +105,9 @@ truth; a generic K=4 Gaussian MDN (means affine in a_k) is an optional ablation.
 
 ## Prior-shift comparison (H3)
 
-Test priors: P1 β=0.2 uniform (primary); P2 β=0.5 uniform; P3 β=0.2 π=δ_{lag 0}; P4 β=0.5 π=δ_{lag 0}.
-A6p-narrow: train family β~U[0,0.3], π uniform (P2–P4 are extrapolations). A6p-broad: β~U[0,½],
-π~Dirichlet(1_L) (P1–P4 in support, P3/P4 near its boundary). Composition arms (A2, A4, A5) and A1r
+Test priors: P1 β=0.2 uniform (primary); P2 β=0.5 uniform; P3 β=0.2 π=δ_{lag 0}; P4 β=0.5 π=δ_{lag 0}; P5 β=0.2 recent-weighted (decision 2).
+A6p-narrow: train family β~U[0,0.3], π uniform (P2–P5 are extrapolations). A6p-broad: β~U[0,½],
+π~Dirichlet(1_L) (P1, P2, P5 inside its support; P3/P4 are simplex vertices that no draw reaches, i.e. extrapolation limits). Composition arms (A2, A4, A5) and A1r
 (refitted per prior using simulated calibration data — disclose refit cost) receive each test prior.
 Report every (arm, prior) cell including flexibility failures.
 

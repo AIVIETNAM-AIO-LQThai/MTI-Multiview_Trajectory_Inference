@@ -212,3 +212,21 @@ Measured observations (no new scientific claims beyond them):
 
 Flag for Opus review (not decided here): at P3/P4 the rule Δ_min = 10% V_2 gives 0.11–0.49, which is 4–40% of the clean-oracle cost (1.24 / 2.9); its practical meaning at those priors, and
 whether a cost-based floor or cap is wanted, is an Opus call.
+
+## 12. Opus review of the Task 0 addendum (2026-10-04, `claude-opus-5-5`)
+
+Verified that the addendum numbers match `results/oracle_v1_priors/*.json`. The four cells come from clean commit `2168bee` with `cell_id` 10–13, so their streams are
+disjoint from oracle_v1. The only code change since `0f1b6d1` is the `pi` option, so the uniform-prior (P1/P2) and lag-0 (P3/P4) rows are comparable.
+**The addendum's measured statements are supported.**
+
+Answers to the two flagged questions, written into [protocol v2](../learned_pilot_protocol.md) before any learned run:
+1. **Δ_min gets a cap:** Δ_min = clip(0.10·V_2, 0.002·VOI_clean, 0.02·VOI_clean). At P3/P4, V_2 is 27–159% of VOI_clean, and an uncapped 10% rule would call cost
+   differences up to 40% of the clean-oracle cost immaterial. The cap binds at all four P3/P4 pairs (0.062 / 0.080).
+2. **An intermediate prior is added:** P5 = β 0.2 with π_j ∝ 2^{−lag}. P1 → P5 → P3 increases location concentration at fixed β. P5 lies inside A6p-broad's training family and
+   outside A6p-narrow's, which separates in-family interpolation from extrapolation (P3/P4 are simplex vertices). It costs only evaluation for clean-trained arms.
+
+Additional predeclared interpretation: at P4, μ_2 = ψ_{L−1} exactly, so the folded route collapses to one masked-belief query with no sign head. Any folded-route advantage at P4
+is partly structural and is not to be generalised without support at the other priors.
+
+Scientific reading of P3/P4: the uniform-prior conclusion that awareness has small decision value is **prior-specific**, not a property of the S2 channel. When corruption
+targets the most recent action, awareness recovers 64–89% of the naive excess, and the naive action can be worse than ignoring history.
