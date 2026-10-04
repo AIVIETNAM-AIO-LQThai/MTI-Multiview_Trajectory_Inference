@@ -50,3 +50,14 @@ def test_recalibration_three_term_identity_and_symmetry(primary):
     i = names.index("V2")
     tot = sum(out["S1"][names.index(f"rc:g:{t}")] for t in "ARX")
     assert abs(tot - out["S1"][i]) <= 1e-9 * max(1.0, abs(out["S1"][i]))
+
+
+def test_residual_recalibrator_contains_identity_and_is_odd():
+    rng = np.random.default_rng(4)
+    abs_s, mu = np.abs(rng.normal(0, 3, 4000)), rng.uniform(-0.9, 0.9, 4000)
+    kap = rng.uniform(0, 3, 4000)
+    g = BinnedRecal(6, 6, "residual").fit(abs_s, mu, mu.copy(), kap)      # target == mu~  =>  correction 0
+    assert np.allclose(g(abs_s, mu), mu, atol=1e-12)                       # identity recovered exactly
+    mu2 = np.clip(mu + rng.normal(0, 0.2, 4000), -1, 1)
+    g = BinnedRecal(6, 6, "residual").fit(abs_s, mu, mu2, kap)
+    assert np.allclose(g(abs_s, -mu), -g(abs_s, mu))                       # odd in mu~

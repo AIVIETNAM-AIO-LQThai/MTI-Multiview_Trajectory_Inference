@@ -205,23 +205,26 @@ def run_cell(pool, cfg, cell, args, prov):
         parts, _ = run_chunks(pool, "fit", cell, seeds["recal_val"], math.ceil(rc["val_n"] * scale / rcn) * rcn, rcn)
         val = {k: np.concatenate([p[k] for p in parts]) for k in parts[0]}
         recal, table = {}, []
-        for size in rc["fit_sizes"]:
-            sz = min(int(size * scale) // 1, len(fit["mu"]))
-            for ns, nm in rc["resolutions"]:
-                g = BinnedRecal(ns, nm).fit(fit["abs_s"][:sz], fit["mu"][:sz], fit["mu2"][:sz], fit["kap"][:sz])
-                gv = g(val["abs_s"], val["mu"])
-                R_val = float(np.mean(val["kap"] * (gv - val["mu2"]) ** 2))
-                A_val = float(np.mean(val["kap"] * (val["mu"] - gv) ** 2))
-                v2_val = float(np.mean(val["kap"] * (val["mu"] - val["mu2"]) ** 2))
-                name = f"fit{sz}_res{ns}x{nm}"
-                recal[name] = g
-                table.append(dict(name=name, fit_n=sz, resolution=[ns, nm], n_bins=[len(g.s_edges) + 1, len(g.m_edges) + 1],
-                                  val_R=R_val, val_A=A_val, val_V2_single_draw=v2_val))
+        for mode in rc["modes"]:
+            for size in rc["fit_sizes"]:
+                sz = min(int(size * scale) // 1, len(fit["mu"]))
+                for ns, nm in rc["resolutions"]:
+                    g = BinnedRecal(ns, nm, mode).fit(fit["abs_s"][:sz], fit["mu"][:sz], fit["mu2"][:sz], fit["kap"][:sz])
+                    gv = g(val["abs_s"], val["mu"])
+                    R_val = float(np.mean(val["kap"] * (gv - val["mu2"]) ** 2))
+                    A_val = float(np.mean(val["kap"] * (val["mu"] - gv) ** 2))
+                    v2_val = float(np.mean(val["kap"] * (val["mu"] - val["mu2"]) ** 2))
+                    name = f"{mode}_fit{sz}_res{ns}x{nm}"
+                    recal[name] = g
+                    table.append(dict(name=name, mode=mode, fit_n=sz, resolution=[ns, nm],
+                                      n_bins=[len(g.s_edges) + 1, len(g.m_edges) + 1],
+                                      val_R=R_val, val_A=A_val, val_V2_single_draw=v2_val))
         big = [t for t in table if t["fit_n"] == max(t2["fit_n"] for t2 in table)]
         sel = min(big, key=lambda t: t["val_R"])["name"]
-        res["recal_fit"] = dict(table=table, selected=sel, val_n=len(val["mu"]), fit_seed=seeds["recal_fit"],
-                                val_seed=seeds["recal_val"],
-                                note="selected = lowest validation E[k(g-mu2)^2] at the largest fit size")
+        sel_by_mode = {m: min([t for t in big if t["mode"] == m], key=lambda t: t["val_R"])["name"] for m in rc["modes"]}
+        res["recal_fit"] = dict(table=table, selected=sel, selected_by_mode=sel_by_mode, val_n=len(val["mu"]),
+                                fit_seed=seeds["recal_fit"], val_seed=seeds["recal_val"],
+                                note="selected = lowest validation E[k(g-mu2)^2] at the largest fit size (validation data only)")
     names = column_names(cell, list(recal))
     parts, n_main = run_chunks(pool, "rb", cell, seeds["main"], n_main, chunk_n, recal=recal, thr=thr,
                                n_profile=int(mc["n_profile"] * scale))
