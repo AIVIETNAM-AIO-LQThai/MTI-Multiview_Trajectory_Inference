@@ -158,3 +158,31 @@ parameters, a justified update scheme, or measured teacher drift and accuracy.
 1. Cells: lead physics q_w=0.02, L=8; secondary q_w=0.5, L=8 at P1/P2; L=32 dropped (see v2 decision 1).
 2. Δ_min: definition confirmed; raw values for P1/P2 listed in v2 decision 4; values for P3/P4 come from Task 0.
 3. A1r per-prior refit: own row, not composition (v2 decision 8).
+
+## E1 — supervision vs composition (specified by Opus review 3, 2026-10-04; NOT RUN; needs user authorization)
+
+**Question.** Is the pilot's advantage of A4 (likelihood-trained density + exact composition) over A2/A6p due to the supervision (likelihood of all transitions vs single probe regression)
+or to composition? Does composition have any in-family *estimation* advantage once supervision is matched?
+
+**New arms** (same CausalDensity backbone and token features as A4; trained on the same per-seed training prefixes as the pilot so every comparison is paired by seed):
+- **A6d** (channel-trained density-direct, fixed prior P1). Per step, corrupt the training prefix with the P1 channel (fresh draw), then minimise the NLL of all L recorded transitions
+  of the *corrupted* record plus the original clean probe transition. Each conditional is again a ±c·a mixture: a flip swaps the sign. Belief on a record S = tanh(logit_L/2), read directly with no composition.
+  Population target: w_L = P(m_L=+1 | S) under the training channel, so the belief targets μ_2.
+- **A6pd** (prior-conditioned density-direct): as A6d, with q appended to every GRU input token (as in A6p) and priors drawn per example from the **broad** family.
+- Validation/selection: NLL of channel-simulated validation records (A6d: P1; A6pd: the family), using the same 8-config grid and seed-0 tuning as the pilot.
+
+**Predeclared comparisons** (both physics, N∈{10³,10⁵}, seeds 1–5, P1–P5 on the lead physics, P1/P2 on the secondary; Δ_min rule unchanged):
+- C-a: A4 vs A6pd (composition vs direct, supervision matched). In-family priors P1, P2, P5; out-of-family P3, P4.
+- C-b: A6pd vs A6p-broad (likelihood vs probe supervision, direct held fixed). C-c: A4 vs A2-G (the same contrast with composition held fixed; already measured).
+- C-d: A4 vs A6d (flexibility against a fixed-prior direct estimator under matched supervision).
+
+**Interpretation rules (fixed before running)**
+- A6pd equivalent to A4 in-family and worse at P3/P4: composition's advantage is flexibility only, and supervision explains the pilot's A4-vs-A2 gap.
+- A6pd worse than A4 by ≥Δ_min in-family: composition carries an estimation advantage under matched supervision. Report that only if C-b also shows that supervision alone does not close the gap.
+- A6pd better than A4 in-family: direct training is the better estimator under matched supervision; composition remains a flexibility tool only.
+
+**Reporting.** Δ_min verdicts plus relative differences E_x/E_y with seed CIs, because Δ_min saturates at N=10⁵. Report at N=10³ separately as the informative regime.
+Inference cost: A6d/A6pd 1 forward pass per record; A4 needs L+1. Training cost per prefix: one corrupted view.
+
+**Not run (review 3 decisions):** mask diversity, separate encoders, compatibility/distillation, 10 seeds, extended epochs. Reasons in [learned_pilot_report.md](reports/learned_pilot_report.md) §5.
+**Cost estimate:** density arms ≈ 50 s per N=10⁵ training (gate), so tuning (2 arms × 8 configs × 2 N × 2 physics) plus 20 units is ≲ 1 CPU-hour.

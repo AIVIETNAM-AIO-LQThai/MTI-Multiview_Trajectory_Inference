@@ -67,7 +67,9 @@ At N=10³ the probe-regression arms are poor: lead P1: A1 0.136, A2-G 0.185, A2-
   folded queries O_j(S) with 0 / 1 retained flips: 0.0069 / 0.0252; sign-head KL to the exact opposite-sign probability: 0.0017 / 0.0051. At N=10³: 0.176 / 0.550 / 0.804. The same ordering holds at q_w=0.5 (0.0174 / 0.0446 / 0.0679). Query error grows with contamination count by a factor of 4–6.
   (Descriptive; unweighted over the L+1 views; contaminated queries occur only on corrupted records.)
 - **Clean-record harm and natural-switch cost** (realised-cost difference vs exact naive, lead, N=10⁵, P1; oracle: D_none +0.065, D_switch +0.916): A4 +0.067/+0.943; A2-G +0.074/+0.975; A2-M +0.074/+0.969; A6 +0.063/+0.913; A6p-broad +0.053/+0.694; A3 +0.012/+0.093; A1 +0.006/+0.054 (A1r −0.015 in the switch stratum).
-  The composition arms reproduce the oracle's behaviour (small cost on clean records, large gain in natural-switch states). A6p-broad under-reproduces the switch-stratum gain (+0.694 ± 0.027). Per-stratum values for all arms, both physics and N=10⁵ are in the tables.
+  D is the arm's realised cost minus the exact naive action's (positive = costlier). The composition arms reproduce the oracle's trade-off:
+  a small extra cost on clean records, a large extra cost in natural-switch states, and a net gain overall (D < 0) from corrupted records. A6p-broad pays less in the switch stratum
+  (+0.694 ± 0.027 vs the oracle's +0.916). *(Sign corrected in the Opus review; the earlier draft called the switch-stratum cost a gain.)* Per-stratum values for all arms, both physics and N=10⁵ are in the tables.
 - **Inference cost per test record:** A1/A6/A6p 1 forward pass; A2-G 9, A2-M and average 17, A4 9, A5 analytic O(L). Training (N=10⁵, one thread, lead): A1 111 s, A2 568 s, A4 51 s, A6 157 s, A6p 174–183 s; A5 EM <1 s (η̂ = 0.0500 ± 0.0002 at N=10⁵, 0.0505 ± 0.0020 at N=10³). Prior-conditioned or channel-trained arms need training data/compute per training prior family; composition arms reuse one clean-trained model for all priors.
 
 ## 4. Open items and flags for the Opus review
@@ -77,3 +79,41 @@ At N=10³ the probe-regression arms are poor: lead P1: A1 0.136, A2-G 0.185, A2-
 3. **Seeds:** which paired comparisons need 10 seeds to meet the Δ_min/2 power rule (see the "CI half-width ≤ Δ_min/2" column; mostly the N=10³ and secondary-physics rows).
 4. **Mask diversity, separate encoders, compatibility/distillation** remain deferred; the route-gap and query-level diagnostics above are the data the protocol said should motivate them.
 5. **P4 reduction:** report G and M at P4 separately from the other priors in any summary (limitation 4).
+
+## 5. Opus evidence review (2026-10-04, `claude-opus-5-5`)
+
+Checked: provenance (clean code commit `09621bb`), the analysis code's definitions of E, D and the paired verdicts, the tuning selections, and the quoted
+counts against `analysis.json`. One reporting error was fixed (the sign of D in §3.3). **The measurements are sound.** Their interpretation needs four qualifications.
+
+**Qualifications**
+1. **Δ_min saturates at N=10⁵.** Every composition arm is within Δ_min of the oracle there (E ≈ 0.006–0.025 vs Δ_min 0.008–0.08). Any two near-oracle arms are
+   therefore "equivalent". That is the correct *practical* statement (the difference does not matter for the decision), but it carries no *mechanistic* information
+   about routes. Route comparisons are informative only at N=10³, and relative differences (E_x/E_y) should be reported alongside Δ_min from now on.
+2. **Physics-informed features (disclosure added here).** Every network receives, per transition, asinh(c·ã_k·δ_k/q_w), a monotone transform of half the per-transition
+   mode log-likelihood ratio (sign-free on a folded slot), computed from the declared physics. A4's mixture family and A5's HMM contain the truth. These are
+   physics-informed learners, not generic sequence models; external validity is correspondingly limited.
+3. **Supervision is confounded with route and architecture.** A4/A5 are trained by likelihood of every observed transition; A1/A2/A6/A6p by the single, noisy probe
+   regression. "A4 beats A2 at N=10³" is therefore at least partly a supervision-efficiency effect, not a composition-route effect.
+4. **Query error vs contamination count is descriptive.** The 0 → 1 → 2 contamination categories coincide with record types: clean records, singly-flipped records, and
+   wrong-location repairs. Their exact beliefs also differ in difficulty, so growth in error is consistent with, but does not isolate, distribution shift.
+
+**What the pilot supports** (within S2, the single-flip channel, physics-informed features, and the one-step endpoint):
+- **H2 in its route form is not supported.** With shared heads, folded (G) and candidate (M) composition show no material difference in 18 of 20 cells (14 equivalent, 4 inconclusive). At N=10³ the lead-physics
+  differences at P1/P2/P3/P5 lie within Δ_min. The two material differences are: P4 at N=10³ on the lead physics, where candidate is better (the predeclared structural collapse of G to a single folded query); and P1 at N=10³ on the
+  secondary physics, where G is better by 0.034 ± 0.023 but both arms are about 6× worse than the exact naive filter. **The route is not the lever. Component estimation and correct Bayesian weighting are:** the unweighted ensemble A3 is worse than A2 by ≥Δ_min in 16/20 cells, and A4/A5 beat A2 in all 10 N=10³ cells.
+- **H3 is partially supported.**
+  - Clean-trained exact composition generalises across priors without retraining, whereas fixed-prior (A6) and narrow-family (A6p-narrow) direct estimators degrade off their training prior.
+  - Against a direct estimator given the full prior over a broad family (A6p-broad), composition is equivalent in-family at N=10⁵ and *worse* at P1 with N=10³ (+0.089 ± 0.042).
+    It is better only at the out-of-family vertices P3/P4. That is a flexibility distinction, as the charter anticipated.
+  - It costs 9–17 queries per decision and about 3× training compute (A2 vs A6p) at N=10⁵.
+- **H5 (compatibility/distillation) is not motivated by these data.** The route gap is negligible for the endpoint at N=10⁵, and G ≈ M at N=10³ despite |Ĉ_j| ≈ 0.04–0.09.
+  The protocol's "zero average gap does not dismiss a mechanism" check was done, and there is no evidence of cancellation: the gap has the same sign on clean and corrupted records in every cell, and |gap| ≤ 0.002 at N=10⁵.
+
+**Decisions**
+- **Not run:** mask diversity, separate encoders, compatibility/distillation (no supporting evidence); 10 seeds (inconclusive cells are where all probe-regression arms are poor, so more seeds
+  would not change any conclusion above); an extended-epoch rerun (N=10⁵ is saturated relative to Δ_min).
+- **Recommended next experiment (E1, needs user authorization):** separate *supervision* from *composition* with channel-trained **density-direct** arms. Specification in
+  [learned_pilot_protocol.md](../learned_pilot_protocol.md) §E1.
+- **Thesis narrowing:** the defensible direction is no longer "multi-view routes estimate better". It is *"exact inference-time composition of clean-law components is
+  a prior-flexible estimator of decision-relevant beliefs; its accuracy is governed by how the components are learned, and in-family it buys flexibility rather than accuracy."*
+  Whether composition has any in-family estimation advantage under matched supervision is exactly what E1 tests.

@@ -23,7 +23,7 @@ inference-time flexibility.*
 | Estimation | Whether learned query routes differ in accuracy/efficiency/adaptability at matched data, access, compute | Exact-route equality ⇏ finite-learner equality; oracle results cannot show a learned advantage |
 | Policy relevance | Whether belief error matters for a specified physical decision | Reconstruction, AUROC or one-step synthetic cost ⇏ robust trained-policy performance |
 
-## Hypotheses (status after oracle v1 review, 2026-10-04: H1 verified; H4 measured; H2, H3, H5 open)
+## Hypotheses (status after learned-pilot review, 2026-10-04: H1 verified; H4 measured (prior-specific); H2 route form not supported; H3 partially supported (flexibility, not in-family accuracy); H5 not motivated)
 
 - H1 Oracle equivalence: candidate and folded routes compute the same aware posterior under the declared law.
   Analytic + numerical verification only; says nothing about learning.
@@ -72,9 +72,10 @@ checked, tests saved) · **measured** (finite-sample/MC result with uncertainty)
 | C4 | Where V_2 is material | **measured**: 13% of VOI_clean at L=8,q_w=.02,β=.5; ≤ 1.6% at L=32 (L contrast confounded with per-position rate β/L); **prior-specific**: with corruption on lag 0, V_2 = 27–159% of VOI_clean (report §11–12) | report §4 | other channels/simulators for external validity |
 | C5 | Share of V_2 recoverable from (s_L, μ̃) | **measured, bounded**: ≥ 6–11% (residual class); R only upper-bounds the context term | report §5 | learned recalibrator (A1r) |
 | C6 | Candidate repairs carry more contaminated weight than folded queries | **measured at oracle weights** (0.97 vs 0.80 attacked; 0.17 vs 0 clean); links to learning errors untested | report §6 | learned pilot diagnostics |
-| C7 | Learned routes differ at finite N (H2) | **measured in pilot, interpretation pending Opus**: A2-G ≈ A2-M (equivalent in 14/20 cells); A4 (density) and A5 (HMM) beat A2 at N=10³ | [learned report](reports/learned_pilot_report.md) | Opus review; 10 seeds where inconclusive |
-| C8 | Composition buys prior-shift flexibility at acceptable cost (H3) | **measured in pilot, interpretation pending Opus**: composition ≈ in-family prior-conditioned direct at P1/P2/P5, better at P3/P4 and vs fixed-prior A6; costs 9–17 queries and 3× training compute vs A6p | learned report §3.2 | Opus review |
+| C7 | Learned routes differ at finite N (H2) | **not supported in route form**: folded and candidate composition from shared heads show no material difference in 18/20 cells; the 2 exceptions are a predeclared structural P4 case and a regime where both arms are worse than exact naive. Component learning and Bayesian weighting matter (A3 ensemble poor; A4/A5 better at N=10³) | [learned report §5](reports/learned_pilot_report.md) | E1 separates supervision from composition |
+| C8 | Composition buys prior-shift flexibility at acceptable cost (H3) | **partially supported**: composition generalises off-prior where fixed/narrow direct arms fail; vs broad prior-conditioned direct it is equivalent in-family (N=10⁵), worse at P1 (N=10³), better only at out-of-family P3/P4; costs 9–17 queries and ~3× training | learned report §5 | E1 (matched supervision) |
 | C9 | Poisoning defence / trained-policy robustness | out of scope | — | separate programme |
+| C11 | Conclusions about learned estimation hold for physics-informed learners (LLR-type features; A4/A5 families contain the truth) | **scope qualification** | learned report §5 | generic-feature / unknown-physics study (out of current scope) |
 | C10 | Aware belief costs realised cost in natural-switch states and on clean records | **measured**: D = −0.56 ± 0.10 (switch edge), −0.047 ± 0.008 (clean) in primary | report §3 | check in learned arms |
 
 No numerical result from earlier conversations is inherited; every number must be reproduced here with
