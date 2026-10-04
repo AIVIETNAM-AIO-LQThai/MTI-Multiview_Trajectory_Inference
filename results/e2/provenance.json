@@ -1,0 +1,31 @@
+{
+ "git_commit": "dc1abb80f26c4a002b2e9a622def2b05b87d16e7",
+ "branch": "exp/channel-misspecification",
+ "dirty_code": [
+  " M README.md",
+  " M docs/findings_summary.md",
+  " M docs/research_charter.md",
+  " M docs/research_status.md",
+  " M experiments/analyze_e1.py",
+  " M experiments/analyze_learned.py",
+  " M src/mti/learned/data.py",
+  " M src/mti/learned/evalset.py",
+  " M src/mti/params.py",
+  "?? docs/e2_protocol.md",
+  "?? experiments/run_e2_learned.py",
+  "?? experiments/run_e2_screen.py",
+  "?? src/mti/misspec.py",
+  "?? tests/test_misspec.py"
+ ],
+ "patch_sha256": "19d381a3a00bf237",
+ "untracked_code_hashes": {
+  "experiments/run_e2_learned.py": "4e1bc41a1e8c2af6",
+  "experiments/run_e2_screen.py": "c4d76159d2bfdbb9",
+  "src/mti/misspec.py": "08febb6775df47ee",
+  "tests/test_misspec.py": "a0ba90fa55012d19"
+ },
+ "python": "3.14.7",
+ "torch": "2.14.1+cpu",
+ "numpy": "2.5.3",
+ "command": "experiments/run_e2_learned.py --out results/e2 --workers 18"
+}

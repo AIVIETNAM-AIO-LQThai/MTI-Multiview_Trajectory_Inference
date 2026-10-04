@@ -111,9 +111,9 @@ class TestSet:
 
     __test__ = False  # not a pytest class
 
-    def __init__(self, phys: Physics, n: int, cell_id: int, chunk_id: int = 0):
+    def __init__(self, phys: Physics, n: int, cell_id: int, chunk_id: int = 0, master: int = MASTER_TEST):
         self.phys, self.n, self.L, self.V = phys, n, phys.L, phys.L + 1
-        smp = simulate(phys, n, MASTER_TEST, cell_id, chunk_id)
+        smp = simulate(phys, n, master, cell_id, chunk_id)
         self.H = smp.prefix
         self.mL = smp.modes[:, -1]
         self.sw = smp.modes[:, -2] != smp.modes[:, -3] if phys.L >= 3 else np.zeros(n, bool)   # E_{L-1}: m_{L-2} -> m_{L-1}

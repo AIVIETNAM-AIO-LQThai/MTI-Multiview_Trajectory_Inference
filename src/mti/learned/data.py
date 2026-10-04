@@ -64,7 +64,7 @@ def channel_probs(chan) -> torch.Tensor:
 def sample_family(family: str, B: int, L: int, gen: torch.Generator):
     """Prior family for A6p training. Returns (view_probs (B,L+1), cond (B,L) = q).
 
-    narrow: beta ~ U[0, 0.3], pi uniform.  broad: beta ~ U[0, 0.5], pi ~ Dirichlet(1_L).
+    narrow: beta ~ U[0, 0.3], pi uniform.  broad: beta ~ U[0, 0.5], pi ~ Dirichlet(1_L).  cov: 50/50 mixture of broad and pi_alpha (E2).
     """
     if family == "narrow":
         beta = 0.3 * torch.rand(B, 1, generator=gen)
@@ -73,6 +73,15 @@ def sample_family(family: str, B: int, L: int, gen: torch.Generator):
         beta = 0.5 * torch.rand(B, 1, generator=gen)
         e = -torch.log(torch.rand(B, L, generator=gen).clamp_min(1e-12))   # Exp(1) -> normalised = Dirichlet(1)
         pi = e / e.sum(dim=1, keepdim=True)
+    elif family == "cov":
+        # coverage control (E2): half the draws are 'broad', half are pi_alpha = (1-a) Uniform + a delta_{L-1}, a ~ U[0,1]; beta ~ U[0, 0.5]
+        beta = 0.5 * torch.rand(B, 1, generator=gen)
+        e = -torch.log(torch.rand(B, L, generator=gen).clamp_min(1e-12))
+        pi_broad = e / e.sum(dim=1, keepdim=True)
+        alpha = torch.rand(B, 1, generator=gen)
+        pi_a = (1.0 - alpha) / L + alpha * torch.nn.functional.one_hot(torch.full((B,), L - 1), L).to(alpha.dtype)
+        coin = torch.rand(B, 1, generator=gen) < 0.5
+        pi = torch.where(coin, pi_broad, pi_a)
     else:
         raise ValueError(family)
     q = beta * pi

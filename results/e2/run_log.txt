@@ -1,0 +1,24 @@
+[3s] exact references done
+units: 20
+[588s] unit N100000 seed1 done (580s)
+[588s] unit N100000 seed2 done (581s)
+[588s] unit N100000 seed3 done (581s)
+[588s] unit N100000 seed4 done (580s)
+[588s] unit N100000 seed5 done (581s)
+[588s] unit N100000 seed6 done (503s)
+[588s] unit N100000 seed7 done (536s)
+[588s] unit N100000 seed8 done (536s)
+[588s] unit N100000 seed9 done (532s)
+[588s] unit N100000 seed10 done (534s)
+[588s] unit N1000 seed1 done (313s)
+[588s] unit N1000 seed2 done (315s)
+[588s] unit N1000 seed3 done (310s)
+[588s] unit N1000 seed4 done (310s)
+[588s] unit N1000 seed5 done (314s)
+[588s] unit N1000 seed6 done (244s)
+[588s] unit N1000 seed7 done (248s)
+[588s] unit N1000 seed8 done (243s)
+[588s] unit N1000 seed9 done (199s)
+[588s] unit N1000 seed10 done (197s)
+done in 590s
+finished

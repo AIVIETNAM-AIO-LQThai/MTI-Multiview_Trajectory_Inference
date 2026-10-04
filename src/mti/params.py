@@ -61,6 +61,12 @@ class ChannelSpec:
         return ChannelSpec(beta=beta, pi=tuple([1.0 / L] * L))
 
     @staticmethod
+    def interp(L: int, beta: float, alpha: float) -> "ChannelSpec":
+        """pi_alpha = (1-alpha) Uniform(L) + alpha delta_{L-1}: alpha=0 uniform, alpha=1 all mass on the last recorded action."""
+        pi = [(1.0 - alpha) / L + (alpha if j == L - 1 else 0.0) for j in range(L)]
+        return ChannelSpec(beta=beta, pi=tuple(pi))
+
+    @staticmethod
     def point_mass(L: int, beta: float, j: int) -> "ChannelSpec":
         pi = [0.0] * L
         pi[j] = 1.0
