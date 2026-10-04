@@ -72,8 +72,8 @@ checked, tests saved) · **measured** (finite-sample/MC result with uncertainty)
 | C4 | Where V_2 is material | **measured**: 13% of VOI_clean at L=8,q_w=.02,β=.5; ≤ 1.6% at L=32 (L contrast confounded with per-position rate β/L); **prior-specific**: with corruption on lag 0, V_2 = 27–159% of VOI_clean (report §11–12) | report §4 | other channels/simulators for external validity |
 | C5 | Share of V_2 recoverable from (s_L, μ̃) | **measured, bounded**: ≥ 6–11% (residual class); R only upper-bounds the context term | report §5 | learned recalibrator (A1r) |
 | C6 | Candidate repairs carry more contaminated weight than folded queries | **measured at oracle weights** (0.97 vs 0.80 attacked; 0.17 vs 0 clean); links to learning errors untested | report §6 | learned pilot diagnostics |
-| C7 | Learned routes differ at finite N (H2) | **open** | protocol drafted | learned pilot |
-| C8 | Composition buys prior-shift flexibility at acceptable cost (H3) | **open** | protocol drafted | learned pilot, prior-shift arms |
+| C7 | Learned routes differ at finite N (H2) | **measured in pilot, interpretation pending Opus**: A2-G ≈ A2-M (equivalent in 14/20 cells); A4 (density) and A5 (HMM) beat A2 at N=10³ | [learned report](reports/learned_pilot_report.md) | Opus review; 10 seeds where inconclusive |
+| C8 | Composition buys prior-shift flexibility at acceptable cost (H3) | **measured in pilot, interpretation pending Opus**: composition ≈ in-family prior-conditioned direct at P1/P2/P5, better at P3/P4 and vs fixed-prior A6; costs 9–17 queries and 3× training compute vs A6p | learned report §3.2 | Opus review |
 | C9 | Poisoning defence / trained-policy robustness | out of scope | — | separate programme |
 | C10 | Aware belief costs realised cost in natural-switch states and on clean records | **measured**: D = −0.56 ± 0.10 (switch edge), −0.047 ± 0.008 (clean) in primary | report §3 | check in learned arms |
 

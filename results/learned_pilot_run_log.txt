@@ -1,0 +1,24 @@
+tuning: 192 trainings
+[1177s] tuning done
+main: 20 units
+[2834s] unit phys0 N100000 seed1 done (1657s)
+[2837s] unit phys0 N100000 seed2 done (1660s)
+[2837s] unit phys0 N100000 seed3 done (1624s)
+[2837s] unit phys0 N100000 seed4 done (1654s)
+[2837s] unit phys0 N100000 seed5 done (1643s)
+[2838s] unit phys1 N100000 seed1 done (1555s)
+[2838s] unit phys1 N100000 seed2 done (1569s)
+[2838s] unit phys1 N100000 seed3 done (1567s)
+[2838s] unit phys1 N100000 seed4 done (1519s)
+[2838s] unit phys1 N100000 seed5 done (1497s)
+[2838s] unit phys0 N1000 seed1 done (621s)
+[2838s] unit phys0 N1000 seed2 done (618s)
+[2838s] unit phys0 N1000 seed3 done (620s)
+[2838s] unit phys0 N1000 seed4 done (618s)
+[2838s] unit phys0 N1000 seed5 done (617s)
+[2838s] unit phys1 N1000 seed1 done (542s)
+[2838s] unit phys1 N1000 seed2 done (544s)
+[2838s] unit phys1 N1000 seed3 done (558s)
+[2838s] unit phys1 N1000 seed4 done (316s)
+[2838s] unit phys1 N1000 seed5 done (315s)
+done in 2839s

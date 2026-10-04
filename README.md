@@ -14,16 +14,18 @@ Three questions are kept separate: **information** (how much decision value awar
 
 ## Current evidence status (2026-10-04)
 
-Only the *information* question has been measured, on synthetic data from the declared switching-mode scalar model ("S2") with a
-single-flip action-sign channel and a one-step quadratic decision. No learned model has been trained.
+The *information* question (exact oracle) and a first *estimation* pilot have been measured, on synthetic data from the declared switching-mode scalar model ("S2") with a
+single-flip action-sign channel and a one-step quadratic decision. Policy relevance beyond the one-step cost has not been tested.
 
 - Exact reference implemented and validated (68 tests, enumeration cross-checks, mutation audit); candidate and folded exact routes agree to ≤ 1.5e-14.
 - Primary cell (L=8, q_w=0.5, β=0.2, η=0.05): V_2 (value of awareness) = 0.0712 ± 0.0031, irrecoverable loss I_loss = 0.2614 ± 0.0069,
   naive excess 0.331, clean-history value 4.01 — awareness is worth ~1.8% of the clean history's decision value here; 13% at L=8, q_w=0.02, β=0.5; < 1.6% at L=32.
-- Not established: any learned-model advantage, that localisation is necessary, any poisoning defence or policy robustness.
+- Learned pilot (5 seeds, N=10³/10⁵, two physics, five priors; [report](docs/reports/learned_pilot_report.md)): the exact-composition arms with learned components (shared masked-belief model queried by folded or candidate routes, density scorer, fitted HMM)
+  recover 93–100% (lead physics q_w=0.02) and 77–100% (q_w=0.5) of the aware oracle's opportunity at N=10⁵ (A2 at P1; higher at shifted priors); folded and candidate routes of one network are equivalent within Δ_min in most cells; interpretation is pending review. Caveats: grid-edge selection at N=10⁵, A4/A5 families contain the truth.
+- Not established (oracle results only): any learned-model advantage of one route over the other, that localisation is necessary, any poisoning defence or policy robustness.
 
 Report: [docs/reports/oracle_v1_report.md](docs/reports/oracle_v1_report.md) (tables: [oracle_v1_tables.md](docs/reports/oracle_v1_tables.md)).
-Math: [docs/mathematical_specification.md](docs/mathematical_specification.md). Next experiment (not run): [docs/learned_pilot_protocol.md](docs/learned_pilot_protocol.md).
+Math: [docs/mathematical_specification.md](docs/mathematical_specification.md). Learned pilot: [docs/reports/learned_pilot_report.md](docs/reports/learned_pilot_report.md), protocol [docs/learned_pilot_protocol.md](docs/learned_pilot_protocol.md).
 Current phase / handoff: [docs/research_status.md](docs/research_status.md).
 
 ## Install and run

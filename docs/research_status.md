@@ -1,25 +1,22 @@
 # Research status (replace in place)
 
-**Phase:** learned pilot, milestone 1 (infrastructure + feasibility gate) done → awaiting user commit; **next: milestone 2 (pilot driver + tuning + run)** on Sonnet 5.5.
-**Updated:** 2026-10-04 by Sonnet 5.5 (`claude-sonnet-5-5`). Learned pilot authorized by the user ("CONTINUE CODE" after the authorization question).
+**Phase:** learned pilot v1 complete → awaiting user commit, then **Opus 5.5 `REVIEW EVIDENCE`** on [learned_pilot_report.md](reports/learned_pilot_report.md).
+**Updated:** 2026-10-04 by Sonnet 5.5 (`claude-sonnet-5-5`).
 
 ## Provenance
-Branch `exp/oracle-evidence`. Oracle results: code `0f1b6d1` / `f89ff2c`. Milestone-1 code (src/mti/learned, tests, gate script, P5 docs) is uncommitted until the user commits. The user makes all git commits; never push.
+Branch `exp/oracle-evidence`. Pilot code commit `09621bb` (clean); results in `results/learned_pilot/` (tuning, 20 units, analysis.json), `results/learned_gate/`. Report, tables, README/charter edits are uncommitted until the user commits. The user makes all git commits; never push.
 
 ## Done
-- Task 0b: P5 oracle cells; capped Δ_min table complete (report §13, [addendum](reports/oracle_v1_priors_addendum.md)).
-- Learned infrastructure (`src/mti/learned/`): features, MaskedBelief (BiGRU) and CausalDensity models, composition (G, M, avg, ensemble), training loops for A1, A1r, A2/A3, A4, A6, A6p, HMM-EM (A5),
-  test-set evaluator against the exact oracle (RB over views; E, E_none, E_cor, D vs exact naive, natural-switch strata).
-- Tests: 81 pass (11 new learned tests: access control, folded features carry no sign, query construction = direct model calls, composition reproduces μ_2 and the route-gap identity, EM recovers η, probe-loss minimiser).
-- Feasibility gate: [learned_gate.md](reports/learned_gate.md): ≈5.6 CPU-h projected (8-config grid, 5 seeds) → grid stays at 8.
-- Fixed: provenance filter bug (`run_oracle.py`); `test_max_errors.json` is now only rewritten by full-suite runs; recalibrator exact oddness at f=0.
+- Pilot per protocol v2: 192 tuning trainings (1,177 s) + 20 units (2,839 s total). Tests: 81 pass.
+- Headline (lead physics, N=10⁵, E = E[κ(μ̂−μ_2)²]): A5 ≈ 0, A4 0.0008–0.0011, A2-G/M 0.006–0.011, A6p-broad 0.010–0.098 (0.53 at P4), A6 and A6p-narrow degrade at shifts, A3 ensemble and learned naive A1 ≈ no better than exact naive.
+  G vs M equivalent in 14/20 cells; A4/A5 beat A2 at N=10³ in all cells.
+- Diagnostics: query error grows 4–6× with contamination count; route-gap identity error ≤ 2.2e-15; natural-switch / clean-record costs reproduce the oracle's for composition arms.
 
-## Smoke observations (N=2×10⁴, 6 epochs, q_w=0.02, P1; not results)
-Exact naive E=0.0786; A1 0.111 (undertrained); A2-G 0.039, A2-M 0.042, A2-avg 0.040; A3-ens 0.081; A4 0.0085; A5 ≈0 (η̂=0.0507); A6 0.040. Gap identity error 1e-15.
+## Flags for Opus (details: report §2 and §4)
+1. Grid-edge selection at N=10⁵ (all 12 selections at the 12-epoch cap) → maybe not converged; optional extended-epoch rerun of N=10⁵ units (≈1.3 CPU-h).
+2. 5 seeds do not meet the Δ_min/2 power rule in many cells (inconclusive verdicts); extend to 10 seeds (≈ +2.7 CPU-h) if needed.
+3. A4/A5 families contain the truth; A1 is a weak baseline (trained on ¾N, worse than exact naive).
+4. Interpretation of H2/H3/H5 and whether mask-diversity / separate-encoder / distillation experiments are now motivated.
 
-## Next (milestone 2)
-1. Pilot driver `experiments/run_learned.py`: per (physics, N, seed) train all arms (A1 on ¾N + A1r per prior on ¼N; A2/A3; A4; A5; A6 at P1; A6p-narrow/broad), evaluate on a 20,000-prefix test set at P1–P5; write JSON per run.
-2. Tuning on seed 0 over an 8-config grid (lr × wd × epochs) per arm, selected on the deployable validation criterion (clean arms: clean probe/likelihood loss; channel-trained arms: channel-simulated probe loss at P1).
-3. Run 5 seeds (extend to 10 if the paired CI is wider than Δ_min/2), N∈{10³,10⁵}, physics q_w∈{0.02,0.5}; report every (arm, physics, prior, N) cell; equivalence judged against Δ_min.
-4. Required diagnostics: natural-switch stratum, clean-record harm (D vs exact naive), query-specific errors by contamination count, signed route gaps, Ĉ_j distribution.
-5. Hand back for commits at each milestone; escalate to Opus for interpretation before any follow-up experiment.
+## Next
+Opus review → decide: (a) extended-epoch rerun, (b) 10 seeds, (c) any deferred experiment. Do not start any without that decision.
