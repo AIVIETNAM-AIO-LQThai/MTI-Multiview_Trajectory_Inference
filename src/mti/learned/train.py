@@ -176,6 +176,63 @@ def train_A4(tr: ProbeSet, va: ProbeSet, phys: Physics, cfg: TrainCfg):
     return model, fit(model, step_loss, val_loss, tr.n, cfg, views_per_step=1)
 
 
+# ---------------------------------------------------------------- E1: channel-trained density-direct (A6d / A6pd)
+def _a6d_nll(model, s, a_corrupt, d_pr, a_pr, phys, cond=None):
+    """NLL of every recorded transition of the (possibly corrupted) record plus the original clean probe transition.
+
+    Each conditional is a +-c*a mixture over the RECORDED action; a flip swaps the component, absorbed by the weight.
+    The probe transition is clean, so w_L targets P(m_L=+1 | S) under the training channel and the belief 2 w_L - 1 targets mu_2.
+    """
+    logits = model(_tokens(s, a_corrupt, phys), cond)                # (B, L+1)
+    delta = torch.cat([s[:, 1:] - phys.rho * s[:, :-1], d_pr[:, None]], dim=1)
+    act = torch.cat([a_corrupt, a_pr[:, None]], dim=1)
+    return -mixture_logpdf(delta, act, logits, phys).mean()
+
+
+def train_A6d(tr: ProbeSet, va: ProbeSet, phys: Physics, chan: ChannelSpec, cfg: TrainCfg):
+    """Fixed-prior density-direct arm (channel P1): density NLL on channel-simulated records, original probe kept."""
+    torch.manual_seed(cfg.seed)
+    probs = channel_probs(chan)
+    model = CausalDensity(cfg.hidden)
+    vg = torch.Generator().manual_seed(555 + cfg.seed)
+    va_a = corrupt(va.a, probs, vg)
+
+    def step_loss(idx, gen):
+        tot = 0.0
+        for _ in range(cfg.views):
+            a = corrupt(tr.a[idx], probs, gen)
+            tot = tot + _a6d_nll(model, tr.s[idx], a, tr.d_pr[idx], tr.a_pr[idx], phys) / cfg.views
+        return tot
+
+    def val_loss():
+        return _batched(lambda lo, hi: _a6d_nll(model, va.s[lo:hi], va_a[lo:hi], va.d_pr[lo:hi], va.a_pr[lo:hi], phys), va.n)
+
+    return model, fit(model, step_loss, val_loss, tr.n, cfg, views_per_step=cfg.views)
+
+
+def train_A6pd(tr: ProbeSet, va: ProbeSet, phys: Physics, family: str, cfg: TrainCfg):
+    """Prior-conditioned density-direct arm: q appended to every token, priors drawn per example from `family`."""
+    torch.manual_seed(cfg.seed)
+    L = phys.L
+    model = CausalDensity(cfg.hidden, cond_dim=L)
+    vg = torch.Generator().manual_seed(777 + cfg.seed)
+    vprobs, vq = sample_family(family, va.n, L, vg)
+    va_a = corrupt(va.a, vprobs, vg)
+
+    def step_loss(idx, gen):
+        tot = 0.0
+        for _ in range(cfg.views):
+            probs, q = sample_family(family, len(idx), L, gen)
+            a = corrupt(tr.a[idx], probs, gen)
+            tot = tot + _a6d_nll(model, tr.s[idx], a, tr.d_pr[idx], tr.a_pr[idx], phys, q) / cfg.views
+        return tot
+
+    def val_loss():
+        return _batched(lambda lo, hi: _a6d_nll(model, va.s[lo:hi], va_a[lo:hi], va.d_pr[lo:hi], va.a_pr[lo:hi], phys, vq[lo:hi]), va.n)
+
+    return model, fit(model, step_loss, val_loss, tr.n, cfg, views_per_step=cfg.views)
+
+
 # ---------------------------------------------------------------- A6 / A6p: channel-trained direct regression
 def train_A6(tr: ProbeSet, va: ProbeSet, phys: Physics, chan: ChannelSpec, cfg: TrainCfg):
     """Fixed-prior direct regression h(S) trained on channel-simulated records of the training prefixes (original probe kept)."""

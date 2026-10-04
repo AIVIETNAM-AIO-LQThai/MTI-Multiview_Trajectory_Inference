@@ -44,15 +44,20 @@ class CausalDensity(nn.Module):
     The decision belief is 2 w_L - 1.
     """
 
-    def __init__(self, hidden: int = 64):
+    def __init__(self, hidden: int = 64, cond_dim: int = 0):
         super().__init__()
-        self.hidden = hidden
-        self.gru = nn.GRU(4, hidden, batch_first=True)
+        self.hidden, self.cond_dim = hidden, cond_dim
+        self.gru = nn.GRU(4 + cond_dim, hidden, batch_first=True)
         self.head = _mlp(hidden, hidden, 1)
         self.h0_logit = nn.Parameter(torch.zeros(1))
 
-    def forward(self, tok: torch.Tensor) -> torch.Tensor:
-        """tok (B, L, 4) transition tokens (s_k, a_k, delta_k, asinh z_k) -> logit of w_k, shape (B, L+1)."""
+    def forward(self, tok: torch.Tensor, cond: torch.Tensor | None = None) -> torch.Tensor:
+        """tok (B, L, 4) transition tokens (s_k, a_k, delta_k, asinh z_k) -> logit of w_k, shape (B, L+1).
+
+        cond (B, cond_dim), if the model is prior-conditioned (E1: A6pd), is appended to every token.
+        """
+        if self.cond_dim:
+            tok = torch.cat([tok, cond[:, None, :].expand(-1, tok.shape[1], -1)], dim=-1)
         out, _ = self.gru(tok)                                       # state after tokens 0..k
         logits = self.head(out).squeeze(-1)                          # logits for w_{k+1}, k = 0..L-1
         first = self.h0_logit.expand(tok.shape[0], 1)

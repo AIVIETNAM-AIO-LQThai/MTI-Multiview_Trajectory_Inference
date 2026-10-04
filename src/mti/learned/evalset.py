@@ -90,6 +90,18 @@ def query_density(model, s_rec, a_rec, phys: Physics, chunk: int = 4000):
     return ll, mu
 
 
+@torch.no_grad()
+def query_density_belief(model, s_rec, a_rec, phys: Physics, cond=None, chunk: int = 20000) -> np.ndarray:
+    """Direct belief read-out of a density-direct model: 2 w_L - 1 = tanh(logit_L / 2) on each record (one forward pass, no composition)."""
+    R = a_rec.shape[0]
+    out = np.empty(R)
+    for lo in range(0, R, chunk):
+        hi = min(R, lo + chunk)
+        logits = model(_tokens(to_tensor(s_rec[lo:hi]), to_tensor(a_rec[lo:hi]), phys), None if cond is None else cond[lo:hi])
+        out[lo:hi] = torch.tanh(logits[:, -1] / 2).double().numpy()
+    return out
+
+
 def mean_se(x: np.ndarray):
     return float(np.mean(x)), float(np.std(x, ddof=1) / np.sqrt(len(x)))
 

@@ -32,6 +32,7 @@
   "T8_max_abs_err_O_j_invariance": 0.0,
   "T9_max_abs_err_cost_identities": 6.386031814464843e-09,
   "T9_max_abs_z_simulated_minus_analytic_cost": 2.175875271948759,
+  "e1_density_minimiser_min_z": 19.03185231003115,
   "learned_compose_exact_max_err": 2.4424906541753444e-15,
   "learned_gap_identity_max_err": 1.0200174038743626e-15,
   "learned_hmm_em_abs_err_eta": 0.002595750710602779,
