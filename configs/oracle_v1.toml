@@ -1,0 +1,122 @@
+# Oracle information/opportunity experiment, v1 (spec: docs/mathematical_specification.md, sections 11-12).
+# Changing chunk sizes changes the random streams actually consumed, so chunk sizes are part of the config.
+
+[meta]
+name = "oracle_v1"
+workers = 18
+
+[physics]            # fixed across all cells
+rho = 0.9
+c = 1.0
+q_a = 1.0
+lam = 0.1
+
+[seeds]              # SeedSequence(master, spawn_key=(cell_id, stream_id, chunk_id)); tests use masters 0-999
+pilot = 1001
+main = 2001
+check = 3001
+recal_fit = 4001
+recal_val = 5001
+
+[mc]
+pilot_n = 20000
+min_main = 100000
+cap_main = 2000000
+rel_target = 0.05          # 95% half-width <= 5% of V_2 ...
+abs_target_frac = 5.0e-4   # ... or, if V_2 < small_v2_frac * VOI_clean, <= abs_target_frac * VOI_clean
+small_v2_frac = 0.01
+safety = 1.25
+control_n = 20000          # exact-zero controls (beta = 0, eta = 1/2) are deterministic checks, not measurements
+n_profile = 20000          # prefixes (whole chunks) that also run the folded route + contamination profile
+thr_n = 20000              # clean prefixes for the 1% / 5% log-likelihood thresholds of the profile
+
+[chunk_prefixes]
+L8 = 2000
+L32 = 500
+
+[recal]
+fit_sizes = [20000, 200000]
+val_n = 100000
+chunk_n = 20000
+resolutions = [[6, 6], [12, 12], [24, 24]]
+
+# role: primary | map | control_beta0 | control_eta_half.  The primary cell is also the (L=8, q_w=0.5, beta=0.2) map cell.
+[[cells]]
+name = "primary_L8_qw0.5_b0.2"
+role = "primary"
+L = 8
+q_w = 0.5
+beta = 0.2
+eta = 0.05
+
+[[cells]]
+name = "control_beta0"
+role = "control_beta0"
+L = 8
+q_w = 0.5
+beta = 0.0
+eta = 0.05
+
+[[cells]]
+name = "control_eta0.5"
+role = "control_eta_half"
+L = 8
+q_w = 0.5
+beta = 0.2
+eta = 0.5
+
+[[cells]]
+name = "map_L8_qw0.5_b0.5"
+role = "map"
+L = 8
+q_w = 0.5
+beta = 0.5
+eta = 0.05
+
+[[cells]]
+name = "map_L8_qw0.02_b0.2"
+role = "map"
+L = 8
+q_w = 0.02
+beta = 0.2
+eta = 0.05
+
+[[cells]]
+name = "map_L8_qw0.02_b0.5"
+role = "map"
+L = 8
+q_w = 0.02
+beta = 0.5
+eta = 0.05
+
+[[cells]]
+name = "map_L32_qw0.5_b0.2"
+role = "map"
+L = 32
+q_w = 0.5
+beta = 0.2
+eta = 0.05
+
+[[cells]]
+name = "map_L32_qw0.5_b0.5"
+role = "map"
+L = 32
+q_w = 0.5
+beta = 0.5
+eta = 0.05
+
+[[cells]]
+name = "map_L32_qw0.02_b0.2"
+role = "map"
+L = 32
+q_w = 0.02
+beta = 0.2
+eta = 0.05
+
+[[cells]]
+name = "map_L32_qw0.02_b0.5"
+role = "map"
+L = 32
+q_w = 0.02
+beta = 0.5
+eta = 0.05
