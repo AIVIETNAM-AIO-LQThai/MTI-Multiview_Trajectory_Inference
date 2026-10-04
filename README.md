@@ -25,6 +25,10 @@ single-flip action-sign channel and a one-step quadratic decision. Policy releva
 - E1 (matched backbone and loss family): composition vs density-direct estimation gave 6 material improvements, 4 equivalences, 4 inconclusive and 0 material disadvantages; this is not dominance. Precision is limited and the benefit is regime-dependent; a fitted HMM is near-oracle ([E1 report §7](docs/reports/e1_report.md)).
 - E2 (channel misspecification, branch `exp/channel-misspecification`): [docs/reports/e2_report.md](docs/reports/e2_report.md) — composing with a wrong declared prior can be worse than ignoring corruption, and the harm tracks over-declared recent-lag corruption. Under prior uncertainty the mean prior is Bayes-optimal, but there is no free robust prior ([E2b report](docs/reports/e2b_report.md)).
 - E3 (channel identification, branch `exp/channel-identification`): the channel is identified from unlabeled prefixes for L ≥ 3 (not at L=1/2); likelihood adaptation removes declared-prior risk given data, but clean-law error is absorbed into inferred corruption ([E3 report](docs/reports/e3_report.md)).
+- Literature positioning ([docs/literature_review.md](docs/literature_review.md)):
+  - Most aggregate results are instances of known theory (known-component mixture identifiability, EM/NPMLE, Bayes decisions under prior uncertainty, misspecified-likelihood pseudo-true parameters).
+  - With clean persistence unknown, persistence and channel are jointly unidentified for L ≤ 3 and separated within the Markov family for L ≥ 4.
+  - Proposed next study: [docs/e4_protocol.md](docs/e4_protocol.md), awaiting approval.
 - **Consolidated claims and limits: [docs/findings_summary.md](docs/findings_summary.md).**
 - Not established (oracle results only): any learned-model advantage of one route over the other, that localisation is necessary, any poisoning defence or policy robustness.
 
