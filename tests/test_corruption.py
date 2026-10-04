@@ -149,8 +149,8 @@ def test_priors_config_builds_lag0_channel():
     root = os.path.dirname(os.path.dirname(__file__))
     cfg = tomllib.load(open(os.path.join(root, "configs", "oracle_v1_priors.toml"), "rb"))
     cells = make_cells(cfg)
-    assert len(cells) == 4 and all(c.cell_id >= 10 for c in cells)
-    for c in cells:
+    assert len(cells) == 6 and all(c.cell_id >= 10 for c in cells)
+    for c in [c for c in cells if "P5" not in c.name]:
         pi = c.chan.pi_arr
         assert pi[-1] == 1.0 and pi[:-1].sum() == 0.0 and c.chan.L == c.phys.L == 8
     base = make_cells(tomllib.load(open(os.path.join(root, "configs", "oracle_v1.toml"), "rb")))
@@ -158,3 +158,19 @@ def test_priors_config_builds_lag0_channel():
     # the defining property of the channel: only the last recorded action is ever flipped
     theta = sample_theta(cells[1].chan, 5000, master=41)
     assert set(np.unique(theta)) <= {-1, 7} and (theta == 7).mean() > 0.4
+
+
+def test_recent_prior_is_geometric_in_lag():
+    import os
+    import sys
+    import tomllib
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)), "experiments"))
+    from run_oracle import make_cells
+    root = os.path.dirname(os.path.dirname(__file__))
+    cells = [c for c in make_cells(tomllib.load(open(os.path.join(root, "configs", "oracle_v1_priors.toml"), "rb"))) if "P5" in c.name]
+    assert len(cells) == 2
+    for c in cells:
+        pi = c.chan.pi_arr
+        assert abs(pi.sum() - 1.0) < 1e-12 and c.chan.beta == 0.2
+        assert np.allclose(pi[1:] / pi[:-1], 2.0)              # each older lag has half the mass
+        assert 0.49 < pi[-1] < 0.51                             # lag 0 (last recorded action) ~ 0.50

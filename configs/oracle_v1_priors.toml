@@ -82,3 +82,23 @@ beta = 0.5
 eta = 0.05
 pi = "lag0"
 
+
+[[cells]]
+name = "prior_P5_L8_qw0.02_b0.2"
+role = "map"
+cell_id = 14
+L = 8
+q_w = 0.02
+beta = 0.2
+eta = 0.05
+pi = "recent"
+
+[[cells]]
+name = "prior_P5_L8_qw0.5_b0.2"
+role = "map"
+cell_id = 15
+L = 8
+q_w = 0.5
+beta = 0.2
+eta = 0.05
+pi = "recent"

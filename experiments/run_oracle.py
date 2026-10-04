@@ -78,12 +78,15 @@ def provenance(config_path):
 
 
 def make_channel(c):
-    """Cell channel: pi = "uniform" (default) or "lag0" (all corruption mass on the last recorded action, j = L-1)."""
+    """Cell channel: pi = "uniform" (default), "recent" (geometric in lag), or "lag0" (all corruption mass on the last recorded action, j = L-1)."""
     pi = c.get("pi", "uniform")
     if pi == "uniform":
         return ChannelSpec.uniform(c["L"], c["beta"])
     if pi == "lag0":
         return ChannelSpec.point_mass(c["L"], c["beta"], c["L"] - 1)
+    if pi == "recent":   # pi_j proportional to 2^-(L-1-j): lag 0 has mass ~0.50
+        w = [2.0 ** -(c["L"] - 1 - j) for j in range(c["L"])]
+        return ChannelSpec(beta=c["beta"], pi=tuple(x / sum(w) for x in w))
     raise ValueError(f"unknown pi spec {pi!r}")
 
 
