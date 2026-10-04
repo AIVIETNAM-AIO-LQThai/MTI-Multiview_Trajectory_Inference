@@ -17,12 +17,13 @@ Three questions are kept separate: **information** (how much decision value awar
 The *information* question (exact oracle) and a first *estimation* pilot have been measured, on synthetic data from the declared switching-mode scalar model ("S2") with a
 single-flip action-sign channel and a one-step quadratic decision. Policy relevance beyond the one-step cost has not been tested.
 
-- Exact reference implemented and validated (68 tests, enumeration cross-checks, mutation audit); candidate and folded exact routes agree to ≤ 1.5e-14.
+- Exact reference implemented and validated (enumeration cross-checks, mutation audit; the full current suite has 85 tests, all passing); candidate and folded exact routes agree to ≤ 1.5e-14.
 - Primary cell (L=8, q_w=0.5, β=0.2, η=0.05): V_2 (value of awareness) = 0.0712 ± 0.0031, irrecoverable loss I_loss = 0.2614 ± 0.0069,
   naive excess 0.331, clean-history value 4.01 — awareness is worth ~1.8% of the clean history's decision value here; 13% at L=8, q_w=0.02, β=0.5; < 1.6% at L=32.
 - Learned pilot (5 seeds, N=10³/10⁵, two physics, five priors; [report](docs/reports/learned_pilot_report.md)): the exact-composition arms with learned components (shared masked-belief model queried by folded or candidate routes, density scorer, fitted HMM)
-  recover 93–100% (lead physics q_w=0.02) and 77–100% (q_w=0.5) of the aware oracle's opportunity at N=10⁵ (A2 at P1; higher at shifted priors); folded and candidate routes of one network are equivalent within Δ_min in most cells; interpretation is pending review. Caveats: grid-edge selection at N=10⁵, A4/A5 families contain the truth.
-- E1 (matched supervision): composition with the declared channel is never worse than direct training on simulated channel data; better off-family and at small N in the low-noise regime ([E1 report](docs/reports/e1_report.md)).
+  recover 93–100% (lead physics q_w=0.02) and 77–100% (q_w=0.5) of the aware oracle's opportunity at N=10⁵ (A2 at P1; higher at shifted priors); no general advantage of folded over candidate routes was established (14 equivalent / 4 inconclusive / 2 material). Caveats: grid-edge selection at N=10⁵, A4/A5 families contain the truth.
+- E1 (matched backbone and loss family): composition vs density-direct estimation gave 6 material improvements, 4 equivalences, 4 inconclusive and 0 material disadvantages; this is not dominance. Precision is limited and the benefit is regime-dependent; a fitted HMM is near-oracle ([E1 report §7](docs/reports/e1_report.md)).
+- E2 (channel misspecification, branch `exp/channel-misspecification`): [docs/reports/e2_report.md](docs/reports/e2_report.md) — measured benefit/harm of composing with a wrong declared prior; interpretation pending review.
 - **Consolidated claims and limits: [docs/findings_summary.md](docs/findings_summary.md).**
 - Not established (oracle results only): any learned-model advantage of one route over the other, that localisation is necessary, any poisoning defence or policy robustness.
 
@@ -37,7 +38,7 @@ Python ≥ 3.11 (results here were produced with 3.14.7), numpy, scipy; pytest a
 ```bash
 uv venv .venv
 uv pip install -e ".[dev]"
-.venv/Scripts/python -m pytest -v                          # 68 tests, ~6 s (Linux/macOS: .venv/bin/python)
+.venv/Scripts/python -m pytest -v                          # 85 tests, ~15 s (Linux/macOS: .venv/bin/python)
 .venv/Scripts/python tests/mutation_audit.py               # shows the tests fail on 6 deliberate bugs
 .venv/Scripts/python experiments/run_oracle.py --out results/oracle_v1   # all 10 cells, ~2.5 min on 18 workers
 .venv/Scripts/python experiments/make_report.py            # tables + figure in docs/reports/

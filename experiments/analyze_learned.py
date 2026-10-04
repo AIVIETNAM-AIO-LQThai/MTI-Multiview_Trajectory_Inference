@@ -111,6 +111,8 @@ def main():
                     m, h = tci(d_)
                     dm = ref[(p, pr)][2]
                     md.append(f"| {x} | {y} | {pr} | {m:+.4f} ± {h:.4f} | {dm:.4f} | {'yes' if h <= dm / 2 else 'no'} | {verdict(m - h, m + h, dm, x, y)} |")
+                    if f"pair|{p}|{N}|{pr}|{x}|{y}" in out_json:
+                        raise KeyError(f"duplicate analysis key pair|{p}|{N}|{pr}|{x}|{y}")
                     out_json[f"pair|{p}|{N}|{pr}|{x}|{y}"] = dict(d=m, half95=h, dmin=dm, verdict=verdict(m - h, m + h, dm, x, y))
     # mechanism diagnostics
     md.append("\n## Mechanism diagnostics (realised-cost difference D vs the exact naive action; negative = cheaper than exact naive)\n")

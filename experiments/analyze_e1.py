@@ -21,7 +21,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PRIORS = ["P1", "P2", "P3", "P4", "P5"]
 IN_FAMILY = {"P1", "P2", "P5"}
 COMPARISONS = [("C-a", "A4", "A6pd-broad"), ("C-b", "A6pd-broad", "A6p-broad"), ("C-c", "A4", "A2-G"), ("C-d", "A4", "A6d"),
-               ("extra", "A6d", "A6"), ("extra", "A2-G", "A6pd-broad")]
+               ("S1", "A6d", "A6"), ("S2", "A2-G", "A6pd-broad")]
+assert len({c[0] for c in COMPARISONS}) == len(COMPARISONS), "comparison ids must be unique"
 
 
 def tci(x):
@@ -99,7 +100,10 @@ def main():
                     fam = "in-family" if pr in IN_FAMILY else "out-of-family"
                     md.append(f"| {cid} | {x} | {y} | q_w={qw[p]} | {N} | {pr} | {fam} | {m:+.4f} ± {h:.4f} | {dm:.4f} | {v} | {np.exp(lm):.2f} ({np.exp(lm - lh):.2f}–{np.exp(lm + lh):.2f}) |")
                     tally[(cid, x, y, N, fam)][v] += 1
-                    out[f"{cid}|{p}|{N}|{pr}"] = dict(x=x, y=y, d=m, half95=h, dmin=dm, verdict=v, ratio=float(np.exp(lm)))
+                    key = f"{cid}|{p}|{N}|{pr}"
+                    if key in out:
+                        raise KeyError(f"duplicate analysis key {key}")
+                    out[key] = dict(x=x, y=y, d=m, half95=h, dmin=dm, verdict=v, ratio=float(np.exp(lm)))
     md.append("\n## Verdict tally by comparison, N and prior family\n\n| id | x | y | N | family | tally |\n|---|---|---|---|---|---|")
     for (cid, x, y, N, fam), c in sorted(tally.items()):
         md.append(f"| {cid} | {x} | {y} | {N} | {fam} | " + ", ".join(f"{k}: {v}" for k, v in sorted(c.items())) + " |")

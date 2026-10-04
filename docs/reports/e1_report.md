@@ -80,3 +80,16 @@ The fixed-prior comparison C-d at P1 has no prior-family burden and is the clean
 4. Together with the pilot: the **multi-view route (folded vs candidate) is immaterial**. The levers are (a) using the declared channel analytically rather than learning it, (b) how the clean components are supervised, and (c) exact Bayesian weighting.
 
 **Decision: stop the experimental phase.** The predeclared question is answered within its scope. The remaining open items are outside the current scope, not unresolved pilot details: external validity (generic features, unknown physics, other channels and simulators), closed-loop policy relevance, and poisoned training data. More seeds for the high-noise N=10³ cells would only tighten an already-practical "no detectable advantage". A consolidated statement is in [findings_summary.md](../findings_summary.md).
+
+## 7. Correction after external review (2026-10-04, Opus 5.5) — supersedes the §6 wording where they conflict
+
+An independent review (ChatGPT) reproduced the numbers and disputed the interpretation. Re-checked against `results/e1/analysis.json`:
+- **"Never worse" is withdrawn.** C-a (A4 vs A6pd-broad) has 6 material A4 advantages, 4 practical equivalences and 4 inconclusive cells. No cell shows material inferiority, but an inconclusive interval also allows a material disadvantage.
+  Example: q_w=0.5, N=10³, P1 gives d = +0.0045 ± 0.0384 against a margin of 0.0080. The supported statement is the count, with this uncertainty, not dominance.
+- **Precision:** only 8 of 14 C-a cells (and 8/14 C-d, 5/14 C-b, 10/20 C-c) meet the half-width ≤ Δ_min/2 target. Results describe the implemented budgets (5 seeds, 8-config grid, epoch caps reached at N=10⁵), not converged or intrinsic sample efficiency.
+- **Attribution:** A4 vs A6d/A6pd matches backbone, features and loss family, and differs by the intended pipeline choice (clean-law learning + analytic channel vs learning from simulated corrupted records). That comparison stands.
+  C-b (A6pd vs A6p) changes architecture (unidirectional vs bidirectional GRU, 19k vs 47k parameters), token representation *and* loss. It compares two pipelines and **does not isolate supervision**. Claims are narrowed to "density pipeline vs regression pipeline".
+- **Off-family results:** the training family Dirichlet(1,…,1) gives P(π_last > 0.9) = 10⁻⁷ and P(π_last > 0.5) ≈ 0.008. P3/P4 therefore test **sparse boundary coverage**, not merely "out-of-family" inputs.
+  The composition arm's prior flexibility is structural and stands. "Direct estimators are brittle at the boundary" is withdrawn as a general claim: it is a statement about this training distribution, and E2 adds a coverage-aware direct control.
+- **The fitted HMM (A5)** is near-oracle in every cell. Under a correctly specified simulator, a one-parameter structured estimator solves the problem, so these experiments do not show that neural inference is needed.
+- **Analysis bug:** `analyze_e1.py` gave two supplementary comparisons the same id `extra`, so the JSON kept only A2-G vs A6pd (14 keys of A6d vs A6 overwritten). The markdown tables and the main comparisons C-a–C-d were unaffected. Fix and regeneration are scheduled (status file).

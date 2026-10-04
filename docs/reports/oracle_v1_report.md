@@ -12,7 +12,7 @@ Raw per-cell JSON, `summary.csv`, test transcripts: `results/oracle_v1/`.
 - Seeds (`SeedSequence(master, spawn_key=(cell, stream, chunk))`): pilot 1001, main 2001, independent check 3001, recalibration fit 4001 / validation 5001, tests 11–34.
 - Commands executed:
   - `uv venv .venv && uv pip install -e ".[dev]"`
-  - `.venv/Scripts/python -m pytest -v` → **68 passed** in 6.0 s (`results/oracle_v1/tests.txt`, maxima in `test_max_errors.json`)
+  - `.venv/Scripts/python -m pytest -v` → **68 passed** in 6.0 s at the time of this run (the full suite has since grown to 85 tests, all passing; transcript refreshed in `results/oracle_v1/tests.txt`) (`results/oracle_v1/tests.txt`, maxima in `test_max_errors.json`)
   - `.venv/Scripts/python tests/mutation_audit.py` → 6/6 deliberate bugs caught (`mutation_audit.txt`)
   - `.venv/Scripts/python experiments/run_oracle.py --out results/oracle_v1` → 10 cells, 142 s (`run_log.txt`)
   - `.venv/Scripts/python experiments/make_report.py`

@@ -117,3 +117,12 @@ counts against `analysis.json`. One reporting error was fixed (the sign of D in 
 - **Thesis narrowing:** the defensible direction is no longer "multi-view routes estimate better". It is *"exact inference-time composition of clean-law components is
   a prior-flexible estimator of decision-relevant beliefs; its accuracy is governed by how the components are learned, and in-family it buys flexibility rather than accuracy."*
   Whether composition has any in-family estimation advantage under matched supervision is exactly what E1 tests.
+
+## 6. Correction after external review (2026-10-04, Opus 5.5) — supersedes §5 wording where they conflict
+
+- **Route:** "the route is not the lever" is replaced by **"no general advantage of either route was established"**.
+  Folded vs candidate: 14 equivalent, 4 inconclusive, 2 material differences (one predeclared structural P4 case, one where both arms are poor). The scope is these heads, budgets and priors.
+  Compatibility training was deprioritised, not shown useless.
+- **Supervision:** A4/A5 vs A2/A6/A6p differ in architecture, representation and loss together. "Supervision" is replaced by "pipeline" in all attributions.
+- **Fitted HMM:** A5 is near-oracle everywhere. The learned-arm results compare handicapped generic-ish learners on a problem a correctly structured one-parameter estimator already solves.
+- **Precision/optimisation:** see the E1 report §7. N=10⁵ selections reached the epoch cap.
