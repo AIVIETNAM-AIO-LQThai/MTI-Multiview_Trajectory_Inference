@@ -1,31 +1,21 @@
 # Research status (replace in place)
 
-**Phase:** learned pilot reviewed (Opus 5.5, 2026-10-04) → **awaiting user decision on E1**. If authorized: Sonnet 5.5 `CONTINUE CODE`.
-**Updated:** 2026-10-04 by Opus 5.5 (`claude-opus-5-5`).
+**Phase:** E1 complete → awaiting user commit, then **Opus 5.5 `REVIEW EVIDENCE`** on [e1_report.md](reports/e1_report.md).
+**Updated:** 2026-10-04 by Sonnet 5.5 (`claude-sonnet-5-5`).
 
 ## Provenance
-Branch `exp/oracle-evidence`. Pilot code `09621bb`, results/report `6ad73fa`. The review edits (report §3.3 sign fix, §5; protocol §E1; charter; this file) are uncommitted until the user commits them.
-The user makes all git commits; never push.
+Branch `exp/oracle-evidence`. E1 code commit `0ac6b34` (clean); results in `results/e1/` (tuning, 20 units, analysis.json). Report/tables are uncommitted until the user commits. The user makes all git commits; never push.
 
-## Review verdict ([learned report §5](reports/learned_pilot_report.md))
-- **H2 (route form) not supported:** folded ≈ candidate given shared heads. Component learning and Bayesian weighting are the levers.
-- **H3 partially supported:** prior flexibility is real; in-family accuracy is no better than a broad prior-conditioned direct estimator.
-- **H5 not motivated.**
-- **Qualifications:**
-  - Δ_min saturates at N=10⁵.
-  - Learners are physics-informed.
-  - Supervision is confounded with route.
-  - Contamination-error growth is descriptive only.
-- **Thesis narrowed** to composition-as-flexible-estimator, accuracy governed by component learning.
+## Done
+- E1 per protocol §E1: A6d (fixed P1) and A6pd-broad (prior-conditioned) density-direct arms; 64 tuning trainings + 20 units (466 s); 85 tests pass.
+- Headline (lead physics): in-family N=10³ A4 (clean density + composition) beats the matched-supervision direct A6pd at P2/P5 (ratio 0.18–0.23); at N=10⁵ A4 and A6pd are equivalent in Δ_min terms (A4 2–20× lower in ratio);
+  A6pd is brittle at the P3/P4 vertices (worse than probe-trained A6p-broad at N=10⁵). Supervision type matters: A6pd beats A6p-broad in-family at N=10³ (ratio 0.38–0.57).
 
-## Next task (Sonnet, only after the user authorizes E1)
-- Implement A6d and A6pd per protocol §E1.
-  - Training: a density NLL on channel-simulated records plus the original probe; A6pd is q-conditioned over the broad family.
-  - Reuse the pilot's training prefixes, test sets and seeds, so all comparisons are paired. Do not retrain existing arms; read their results from `results/learned_pilot/`.
-- Tune on seed 0 (8-config grid), then run seeds 1–5 for both physics and both N.
-- Extend `analyze_learned.py` with comparisons C-a…C-d and a relative-difference (E_x/E_y) column.
-- Tests: an access test (no oracle, label or probe leakage into inputs), and check that the belief read-out equals tanh(logit_L/2).
-- Report against the predeclared interpretation rules. Hand back for commits.
+## For Opus (details: report §4–5)
+1. Which predeclared outcome applies: outcome 1 at N=10⁵, outcome 2 at N=10³ on the lead physics only; the secondary physics is inconclusive.
+2. Residual confound: A4 is trained on clean prefixes (1 view), A6pd/A6d on corrupted records (2 views).
+3. Whether the thesis can now claim an in-family estimation advantage for composition at small N, or only flexibility.
+4. Whether any further experiment is justified (candidate: a clean-law direct comparison, or stop).
 
-## Escalate to Opus if
-A result falls outside the three predeclared outcomes, or density-direct training is unstable.
+## Next
+Opus review; no further experiment starts without the user's authorization.
