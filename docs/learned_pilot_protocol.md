@@ -1,19 +1,48 @@
-# Learned pilot protocol (draft v1 — NOT RUN)
+# Learned pilot protocol (v2 — approved design, NOT RUN)
 
-Drafted by Opus planning pass 2026-10-04. Status: **pending Opus evidence review of the oracle report**;
-numerical thresholds marked ⟨TBD-oracle⟩ are filled from the oracle results before any run. Notation and
-exact targets: [mathematical_specification.md](mathematical_specification.md).
+v1 drafted by the Opus planning pass; **v2 settled by the Opus evidence review, 2026-10-04**, from the oracle report
+[oracle_v1_report.md](reports/oracle_v1_report.md). Running it requires the user's authorization: the first assignment excluded the learned suite.
+Notation and exact targets: [mathematical_specification.md](mathematical_specification.md).
 
-> **Update after oracle report (2026-10-04, pending Opus review):** oracle V_2 in the primary cell is 0.0712 (1.8% of VOI_clean 4.007), so
-> Δ_min = max(0.10·V_2, 0.002·VOI_clean) = 0.0080 and the absolute floor binds (≈11% of V_2). The most discriminating cell is L=8, q_w=0.02, β=0.5
-> (V_2 = 0.416, Δ_min = 0.042). L=32 has V_2/VOI ≤ 1.6%; low priority. Natural-switch states (aware oracle worse by 0.56 ± 0.10 in primary) must be in the diagnostics.
+## v2 decisions (supersede v1 where they conflict)
+
+1. **Lead physics:** ρ=0.9, c=1, q_a=1, λ=0.1, η=0.05, **L=8, q_w=0.02**.
+   **Secondary physics:** the oracle primary (q_w=0.5, L=8), evaluated at P1 and P2 only.
+   **L=32 dropped:** V_2/VOI_clean ≤ 1.6% there, and the L contrast is confounded with the per-position flip rate β/L.
+2. **Test priors are the prior-shift design:**
+
+   | prior | β | π |
+   |---|---|---|
+   | P1 | 0.2 | uniform |
+   | P2 | 0.5 | uniform |
+   | P3 | 0.2 | δ at lag 0 |
+   | P4 | 0.5 | δ at lag 0 |
+
+   Arms trained only on clean data (A1, A2, A3, A4, A5) are trained **once per physics** and evaluated at every prior, so β ∈ {0.2, 0.5} costs no
+   extra training. Channel-trained arms (A1r, A6) are trained at P1. A6p is trained over its declared family.
+3. **Task 0, before any learned run:** compute exact oracle V_2, I_loss and VOI_clean at P3 and P4 for both physics. P1/P2 already exist for
+   q_w=0.02 (map cells), and for q_w=0.5 they are the primary cell and the L8/q_w0.5/β0.5 cell. Fix the Δ_min table from these numbers before training.
+   Report the oracle P3/P4 results as an addendum to the oracle report.
+4. **Δ_min(physics, prior) = max(0.10·V_2, 0.002·VOI_clean).** Rationale: the exact naive filter has endpoint 𝓔 = V_2, so 10% of V_2 is one tenth
+   of the gap between ignoring the channel and knowing it exactly. The absolute floor prevents instability when V_2 is small. Known values:
+   q_w=0.02: P1 0.0090, P2 0.0416; q_w=0.5: P1 0.0080 (floor binds), P2 0.0305.
+5. **Reference lines in every table:** exact aware (𝓔=0), exact naive (𝓔=V_2), learned naive A1.
+   An aware-belief estimator with 𝓔 ≥ V_2 is no better than ignoring the channel exactly.
+6. **Structural notes for interpretation, not design changes:**
+   - At β=½ the folded route gives weight (1−2β)=0 to μ(S), so G uses folded queries only; M and the average still use μ(S).
+   - Under P3/P4 the candidate route queries S and T_{L−1}S, while the folded route queries S (unless β=½) and O_{L−1}. The inference-cost gap
+     between routes therefore nearly vanishes, and H3 compute comparisons should be read per prior.
+7. **Required diagnostics, added from the oracle:** natural-switch stratum E_{L−1} and clean-record (θ=none) harm for every arm. Use the
+   hidden-mode realised-cost difference against the exact naive action.
+8. **A1r per-prior refit:** gets its own row in the H3 tables, labelled "refit per prior", with refit data and compute disclosed. It is not
+   counted as test-time composition.
+9. **Feasibility gate:** before the full grid, time one arm × one seed at N=10⁵ on the lead physics. If the projected total exceeds about 8 CPU-hours,
+   cut the tuning grid from 8 to 4 configurations for all arms equally, and record the decision.
 
 ## Purpose
 
 Test H2 (finite-estimation differences between query routes) and H3 (cost/benefit of test-time
-composition under prior shift) at matched data, information access and disclosed compute. Primary cell:
-the oracle primary cell (L=8, q_w=0.5, β=0.2, η=0.05, uniform π); a second cell is chosen after the
-oracle map (preferably one with larger V_2, e.g. q_w=0.02 or β=0.5), not before.
+composition under prior shift) at matched data, information access and disclosed compute, in the physics and priors fixed above.
 
 ## Information access (all arms)
 
@@ -75,10 +104,8 @@ Report every (arm, prior) cell including flexibility failures.
 
 - Primary: `𝓔(μ̂) = E[κ(μ̂−μ_2)²]` at each test prior, plus captured opportunity `1 − 𝓔/V_2` for estimators of
   the aware belief.
-- Smallest meaningful difference: `Δ_min = max(0.10·V_2, 0.002·VOI_clean)` per cell ⟨TBD-oracle: confirm
-  values in raw cost units⟩. Rationale: 10% of the opportunity that awareness can buy in this cell; the
-  absolute floor prevents instability when V_2 ≈ 0. Statistical power is decided separately: seeds are
-  increased until the 95% CI half-width of paired seed-level differences is ≤ Δ_min/2.
+- Smallest meaningful difference: `Δ_min = max(0.10·V_2, 0.002·VOI_clean)` per (physics, prior); see v2 decision 4. Statistical power is
+  decided separately: seeds are increased until the 95% CI half-width of paired seed-level differences is ≤ Δ_min/2.
 - Comparisons are paired (same test prefixes, same training-seed index). Uncertainty = t-interval across
   training seeds of paired differences (test-set MC error reported separately).
 - H2 supported in a cell if some route pair differs by ≥ Δ_min with CI excluding 0; "no material
@@ -99,8 +126,8 @@ Mask diversity; separate-encoder ablations; compatibility/distillation training.
 tested: stop-gradient on teacher outputs does not freeze a shared teacher; require frozen teacher
 parameters, a justified update scheme, or measured teacher drift and accuracy.
 
-## Open items for Opus review
+## Resolved review items (2026-10-04)
 
-1. Second cell choice and whether L=32 is worth the cost (after the oracle map).
-2. Confirm Δ_min numbers in raw units.
-3. Whether A1r's per-prior refit counts as "composition-like" flexibility in H3 tables (proposal: own row).
+1. Cells: lead physics q_w=0.02, L=8; secondary q_w=0.5, L=8 at P1/P2; L=32 dropped (see v2 decision 1).
+2. Δ_min: definition confirmed; raw values for P1/P2 listed in v2 decision 4; values for P3/P4 come from Task 0.
+3. A1r per-prior refit: own row, not composition (v2 decision 8).

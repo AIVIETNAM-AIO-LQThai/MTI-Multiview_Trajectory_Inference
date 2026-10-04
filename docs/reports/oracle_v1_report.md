@@ -72,8 +72,10 @@ Decision-edge switches (m_{L−1}→m_L, unforecastable from any record): D = +0
 (Hidden-mode strata use κ[(μ̃−m_L)²−(μ_2−m_L)²]; spec §8 A4.)
 
 **Exact corruption posterior** (oracle pipeline check, not a detector): categorical log score 0.683 vs 0.916 nats for the prior-only predictor; location top-1 accuracy
-given corruption 0.549 vs 0.125; any-corruption Brier 0.134 vs 0.160. Reliability bins are calibrated (|z| ≤ 1.25, 12 bins). Corruption is *identifiable in
-location* yet that knowledge buys little decision value, because the harmful flips are the recent, well-localised ones and the rest are harmless.
+given corruption 0.549 vs 0.125; any-corruption Brier 0.134 vs 0.160. Reliability bins are calibrated (|z| ≤ 1.25, 12 bins). On average the flip
+location is substantially identifiable (0.55 vs 0.125), yet the aware oracle recovers only 1.8% of VOI_clean. The lag strata show why the decision value is
+small: a flip costs the naive filter little unless it sits at lags 0–2. *(Review note: whether recent flips are also the best-localised ones was not measured — no
+top-1-by-lag table — so no claim is made about that.)*
 
 ## 4. Oracle map (η=0.05, uniform π; all cells reported; N=100,000 each)
 
@@ -91,8 +93,10 @@ location* yet that knowledge buys little decision value, because the harmful fli
 † Sized by the predeclared absolute rule (V̂_2 < 1% of VOI_clean ⇒ half-width ≤ 5×10⁻⁴·VOI_clean ≈ 0.002), which all three meet; only L=32,q_w=0.5,β=0.2 has a relative half-width above 5% (6.8%).
 Controls: β=0 and η=½ give V_2=I_loss=X_naive=0 exactly (sums of non-negative per-prefix values are exactly 0; N=20,000 each; pipeline checks, not measurements).
 
-Pattern: V_2 grows with β and with lower observation noise, and shrinks roughly ten-fold from L=8 to L=32 (β is the probability of *one* flip anywhere, so longer prefixes put
-it mostly at old, harmless locations). I_loss exceeds V_2 in seven of eight cells; the exception is L=8,q_w=.02,β=.5 (V_2 0.416 > I_loss 0.344). V_2/X_naive ranges from 7.4% (L=32,q_w=.5,β=.2) to 54.7% (L=8,q_w=.02,β=.5). The natural-switch
+Pattern: V_2 grows with β and with lower observation noise, and shrinks roughly ten-fold from L=8 to L=32. *Review qualification:* the L comparison is confounded by the channel design — β is the
+probability of *one* flip anywhere and π is uniform, so the per-position flip rate is β/L and the chance that the flip lands at a harmful recent lag falls with L. The map
+therefore does **not** show that longer histories protect against corruption at a fixed per-position rate; that would need a separate cell (e.g. π concentrated on recent lags,
+or fixed β/L). I_loss exceeds V_2 in seven of eight cells; the exception is L=8,q_w=.02,β=.5 (V_2 0.416 > I_loss 0.344). V_2/X_naive ranges from 7.4% (L=32,q_w=.5,β=.2) to 54.7% (L=8,q_w=.02,β=.5). The natural-switch
 gain D has a negative point estimate in all eight cells (−0.04 … −2.40; −2.40 ± 0.15 at L=8,q_w=.02,β=.5) and is significantly negative (95% interval excludes 0) in seven; the exception is L=32,q_w=.5,β=.2 (−0.042 ± 0.036 is borderline).
 
 ## 5. Restricted-summary recalibration, B=(s_L, μ̃) — privileged diagnostic
@@ -155,3 +159,26 @@ What this experiment does **not** establish: any learned-model advantage; that l
   of practical size: the provisional Δ_min = max(0.10·V_2, 0.002·VOI_clean) = max(0.0071, 0.0080) = **0.0080 — the absolute floor binds (≈11% of V_2)**.
 - A more discriminating learned-pilot cell is **L=8, q_w=0.02, β=0.5** (V_2 = 0.416, 13% of VOI_clean; Δ_min = 0.042) — recommended as the second (or lead) cell; L=32 is not worth the learned-arm cost for decision value.
 - Natural-switch states are a real cost of awareness (D<0) and must be part of the learned-model diagnostics.
+
+## 10. Opus evidence review (2026-10-04, `claude-opus-5-5`)
+
+Reviewed: this report, the saved JSON (spot-checked every map-cell number above against `results/oracle_v1/*.json`), test maxima, mutation audit,
+and the estimator/strata code paths. Verdict: **the exact reference and the first information measurement are sound and may be cited within the declared setting.**
+
+Supported (within S2, the exogenous single-flip channel, the one-step rule):
+- C1 exact-route equivalence (analytic and numerically verified to ≤1.5e-14) and C2 (X = V_2 + I_loss).
+- C3/C4: V_2 is small in the primary cell (1.8% of VOI_clean; 21% of the naive excess) and material only at low noise with high β at L=8 (13%).
+  I_loss ≥ V_2 in 7/8 cells: in most regimes, most of what corruption costs cannot be recovered by *any* observer of the record.
+- C10: the aware oracle's mixture-risk gain is paid for on clean records and in natural-switch states. An extra exact check confirms the stratum logic:
+  E[D | θ=none] = −E[κ(μ_2−μ_H)² | θ=none] analytically, and the two agree in all 8 cells (e.g. −0.0469 vs −0.0497 primary).
+- C5 only as a lower bound (≥6–11% of V_2 from (s_L, μ̃)); C6 only as a descriptive oracle-weight statement.
+
+Qualifications added on review: the L=8 vs L=32 contrast is confounded by the per-position flip rate β/L (§4); the localisation sentence in §3 was reworded
+because top-1 accuracy by lag was not measured; the post-hoc residual recalibrator class is acceptable because selection used validation data only, both classes are
+reported, and the conclusion (a lower bound) does not depend on the choice.
+
+Not supported / still open: any learned-route difference (H2), the flexibility trade-off (H3), that localisation is necessary, external validity.
+
+**Decision on the next experiment: the learned pilot is justified, but not in the primary physics as lead.** The exact naive filter already has endpoint
+𝓔 = V_2, so a learned aware estimator is useful only if it beats V_2. A practically meaningful gap of 10% of V_2 is 0.007 in the primary cell, which is below the absolute floor;
+in the q_w=0.02, L=8 physics it is 0.009 (β=0.2) and 0.042 (β=0.5). Revised design is in [learned_pilot_protocol.md](../learned_pilot_protocol.md) (v2).
