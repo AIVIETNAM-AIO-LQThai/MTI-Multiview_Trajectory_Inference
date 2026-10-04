@@ -134,3 +134,18 @@ def convex_form(exact: ExactRecords, pi, beta: float):
     mbar = (ell * exact.mu[:, 1:]) @ pi / A
     o = odds(beta)
     return exact.mu[:, 0], mbar, A, o * A / (1.0 + o * A)
+
+
+def mean_prior(chans, weights=None) -> ChannelSpec:
+    """Compound channel of an uncertainty set: q_bar = sum_t w_t q_t (E2b). Enters linearly in the record law, so composition with q_bar is
+    the Bayes estimator under prior uncertainty independent of the record."""
+    w = np.full(len(chans), 1.0 / len(chans)) if weights is None else np.asarray(weights, float)
+    q = sum(wt * c.q for wt, c in zip(w, chans))
+    beta = float(q.sum())
+    return ChannelSpec(beta=beta, pi=tuple(q / beta))
+
+
+def alpha_of(chan: ChannelSpec) -> float:
+    """Location-interpolation parameter alpha of a pi_alpha prior: pi_last = (1-alpha)/L + alpha  =>  alpha = (pi_last - 1/L) / (1 - 1/L)."""
+    L = chan.L
+    return float((chan.pi_arr[-1] - 1.0 / L) / (1.0 - 1.0 / L))

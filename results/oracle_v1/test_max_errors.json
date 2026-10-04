@@ -37,6 +37,8 @@
   "TE2_4_abs_z_rb_vs_mc": 0.37993759092042223,
   "TE2_5_P_last_gt_0.9_cov": 0.05767500028014183,
   "TE2_6_max_abs_err_decomposition": 1.4210854715202004e-14,
+  "TE2b_1_max_rel_err_bayes_identity": 4.118898899069059e-16,
+  "TE2b_2_min_z_candidate_minus_qbar": 0.6096367094059313,
   "e1_density_minimiser_min_z": 19.03185231003115,
   "learned_compose_exact_max_err": 2.4424906541753444e-15,
   "learned_gap_identity_max_err": 1.0200174038743626e-15,

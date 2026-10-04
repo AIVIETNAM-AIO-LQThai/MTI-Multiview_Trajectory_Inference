@@ -1,4 +1,4 @@
-# MTI findings summary — v3 (phase 1 corrected after external review + E2 channel misspecification, 2026-10-04)
+# MTI findings summary — v4 (phase 1 corrected after external review + E2/E2b channel misspecification, 2026-10-04)
 
 v1 overstated two claims ("never worse", "the route does not matter") and attributed a pipeline difference to supervision alone. This version replaces it;
 the corrections are documented in [e1_report.md](reports/e1_report.md) §7 and [learned_pilot_report.md](reports/learned_pilot_report.md) §6.
@@ -19,8 +19,12 @@ the corrections are documented in [e1_report.md](reports/e1_report.md) §7 and [
 > - Against a coverage-trained direct estimator, composition kept a finite-data advantage at N=10³ but not at N=10⁵.
 > - A correctly structured HMM is near-oracle, so nothing here shows a need for neural inference.
 
-**Most important unresolved hypothesis:** what to declare when q is uncertain. Under prior uncertainty the Bayes-optimal estimator is composition with the mean prior. E2b tests whether robust declared priors (Bayes, no-harm, minimax-regret) keep most of the benefit across a whole uncertainty set ([e2_protocol.md](e2_protocol.md) §10).
-Estimating q from corrupted data, and the original MTM question (multi-view consistency detecting harmful trajectories), remain open.
+**Under prior uncertainty (E2b):**
+- Composition with the mean prior is the Bayes estimator, verified numerically. It cut mean regret by 80–87% over a 30-channel uncertainty set, but lost to ignoring corruption on 9–10 weak or diffuse channels.
+- A prior that harms no channel keeps only about one third of the total gain. There is no free robust prior.
+- Harm tracks over-declared recent-lag (lag-0) corruption mass (AUC 0.99, descriptive).
+
+**Most important unresolved questions:** whether q can be estimated from many corrupted records (empirical Bayes), which would remove the trade-off in repeated deployment; mode-dependent placement; and the original MTM question (multi-view consistency detecting harmful trajectories), which remains unaddressed.
 
 ## Claim ledger
 
@@ -39,8 +43,9 @@ Estimating q from corrupted data, and the original MTM question (multi-view cons
 | C15 | A wrong declared prior can make channel-aware inference worse than ignoring corruption | **measured + partly proved**: rate understatement never hurts (per-record proof, 0 violations); overstatement harms for a weak true channel beyond ≈2–3×; location harm only for concentrated-declared/diffuse-true (−0.03 … −0.30); flattened declarations never harmed on the grid | E2 §3, §6 |
 | C16 | Better estimators implement a wrong prior more faithfully; direct-arm robustness is attenuation | **measured** (A4/A5 reproduce exact harm; negative cross terms −0.54 … −0.71 for direct arms; better-trained conditioning loses more) | E2 §4, §6 |
 | C17 | Aggregate regret hides transfers (composition costs on clean records and natural switches, gains on corrupted records; overstatement enlarges the costs) | **measured** | E2 §3 |
-| C18 | Under prior uncertainty independent of the record, composition with the mean prior is Bayes-optimal | **analytic**; numerical check and robust-prior study planned (E2b) | protocol §10 |
-| H-loc | Harm tracks overstatement of the lag-0 (recent) corruption rate | **hypothesis**, consistent with both axes; descriptive check in E2b | E2 §6 |
+| C18 | Under prior uncertainty independent of the record, composition with the mean prior is Bayes-optimal | **analytic + verified** (grid optimum = q̄ in both physics; compound identity to 1e-10) | [E2b](reports/e2b_report.md) |
+| C19 | No free robust prior: the Bayes prior harms weak/diffuse channels (9–10 of 30; total −1.3 vs +16…+26 gain); a no-harm prior keeps ≈⅓ of the gain; minimax lowers the worst case but harms more channels | **measured** (exact + A4 checkpoints) | E2b §3, §6 |
+| H-loc | Harm tracks overstatement of the lag-0 (recent) corruption rate | **supported descriptively** (AUC 0.990 vs 0.913 for the overall rate; no harm at lag-0 ratio ≤ 1.5); not causal; one grid/simulator | E2b §4, §6 |
 | C5 | (s_L, μ̃) recalibration | lower bound only | oracle §5, §11 |
 | C6 | Contaminated queries are harder | descriptive (4–6×); not isolated from target difficulty | pilot §3.3 |
 | C11 | Learned results hold for physics-informed learners only | scope qualification | pilot §5 |
@@ -49,4 +54,4 @@ Estimating q from corrupted data, and the original MTM question (multi-view cons
 
 ## Next experiment
 
-E2b, robust declared priors: [e2_protocol.md](e2_protocol.md) §10 (exact-dominated; reuses the E2 A4 checkpoints).
+None scheduled. Candidates needing a user decision: empirical-Bayes estimation of q (recommended), mode-dependent placement, the original MTM consistency question.
