@@ -1,0 +1,80 @@
+# MTI research charter
+
+MTI = Multi-View Trajectory Inference. Repository name settled; scope provisional and narrowed by evidence.
+Recorded 2026-10-04 (Opus planning pass, branch `exp/oracle-evidence`, base `c250658`).
+
+## Question
+
+When a model learned from clean trajectories meets possibly contaminated trajectory evidence, how do
+different query structures (full record, sign-repaired candidates, sign-folded magnitude-retaining
+observers) estimate a decision-relevant belief under finite data and compute — and what accuracy or
+compute does composing inference at test time cost relative to training directly for a declared
+corruption channel?
+
+Working direction (not a claimed contribution): *decision-relevant trajectory inference under corrupted
+evidence: equivalence of exact routes, finite-sample estimation differences, and the cost of
+inference-time flexibility.*
+
+## Three separate questions
+
+| Question | Establishes | Does not establish |
+|---|---|---|
+| Information | Decision value awareness can recover (V_2) and clean-prefix information irreversibly lost (I_loss) under the declared channel | More views of one record create no new population information |
+| Estimation | Whether learned query routes differ in accuracy/efficiency/adaptability at matched data, access, compute | Exact-route equality ⇏ finite-learner equality; oracle results cannot show a learned advantage |
+| Policy relevance | Whether belief error matters for a specified physical decision | Reconstruction, AUROC or one-step synthetic cost ⇏ robust trained-policy performance |
+
+## Hypotheses (status: all open)
+
+- H1 Oracle equivalence: candidate and folded routes compute the same aware posterior under the declared law.
+  Analytic + numerical verification only; says nothing about learning.
+- H2 Finite-estimation difference: repair / fold / retain-corruption queries induce different learned
+  errors — could favour either route, neither, a fitted HMM, or a direct estimator.
+- H3 Flexibility trade-off: test-time composition of clean-law components handles declared prior changes
+  without retraining, at head-estimation and compute cost. Compared against a direct estimator given the
+  same full prior (β and π, equivalently q), not only against a fixed-prior one.
+- H4 Decision opportunity: V_2 is materially positive in some regimes and negligible in others. Small V_2
+  is a scope constraint, not a failed experiment.
+- H5 Compatibility mechanism (secondary): route disagreement may diagnose/regularise estimation error;
+  consistency neither proves accuracy nor requires attack localisation.
+
+## Scope of the first assignment
+
+In: S2 switching-mode scalar simulator; exogenous single-flip action-sign channel; exact inference;
+one-step quadratic decision; information/opportunity map; learned-pilot **protocol** (not run).
+Out: learned-model runs; mask diversity; separate encoders; compatibility/distillation; other simulator
+families; per-label/interval/hidden-mode-dependent/state corruption; unknown physics; closed loop;
+Decision Transformer/Walker2d transfer; poisoning-of-training defences.
+
+## Standing assumptions
+
+A1 Data are synthetic draws from the declared S2 law ([spec §1](mathematical_specification.md)); they are
+genuine samples of that model, not recorded real-world trajectories.
+A2 Channel is exogenous: θ ⟂ (modes, probe, decision noise) | H, with a fixed declared prior.
+A3 Physics (ρ,c,q_a,q_w,λ) known to all methods; η known to the exact oracle only.
+A4 Hidden modes and corruption labels are evaluation/stratification fields only, never learned inputs or
+primary training labels.
+A5 Stop-gradient on a shared teacher's outputs does not freeze the teacher: shared-encoder updates via
+student queries still change teacher predictions. Any "protected teacher" claim needs frozen parameters,
+a justified update scheme, or measured drift/accuracy.
+A6 A zero average route gap does not dismiss a mechanism (opposite conditional effects can cancel);
+small compatibility residuals do not prove accurate beliefs.
+
+## Evidence / claim ledger
+
+Status legend: **open** · **analytic** (derived under the declared law) · **verified** (numerically
+checked, tests saved) · **measured** (finite-sample/MC result with uncertainty) · **refuted**.
+
+| # | Claim | Status | Evidence | Next needed |
+|---|---|---|---|---|
+| C1 | Candidate and folded exact routes coincide (G=M, C_j=0, ℓ_j=r_j/(1−r_j)) | analytic | spec §4–5 | T6/T7 numerical verification |
+| C2 | Naive excess = V_2 + I_loss (exactly given S) | analytic | spec §8 | T10 |
+| C3 | V_2, I_loss, VOI_clean in primary cell | open | — | oracle run |
+| C4 | Where V_2 is material across L, q_w, β | open | — | oracle map |
+| C5 | Share of V_2 recoverable from (s_L, μ̃) recalibration | open | — | §9 bounds |
+| C6 | Candidate repairs are more contaminated than folded queries (weighted) | open (structural count analytic) | spec §10 | contamination profile |
+| C7 | Learned routes differ at finite N (H2) | open | — | learned pilot |
+| C8 | Composition buys prior-shift flexibility at acceptable cost (H3) | open | — | learned pilot, prior-shift arm |
+| C9 | Any poisoning defence / trained-policy robustness | out of scope | — | separate programme |
+
+No numerical result from earlier conversations is inherited; every number must be reproduced here with
+recorded code, configuration and seeds.
