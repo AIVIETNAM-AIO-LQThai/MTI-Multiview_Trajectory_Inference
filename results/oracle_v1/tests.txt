@@ -3,16 +3,17 @@ platform win32 -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0
 rootdir: C:\Users\Dell ProMax Tower T2\Downloads\code\MTI-Multiview_Trajectory_Inference
 configfile: pyproject.toml
 testpaths: tests
-collected 97 items
+collected 105 items
 
-tests\test_corruption.py ...................                             [ 19%]
-tests\test_decision.py ......                                            [ 25%]
-tests\test_e1.py ....                                                    [ 29%]
-tests\test_e2b.py ....                                                   [ 34%]
-tests\test_estimators.py ....                                            [ 38%]
-tests\test_hmm.py ......................................                 [ 77%]
-tests\test_learned.py ...........                                        [ 88%]
-tests\test_misspec.py ........                                           [ 96%]
+tests\test_corruption.py ...................                             [ 18%]
+tests\test_decision.py ......                                            [ 23%]
+tests\test_e1.py ....                                                    [ 27%]
+tests\test_e2b.py ....                                                   [ 31%]
+tests\test_e3.py ........                                                [ 39%]
+tests\test_estimators.py ....                                            [ 42%]
+tests\test_hmm.py ......................................                 [ 79%]
+tests\test_learned.py ...........                                        [ 89%]
+tests\test_misspec.py ........                                           [ 97%]
 tests\test_simulator.py ...                                              [100%]
 
-============================= 97 passed in 21.67s =============================
+============================ 105 passed in 22.33s =============================

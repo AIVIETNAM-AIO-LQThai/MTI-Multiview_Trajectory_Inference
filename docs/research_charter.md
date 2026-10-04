@@ -77,6 +77,7 @@ checked, tests saved) · **measured** (finite-sample/MC result with uncertainty)
 | C9 | Poisoning defence / trained-policy robustness | out of scope | — | separate programme |
 | C12 | Composition (A4) vs density-direct (A6pd), matched backbone/loss family | **6 better / 4 equivalent / 4 inconclusive / 0 worse**; 8/14 meet precision; concentrated-prior advantage confounded with sparse training coverage | [E1 §7](reports/e1_report.md) | E2 coverage control |
 | C15–C19, H-loc | Misspecification results (see findings_summary v4) | measured / analytic+verified / descriptive | [E2](reports/e2_report.md), [E2b](reports/e2b_report.md) reports | user decision: empirical Bayes, mode-dependent channel, or MTM question |
+| C20–C24 | Identification and adaptive composition (see findings_summary v5) | verified / measured | [E3 report](reports/e3_report.md) | user decision: MTM detection benchmark, joint clean-law/channel identification, literature positioning, or stop |
 | C11 | Conclusions about learned estimation hold for physics-informed learners (LLR-type features; A4/A5 families contain the truth) | **scope qualification** | learned report §5 | generic-feature / unknown-physics study (out of current scope) |
 | C10 | Aware belief costs realised cost in natural-switch states and on clean records | **measured**: D = −0.56 ± 0.10 (switch edge), −0.047 ± 0.008 (clean) in primary | report §3 | check in learned arms |
 
