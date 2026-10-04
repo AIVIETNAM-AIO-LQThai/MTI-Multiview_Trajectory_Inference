@@ -182,3 +182,33 @@ Not supported / still open: any learned-route difference (H2), the flexibility t
 **Decision on the next experiment: the learned pilot is justified, but not in the primary physics as lead.** The exact naive filter already has endpoint
 𝓔 = V_2, so a learned aware estimator is useful only if it beats V_2. A practically meaningful gap of 10% of V_2 is 0.007 in the primary cell, which is below the absolute floor;
 in the q_w=0.02, L=8 physics it is 0.009 (β=0.2) and 0.042 (β=0.5). Revised design is in [learned_pilot_protocol.md](../learned_pilot_protocol.md) (v2).
+
+## 11. Addendum: oracle at shifted priors P3/P4 (Task 0; Sonnet 5.5)
+
+Four additional cells (L=8, η=0.05, q_w∈{0.02,0.5}, β∈{0.2,0.5}, **π = point mass on the last recorded action**), same sizing rules and seeds as the main run, `cell_id` 10–13.
+Code commit `2168bee` (clean); config `configs/oracle_v1_priors.toml`; results `results/oracle_v1_priors/`; table
+[oracle_v1_priors_addendum.md](oracle_v1_priors_addendum.md) (P1/P2 rows are the existing oracle_v1 cells, commit `0f1b6d1`).
+Commands: `pytest` (69 passed), `run_oracle.py --config configs/oracle_v1_priors.toml --out results/oracle_v1_priors` (8 s), `make_priors_addendum.py`.
+All N = 100,000 (the floor; N_needed ≤ 14,433); V_2 half-width ≤ 2.0% of V_2; max |z| main-vs-check / simulated-vs-analytic ≤ 2.08; route equality ≤ 3.9e-15 (G−M), 4.8e-15 (C_j).
+
+| physics | prior | V_2 | I_loss | X_naive | VOI_clean | V_2/VOI | **Δ_min** | binds |
+|---|---|---|---|---|---|---|---|---|
+| q_w=0.02 | P1 (β=.2, uniform) | 0.0905 ± 0.0028 | 0.207 | 0.303 | 3.118 | 0.029 | **0.0090** | 10% V_2 |
+| q_w=0.02 | P2 (β=.5, uniform) | 0.4161 ± 0.0070 | 0.344 | 0.761 | 3.132 | 0.133 | **0.0416** | 10% V_2 |
+| q_w=0.02 | P3 (β=.2, lag 0) | 1.7083 ± 0.0208 | 0.528 | 2.225 | 3.122 | 0.547 | **0.1708** | 10% V_2 |
+| q_w=0.02 | P4 (β=.5, lag 0) | 4.9257 ± 0.0486 | 0.592 | 5.517 | 3.101 | 1.588 | **0.4926** | 10% V_2 |
+| q_w=0.5 | P1 (β=.2, uniform) | 0.0712 ± 0.0031 | 0.261 | 0.331 | 4.007 | 0.018 | **0.0080** | floor |
+| q_w=0.5 | P2 (β=.5, uniform) | 0.3054 ± 0.0073 | 0.515 | 0.820 | 3.983 | 0.077 | **0.0305** | 10% V_2 |
+| q_w=0.5 | P3 (β=.2, lag 0) | 1.0830 ± 0.0213 | 0.626 | 1.705 | 3.972 | 0.273 | **0.1083** | 10% V_2 |
+| q_w=0.5 | P4 (β=.5, lag 0) | 3.4812 ± 0.0539 | 0.785 | 4.266 | 3.986 | 0.873 | **0.3481** | 10% V_2 |
+
+Measured observations (no new scientific claims beyond them):
+- Under lag-0 priors the opportunity is an order of magnitude larger than under uniform priors: V_2 is 55% (q_w=.02) / 27% (q_w=.5) of VOI_clean at P3 and **exceeds VOI_clean** at P4 (159% / 87%).
+  V_2 is 64–89% of the naive excess, so most of what corruption costs is recoverable (I_loss 0.53–0.79).
+- The naive action is **worse than not using history at all** when the corruption sits on the last action with β=0.5 (expected cost, q_w=.02: naive 6.755 vs zero action 4.339; q_w=.5: 7.191 vs 6.911). Aware costs 1.814 / 3.717 against clean oracle 1.238 / 2.925.
+- The aware oracle's realised-cost penalty in natural-switch states grows with the shift (D at the edge m_{L−2}→m_{L−1}: −3.9 to −6.3 at P3, −3.1 to −4.4 at P4, vs −0.56 to −2.4 at P1/P2); on clean records D is −0.36 to −0.81. The restricted (s_L, μ̃) recalibrator attains 16–24% of V_2 at P3 and 35–52% at P4 (lower bounds).
+- Point-mass π makes location top-1 accuracy trivially 1; the exact log score of the posterior is 0.21–0.50 nats vs 0.50–0.69 nats prior-only.
+- No T4 identity or other check was contradicted; the escalation conditions of the status file were not met.
+
+Flag for Opus review (not decided here): at P3/P4 the rule Δ_min = 10% V_2 gives 0.11–0.49, which is 4–40% of the clean-oracle cost (1.24 / 2.9); its practical meaning at those priors, and
+whether a cost-based floor or cap is wanted, is an Opus call.

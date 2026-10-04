@@ -20,12 +20,19 @@ Notation and exact targets: [mathematical_specification.md](mathematical_specifi
 
    Arms trained only on clean data (A1, A2, A3, A4, A5) are trained **once per physics** and evaluated at every prior, so β ∈ {0.2, 0.5} costs no
    extra training. Channel-trained arms (A1r, A6) are trained at P1. A6p is trained over its declared family.
-3. **Task 0, before any learned run:** compute exact oracle V_2, I_loss and VOI_clean at P3 and P4 for both physics. P1/P2 already exist for
+3. **Task 0 (DONE 2026-10-04):** compute exact oracle V_2, I_loss and VOI_clean at P3 and P4 for both physics. P1/P2 already exist for
    q_w=0.02 (map cells), and for q_w=0.5 they are the primary cell and the L8/q_w0.5/β0.5 cell. Fix the Δ_min table from these numbers before training.
    Report the oracle P3/P4 results as an addendum to the oracle report.
 4. **Δ_min(physics, prior) = max(0.10·V_2, 0.002·VOI_clean).** Rationale: the exact naive filter has endpoint 𝓔 = V_2, so 10% of V_2 is one tenth
    of the gap between ignoring the channel and knowing it exactly. The absolute floor prevents instability when V_2 is small. Known values:
-   q_w=0.02: P1 0.0090, P2 0.0416; q_w=0.5: P1 0.0080 (floor binds), P2 0.0305.
+   Raw values from the oracle (P3/P4 added by Task 0; [addendum](reports/oracle_v1_priors_addendum.md)):
+
+   | physics | P1 | P2 | P3 | P4 |
+   |---|---|---|---|---|
+   | q_w=0.02 | 0.0090 | 0.0416 | 0.1708 | 0.4926 |
+   | q_w=0.5 | 0.0080 (floor binds) | 0.0305 | 0.1083 | 0.3481 |
+
+   At P3/P4 these are 4–40% of the clean-oracle cost; their practical meaning is flagged for Opus review.
 5. **Reference lines in every table:** exact aware (𝓔=0), exact naive (𝓔=V_2), learned naive A1.
    An aware-belief estimator with 𝓔 ≥ V_2 is no better than ignoring the channel exactly.
 6. **Structural notes for interpretation, not design changes:**
