@@ -1,17 +1,19 @@
 {
  "provenance": {
-  "git_commit": "2168beef2df6387600c4a57b0b3c030040d5b310",
+  "git_commit": "f89ff2c8a106cb612f2230c57e2e10006cf16117",
   "git_branch": "exp/oracle-evidence",
-  "dirty_code_files": [],
-  "config_sha256": "fb62153ed2c7dc5ee9e693cfacf7b4a8810d98d8ecb5838ef47d941162e332f4",
+  "dirty_code_files": [
+   "M results/oracle_v1_priors/run_log.txt"
+  ],
+  "config_sha256": "c0f634250db55576ead4b6599083fb12c55a359562e9ac4c40723cc38a31e7e9",
   "python": "3.14.7",
   "numpy": "2.5.3",
   "scipy": "1.18.1",
   "platform": "Windows-11-10.0.26200-SP0",
   "command": "experiments/run_oracle.py --config configs/oracle_v1_priors.toml --out results/oracle_v1_priors",
-  "started_utc": "2026-10-04T07:39:33+00:00"
+  "started_utc": "2026-10-04T09:39:14+00:00"
  },
- "total_seconds": 7.959006309509277,
+ "total_seconds": 12.245137691497803,
  "config": {
   "meta": {
    "name": "oracle_v1_priors",
@@ -112,6 +114,26 @@
     "beta": 0.5,
     "eta": 0.05,
     "pi": "lag0"
+   },
+   {
+    "name": "prior_P5_L8_qw0.02_b0.2",
+    "role": "map",
+    "cell_id": 14,
+    "L": 8,
+    "q_w": 0.02,
+    "beta": 0.2,
+    "eta": 0.05,
+    "pi": "recent"
+   },
+   {
+    "name": "prior_P5_L8_qw0.5_b0.2",
+    "role": "map",
+    "cell_id": 15,
+    "L": 8,
+    "q_w": 0.5,
+    "beta": 0.2,
+    "eta": 0.05,
+    "pi": "recent"
    }
   ]
  },

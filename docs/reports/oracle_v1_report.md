@@ -230,3 +230,17 @@ is partly structural and is not to be generalised without support at the other p
 
 Scientific reading of P3/P4: the uniform-prior conclusion that awareness has small decision value is **prior-specific**, not a property of the S2 channel. When corruption
 targets the most recent action, awareness recovers 64–89% of the naive excess, and the naive action can be worse than ignoring history.
+
+## 13. Addendum: P5 (recent-weighted prior), Task 0b (Sonnet 5.5)
+
+Cells `prior_P5_L8_qw{0.02,0.5}_b0.2` (`pi = "recent"`: π_j ∝ 2^{−lag}, lag-0 mass 0.50, β=0.2), code commit `f89ff2c`, N=100,000, half-width ≤ 2.5% of V_2, max |z| ≤ 2.15, route equality at the 1e-15 level.
+P3/P4 were re-run in the same invocation and reproduce §11 exactly (same seeds). Full table (P1–P5, capped Δ_min): [oracle_v1_priors_addendum.md](oracle_v1_priors_addendum.md).
+
+| physics | V_2 | I_loss | X_naive | VOI_clean | V_2/VOI | Δ_min (capped rule) |
+|---|---|---|---|---|---|---|
+| q_w=0.02, P5 | 0.6972 ± 0.0114 | 0.478 | 1.176 | 3.146 | 0.222 | 0.0629 (cap) |
+| q_w=0.5, P5 | 0.4411 ± 0.0111 | 0.585 | 1.027 | 3.947 | 0.112 | 0.0441 (10% V_2) |
+
+P5 sits between P1/P2 and P3 as intended (V_2 at q_w=0.02: 0.090 → 0.697 → 1.708 for P1 → P5 → P3). Provenance note: the `dirty_code_files` entry `M results/oracle_v1_priors/run_log.txt` recorded in the
+P3–P5 JSON is a provenance-filter bug (the leading status column of the first `git status --porcelain` line was stripped, so a `results/` file escaped the filter); no code was dirty.
+Fixed in `run_oracle.py` after this run.

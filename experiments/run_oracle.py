@@ -65,11 +65,12 @@ def jsonable(o):
 
 def provenance(config_path):
     def git(*a):
-        return subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+        return subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True).stdout.rstrip("\n")
+    # porcelain lines are "XY path"; do not strip the leading status column
     status = [l for l in git("status", "--porcelain").splitlines()
               if not l[3:].startswith(("results/", "docs/reports/"))]
     return dict(
-        git_commit=git("rev-parse", "HEAD"), git_branch=git("rev-parse", "--abbrev-ref", "HEAD"),
+        git_commit=git("rev-parse", "HEAD").strip(), git_branch=git("rev-parse", "--abbrev-ref", "HEAD").strip(),
         dirty_code_files=status, config_sha256=hashlib.sha256(open(config_path, "rb").read()).hexdigest(),
         python=sys.version.split()[0], numpy=np.__version__, scipy=scipy.__version__,
         platform=platform.platform(), command=" ".join(sys.argv),

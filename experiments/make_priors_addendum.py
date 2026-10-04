@@ -3,7 +3,7 @@
     python experiments/make_priors_addendum.py -> docs/reports/oracle_v1_priors_addendum.md
 
 P1/P2 (uniform pi) come from results/oracle_v1; P3/P4 (pi = point mass on lag 0) from results/oracle_v1_priors.
-Delta_min = max(0.10 V_2, 0.002 VOI_clean) per (physics, prior).
+Delta_min = clip(0.10 V_2, 0.002 VOI_clean, 0.02 VOI_clean) per (physics, prior) (protocol v2 decision 4, review 2).
 """
 from __future__ import annotations
 
@@ -20,6 +20,8 @@ PAIRS = [  # (physics label, prior, results dir, cell name)
     ("q_w=0.5", "P2 (β=.5, uniform)", "oracle_v1", "map_L8_qw0.5_b0.5"),
     ("q_w=0.5", "P3 (β=.2, lag 0)", "oracle_v1_priors", "prior_P3_L8_qw0.5_b0.2"),
     ("q_w=0.5", "P4 (β=.5, lag 0)", "oracle_v1_priors", "prior_P4_L8_qw0.5_b0.5"),
+    ("q_w=0.02", "P5 (β=.2, recent-weighted)", "oracle_v1_priors", "prior_P5_L8_qw0.02_b0.2"),
+    ("q_w=0.5", "P5 (β=.2, recent-weighted)", "oracle_v1_priors", "prior_P5_L8_qw0.5_b0.2"),
 ]
 
 
@@ -34,13 +36,13 @@ def main():
         c = r["main"]["columns"]
         prov.add((d, r["provenance"]["git_commit"][:7], tuple(r["provenance"]["dirty_code_files"])))
         v2, voi = c["V2"]["mean"], c["voi_clean"]["mean"]
-        dmin = max(0.10 * v2, 0.002 * voi)
+        dmin = min(max(0.10 * v2, 0.002 * voi), 0.02 * voi)
         sw = r["main"]["strata"]["E7"]
         zmax = max(abs(z) for z in r["check"]["z"].values() if z is not None)
         rows.append([phys, prior, r["main"]["n"], pm(c["V2"]), pm(c["I"]), pm(c["X"]), f"{voi:.3f}", f"{v2 / voi:.3f}",
                      f"{v2 / c['X']['mean']:.3f}", f"{sw['mean']['D']:+.3f} ± {1.96 * sw['se']['D']:.3f}",
                      f"{c['D_none']['mean']:+.4f}", f"{100 * c['V2']['half95'] / v2:.1f}%", f"{dmin:.4f}",
-                     "floor" if 0.10 * v2 < 0.002 * voi else "10% V_2", f"{zmax:.2f}",
+                     "floor" if 0.10 * v2 < 0.002 * voi else ("cap" if 0.10 * v2 > 0.02 * voi else "10% V_2"), f"{zmax:.2f}",
                      f"{r['main']['verify']['max_abs_G_minus_M']:.1e}", r["main"]["verify"]["max_abs_C"]])
     hdr = ["physics", "prior", "N", "V_2", "I_loss", "X_naive", "VOI_clean", "V_2/VOI", "V_2/X_naive", "D \\| natural switch E7",
            "D \\| θ=none", "V_2 hw/V_2", "Δ_min", "binds", "max \\|z\\|", "max \\|G−M\\|", "max \\|C_j\\|"]

@@ -14,8 +14,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def pytest_sessionfinish(session, exitstatus):
-    if os.environ.get("MTI_MUTATION"):
-        return
+    if os.environ.get("MTI_MUTATION") or session.testscollected < 60:
+        return   # only a full-suite run may overwrite the recorded maxima (subset runs would drop entries)
     out = os.path.join(ROOT, "results", "oracle_v1")
     os.makedirs(out, exist_ok=True)
     with open(os.path.join(out, "test_max_errors.json"), "w") as f:

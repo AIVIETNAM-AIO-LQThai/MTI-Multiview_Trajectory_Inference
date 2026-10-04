@@ -43,8 +43,8 @@ Notation and exact targets: [mathematical_specification.md](mathematical_specifi
 
    | physics | P1 | P2 | P3 | P4 | P5 |
    |---|---|---|---|---|---|
-   | q_w=0.02 | 0.0090 | 0.0416 | 0.0624 (cap) | 0.0620 (cap) | Task 0b |
-   | q_w=0.5 | 0.0080 (floor) | 0.0305 | 0.0794 (cap) | 0.0797 (cap) | Task 0b |
+   | q_w=0.02 | 0.0090 | 0.0416 | 0.0624 (cap) | 0.0620 (cap) | 0.0629 (cap) |
+   | q_w=0.5 | 0.0080 (floor) | 0.0305 | 0.0794 (cap) | 0.0797 (cap) | 0.0441 (10% V_2) |
 
    Power is set separately (Δ_min/2 half-width rule). The cap makes P3/P4 demand more precision than v2 did, so if 10 seeds do not reach it,
    report the achieved precision rather than raising Δ_min.

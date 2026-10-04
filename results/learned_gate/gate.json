@@ -1,0 +1,46 @@
+{
+ "threads": 1,
+ "n_train": 100000,
+ "n_test": 20000,
+ "torch": "2.14.1+cpu",
+ "train_1_epoch": {
+  "A1": {
+   "seconds_per_epoch": 6.463706731796265,
+   "steps": 390,
+   "view_passes": 99840,
+   "params": 44290
+  },
+  "A2": {
+   "seconds_per_epoch": 15.91166377067566,
+   "steps": 390,
+   "view_passes": 299520,
+   "params": 44290
+  },
+  "A4": {
+   "seconds_per_epoch": 2.015538454055786,
+   "steps": 390,
+   "view_passes": 99840,
+   "params": 17666
+  },
+  "A6": {
+   "seconds_per_epoch": 7.579353332519531,
+   "steps": 390,
+   "view_passes": 199680,
+   "params": 44290
+  },
+  "A6p-broad": {
+   "seconds_per_epoch": 7.71541690826416,
+   "steps": 390,
+   "view_passes": 199680,
+   "params": 47362
+  }
+ },
+ "A5_em_seconds": 0.9462583065032959,
+ "A5_eta_hat_N1e5": 0.0500315193799354,
+ "testset_build_seconds_one_prior": 0.7873060703277588,
+ "test_query_seconds_1thread": {
+  "A2_query_F": 69.69654965400696,
+  "A4_query_density": 15.747101783752441,
+  "A1_query_full": 3.672804117202759
+ }
+}
