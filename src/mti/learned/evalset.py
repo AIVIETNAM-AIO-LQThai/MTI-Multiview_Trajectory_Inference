@@ -13,7 +13,7 @@ import torch
 
 from ..decision import kappa
 from ..experiment import eval_views
-from ..inference import candidate_from_queries, candidate_route
+from ..inference import candidate_from_queries, candidate_route, folded_route
 from ..params import ChannelSpec, Physics
 from ..simulate import Prefix, simulate
 from .compose import compose, signed_sign_probs
@@ -120,6 +120,58 @@ class TestSet:
         n, V = self.n, self.V
         self.chans[name] = chan
         self.oracle[name] = dict(mu2=cr.mu2.reshape(n, V), mu_t=cr.mu.reshape(n, V), w=chan.view_weights(), pi=chan.pi_arr)
+
+    def add_exact_queries(self):
+        """Exact (prior-independent) conditionals on every record, for query-level diagnostics: mu(S), mu(T_jS), psi_j, log r_j, log(1-r_j)."""
+        rec = Prefix(self.s_rec, self.a_rec)
+        chan = ChannelSpec.uniform(self.L, 0.2)
+        cr, fr = candidate_route(rec, self.phys, chan), folded_route(rec, self.phys, chan)
+        self.ex = dict(mu=cr.mu, mu_flip=cr.mu_flip, psi=fr.psi, log_r=fr.log_r, log_1mr=fr.log_1mr)
+
+    def query_diagnostics(self, out) -> dict:
+        """Errors of the shared model's queries against the exact conditionals, by contamination count (unweighted over the L+1 views).
+
+        Contamination count = number of action signs differing from the clean prefix H in the query:
+        flipped repair T_jS: 0 if j is the attacked location else (1 if S is corrupted, else 0) + 1; folded O_j(S): 1 if S is corrupted elsewhere, else 0.
+        """
+        mu, psi, sl, muf = out
+        L, V, n = self.L, self.V, self.n
+        v = np.arange(n * V) % V
+        theta = v - 1
+        j = np.arange(L)[None, :]
+        attacked = (v >= 1)[:, None]
+        at_true = attacked & (theta[:, None] == j)
+        cnt_T = np.where(at_true, 0, attacked.astype(int) + 1)
+        cnt_F = (attacked & ~at_true).astype(int)
+        kap = np.repeat(self.kap, V)[:, None]
+        log_r, log_1mr = signed_sign_probs(sl, self.a_rec)
+        ex = self.ex
+        kl = np.exp(ex["log_r"]) * (ex["log_r"] - log_r) + np.exp(ex["log_1mr"]) * (ex["log_1mr"] - log_1mr)
+        mae = np.abs(np.exp(log_r) - np.exp(ex["log_r"]))
+        d = {}
+        for c in (0, 1, 2):
+            m = cnt_T == c
+            d[f"flip_kmse_c{c}"] = float(np.mean(((muf - ex["mu_flip"]) ** 2 * kap)[m])) if m.any() else None
+        for c in (0, 1):
+            m = cnt_F == c
+            d[f"folded_psi_kmse_c{c}"] = float(np.mean(((psi - ex["psi"]) ** 2 * kap)[m])) if m.any() else None
+            d[f"sign_kl_c{c}"] = float(np.mean(kl[m])) if m.any() else None
+            d[f"sign_mae_c{c}"] = float(np.mean(mae[m])) if m.any() else None
+        full = kap[:, 0] * (mu - ex["mu"]) ** 2
+        d["full_kmse_clean_records"] = float(full[v == 0].mean())
+        d["full_kmse_corrupted_records"] = float(full[v >= 1].mean())
+        return d
+
+    def gap_diagnostics(self, prior: str, comp) -> dict:
+        """Route-gap statistics under `prior` (RB weights): signed gap G-M, kappa-weighted squared gap, |C_j|, identity error."""
+        o = self.oracle[prior]
+        w, pi, n, V = o["w"], o["pi"], self.n, self.V
+        gap = comp.gap.reshape(n, V)
+        K = self.kap[:, None]
+        absC = np.abs(comp.C).mean(axis=1).reshape(n, V)
+        return dict(gap_signed=float((gap @ w).mean()), gap_signed_none=float(gap[:, 0].mean()), gap_signed_cor=float((gap[:, 1:] @ pi).mean()),
+                    gap_ksq=float(((K * gap**2) @ w).mean()), gap_abs=float((np.abs(gap) @ w).mean()),
+                    C_abs=float((absC @ w).mean()), gap_identity_max_err=float(np.abs(comp.gap - comp.gap_identity).max()))
 
     def summarize(self, prior: str, muhat: np.ndarray) -> dict:
         """Endpoint E = E[kappa (muhat - mu_2)^2] (RB over corruption views) and realised-cost diagnostics vs the exact naive action."""
