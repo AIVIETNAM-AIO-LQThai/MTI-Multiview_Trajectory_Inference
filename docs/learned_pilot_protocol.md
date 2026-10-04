@@ -4,6 +4,10 @@ Drafted by Opus planning pass 2026-10-04. Status: **pending Opus evidence review
 numerical thresholds marked ⟨TBD-oracle⟩ are filled from the oracle results before any run. Notation and
 exact targets: [mathematical_specification.md](mathematical_specification.md).
 
+> **Update after oracle report (2026-10-04, pending Opus review):** oracle V_2 in the primary cell is 0.0712 (1.8% of VOI_clean 4.007), so
+> Δ_min = max(0.10·V_2, 0.002·VOI_clean) = 0.0080 and the absolute floor binds (≈11% of V_2). The most discriminating cell is L=8, q_w=0.02, β=0.5
+> (V_2 = 0.416, Δ_min = 0.042). L=32 has V_2/VOI ≤ 1.6%; low priority. Natural-switch states (aware oracle worse by 0.56 ± 0.10 in primary) must be in the diagnostics.
+
 ## Purpose
 
 Test H2 (finite-estimation differences between query routes) and H3 (cost/benefit of test-time

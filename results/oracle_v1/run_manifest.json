@@ -1,0 +1,160 @@
+{
+ "provenance": {
+  "git_commit": "0f1b6d1bb28d5f203da6b20f23a6701a2ca5d64a",
+  "git_branch": "exp/oracle-evidence",
+  "dirty_code_files": [],
+  "config_sha256": "c59f6c49b128be8673744db3a2d5ab2f0ac4983d37dece771de0d1839078a2d4",
+  "python": "3.14.7",
+  "numpy": "2.5.3",
+  "scipy": "1.18.1",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "command": "experiments/run_oracle.py --out results/oracle_v1",
+  "started_utc": "2026-10-04T06:15:26+00:00"
+ },
+ "total_seconds": 142.2116413116455,
+ "config": {
+  "meta": {
+   "name": "oracle_v1",
+   "workers": 18
+  },
+  "physics": {
+   "rho": 0.9,
+   "c": 1.0,
+   "q_a": 1.0,
+   "lam": 0.1
+  },
+  "seeds": {
+   "pilot": 1001,
+   "main": 2001,
+   "check": 3001,
+   "recal_fit": 4001,
+   "recal_val": 5001
+  },
+  "mc": {
+   "pilot_n": 20000,
+   "min_main": 100000,
+   "cap_main": 2000000,
+   "rel_target": 0.05,
+   "abs_target_frac": 0.0005,
+   "small_v2_frac": 0.01,
+   "safety": 1.25,
+   "control_n": 20000,
+   "n_profile": 20000,
+   "thr_n": 20000
+  },
+  "chunk_prefixes": {
+   "L8": 2000,
+   "L32": 500
+  },
+  "recal": {
+   "fit_sizes": [
+    20000,
+    200000
+   ],
+   "val_n": 100000,
+   "chunk_n": 20000,
+   "resolutions": [
+    [
+     6,
+     6
+    ],
+    [
+     12,
+     12
+    ],
+    [
+     24,
+     24
+    ]
+   ],
+   "modes": [
+    "direct",
+    "residual"
+   ]
+  },
+  "cells": [
+   {
+    "name": "primary_L8_qw0.5_b0.2",
+    "role": "primary",
+    "L": 8,
+    "q_w": 0.5,
+    "beta": 0.2,
+    "eta": 0.05
+   },
+   {
+    "name": "control_beta0",
+    "role": "control_beta0",
+    "L": 8,
+    "q_w": 0.5,
+    "beta": 0.0,
+    "eta": 0.05
+   },
+   {
+    "name": "control_eta0.5",
+    "role": "control_eta_half",
+    "L": 8,
+    "q_w": 0.5,
+    "beta": 0.2,
+    "eta": 0.5
+   },
+   {
+    "name": "map_L8_qw0.5_b0.5",
+    "role": "map",
+    "L": 8,
+    "q_w": 0.5,
+    "beta": 0.5,
+    "eta": 0.05
+   },
+   {
+    "name": "map_L8_qw0.02_b0.2",
+    "role": "map",
+    "L": 8,
+    "q_w": 0.02,
+    "beta": 0.2,
+    "eta": 0.05
+   },
+   {
+    "name": "map_L8_qw0.02_b0.5",
+    "role": "map",
+    "L": 8,
+    "q_w": 0.02,
+    "beta": 0.5,
+    "eta": 0.05
+   },
+   {
+    "name": "map_L32_qw0.5_b0.2",
+    "role": "map",
+    "L": 32,
+    "q_w": 0.5,
+    "beta": 0.2,
+    "eta": 0.05
+   },
+   {
+    "name": "map_L32_qw0.5_b0.5",
+    "role": "map",
+    "L": 32,
+    "q_w": 0.5,
+    "beta": 0.5,
+    "eta": 0.05
+   },
+   {
+    "name": "map_L32_qw0.02_b0.2",
+    "role": "map",
+    "L": 32,
+    "q_w": 0.02,
+    "beta": 0.2,
+    "eta": 0.05
+   },
+   {
+    "name": "map_L32_qw0.02_b0.5",
+    "role": "map",
+    "L": 32,
+    "q_w": 0.02,
+    "beta": 0.5,
+    "eta": 0.05
+   }
+  ]
+ },
+ "workers": 18,
+ "scale": 1.0
+}

@@ -1,0 +1,12 @@
+KILLED   M1_final_step_dropped (target m_{L-1} instead of m_L)
+          31 failing cases: test_T11_controls_are_exact_zeros, test_T1_hmm_vs_path_enumeration, test_T2_corruption_posterior_vs_enumeration, test_T5_calibration_and_mutation, test_T5_final_prediction_step_exact, test_T6_folded_vs_enumeration_and_ratio, test_T9_simulated_costs_match_analytic
+KILLED   M2_candidate_normaliser_drops_(1-beta)
+          13 failing cases: test_T10_expectation_decomposition, test_T2_corruption_posterior_vs_enumeration, test_T4_known_location_limits, test_T7_candidate_folded_equality
+KILLED   M3_folded_recorded_sign_swapped
+          11 failing cases: test_T2_corruption_posterior_vs_enumeration, test_T6_folded_vs_enumeration_and_ratio, test_T7_candidate_folded_equality
+KILLED   M4_folded_normaliser_uses_(1-beta)_not_(1-2beta)
+          8 failing cases: test_T2_corruption_posterior_vs_enumeration, test_T7_candidate_folded_equality
+KILLED   M5_candidate_omits_one_location (L-1 candidates)
+          14 failing cases: test_T10_expectation_decomposition, test_T2_corruption_posterior_vs_enumeration, test_T4_known_location_limits, test_T5_calibration_and_mutation, test_T7_candidate_folded_equality
+KILLED   M6_folded_drops_magnitude (sign marginal uses |a|=0)
+          11 failing cases: test_T2_corruption_posterior_vs_enumeration, test_T6_folded_vs_enumeration_and_ratio, test_T7_candidate_folded_equality

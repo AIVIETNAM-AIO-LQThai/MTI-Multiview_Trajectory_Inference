@@ -1,0 +1,14 @@
+============================= test session starts =============================
+platform win32 -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\Dell ProMax Tower T2\Downloads\code\MTI-Multiview_Trajectory_Inference
+configfile: pyproject.toml
+testpaths: tests
+collected 68 items
+
+tests\test_corruption.py .................                               [ 25%]
+tests\test_decision.py ......                                            [ 33%]
+tests\test_estimators.py ....                                            [ 39%]
+tests\test_hmm.py ......................................                 [ 95%]
+tests\test_simulator.py ...                                              [100%]
+
+============================= 68 passed in 5.96s ==============================

@@ -178,10 +178,7 @@ def main():
         for mode, n in rf["selected_by_mode"].items():
             rows.append([r["cell"]["name"], mode, pm(m["V2"], 5), pm(m[f"rc:{n}:A"], 5), pm(m[f"rc:{n}:R"], 5), pm(m[f"rc:{n}:X"], 5),
                          f"{100 * (m['V2']['mean'] - m[f'rc:{n}:R']['mean']) / m['V2']['mean']:.1f}%", n])
-    md.append("
-Recalibration (best validation variant per function class and cell; (V_2−R)/V_2 < 0 means g is a worse predictor of mu_2 than mu~ itself):
-
-" + table(["cell", "class", "V_2", "A", "R", "X", "(V_2−R)/V_2", "variant"], rows))
+    md.append("\nRecalibration (best validation variant per function class and cell; (V_2−R)/V_2 < 0 means g is a worse predictor of mu_2 than mu~ itself):\n\n" + table(["cell", "class", "V_2", "A", "R", "X", "(V_2−R)/V_2", "variant"], rows))
     rows = []
     for r in cells:
         if r["cell"]["role"].startswith("control"):
