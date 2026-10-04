@@ -23,7 +23,7 @@ inference-time flexibility.*
 | Estimation | Whether learned query routes differ in accuracy/efficiency/adaptability at matched data, access, compute | Exact-route equality ⇏ finite-learner equality; oracle results cannot show a learned advantage |
 | Policy relevance | Whether belief error matters for a specified physical decision | Reconstruction, AUROC or one-step synthetic cost ⇏ robust trained-policy performance |
 
-## Hypotheses (status after learned-pilot review, 2026-10-04: H1 verified; H4 measured (prior-specific); H2 route form not supported; H3 partially supported (flexibility, not in-family accuracy); H5 not motivated)
+## Hypotheses (final phase-1 status, 2026-10-04: H1 verified; H2 route form not supported; H3 supported (flexibility, plus small-N in-family advantage at low noise under matched supervision); H4 measured, prior-specific; H5 not motivated — see [findings_summary.md](findings_summary.md))
 
 - H1 Oracle equivalence: candidate and folded routes compute the same aware posterior under the declared law.
   Analytic + numerical verification only; says nothing about learning.
@@ -75,7 +75,7 @@ checked, tests saved) · **measured** (finite-sample/MC result with uncertainty)
 | C7 | Learned routes differ at finite N (H2) | **not supported in route form**: folded and candidate composition from shared heads show no material difference in 18/20 cells; the 2 exceptions are a predeclared structural P4 case and a regime where both arms are worse than exact naive. Component learning and Bayesian weighting matter (A3 ensemble poor; A4/A5 better at N=10³) | [learned report §5](reports/learned_pilot_report.md) | E1 separates supervision from composition |
 | C8 | Composition buys prior-shift flexibility at acceptable cost (H3) | **partially supported**: composition generalises off-prior where fixed/narrow direct arms fail; vs broad prior-conditioned direct it is equivalent in-family (N=10⁵), worse at P1 (N=10³), better only at out-of-family P3/P4; costs 9–17 queries and ~3× training | learned report §5 | E1 (matched supervision) |
 | C9 | Poisoning defence / trained-policy robustness | out of scope | — | separate programme |
-| C12 | Under matched density supervision, composition (A4) vs prior-conditioned direct (A6pd) | **measured (E1), interpretation pending Opus**: A4 better in-family at N=10³ on the lead physics (P2/P5), equivalent within Δ_min at N=10⁵, better at P3/P4; secondary physics inconclusive | [e1 report](reports/e1_report.md) | Opus review |
+| C12 | Under matched density supervision, composition (A4) vs direct estimation (A6pd/A6d) | **measured and reviewed**: never worse; better off-family (all cells); in-family better at N=10³ for q_w=0.02, equivalent within Δ_min at N=10⁵, undetectable at q_w=0.5 | [E1 report §6](reports/e1_report.md) | external validity (generic learners, channel misspecification) |
 | C11 | Conclusions about learned estimation hold for physics-informed learners (LLR-type features; A4/A5 families contain the truth) | **scope qualification** | learned report §5 | generic-feature / unknown-physics study (out of current scope) |
 | C10 | Aware belief costs realised cost in natural-switch states and on clean records | **measured**: D = −0.56 ± 0.10 (switch edge), −0.047 ± 0.008 (clean) in primary | report §3 | check in learned arms |
 

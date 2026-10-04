@@ -22,6 +22,8 @@ single-flip action-sign channel and a one-step quadratic decision. Policy releva
   naive excess 0.331, clean-history value 4.01 — awareness is worth ~1.8% of the clean history's decision value here; 13% at L=8, q_w=0.02, β=0.5; < 1.6% at L=32.
 - Learned pilot (5 seeds, N=10³/10⁵, two physics, five priors; [report](docs/reports/learned_pilot_report.md)): the exact-composition arms with learned components (shared masked-belief model queried by folded or candidate routes, density scorer, fitted HMM)
   recover 93–100% (lead physics q_w=0.02) and 77–100% (q_w=0.5) of the aware oracle's opportunity at N=10⁵ (A2 at P1; higher at shifted priors); folded and candidate routes of one network are equivalent within Δ_min in most cells; interpretation is pending review. Caveats: grid-edge selection at N=10⁵, A4/A5 families contain the truth.
+- E1 (matched supervision): composition with the declared channel is never worse than direct training on simulated channel data; better off-family and at small N in the low-noise regime ([E1 report](docs/reports/e1_report.md)).
+- **Consolidated claims and limits: [docs/findings_summary.md](docs/findings_summary.md).**
 - Not established (oracle results only): any learned-model advantage of one route over the other, that localisation is necessary, any poisoning defence or policy robustness.
 
 Report: [docs/reports/oracle_v1_report.md](docs/reports/oracle_v1_report.md) (tables: [oracle_v1_tables.md](docs/reports/oracle_v1_tables.md)).

@@ -60,3 +60,23 @@ Secondary physics (q_w=0.5; P1/P2 only for channel-trained arms): N=10³: A4 0.1
 3. Grid-edge selection at N=10⁵ again (A6pd all 12 epochs; A6d 12 epochs lead, 6 epochs secondary) — see [tuning.json](../../results/e1/tuning.json).
 4. The secondary physics has high variance at N=10³ (several inconclusive cells); 5 seeds.
 5. A6pd's poor vertex extrapolation (P3/P4, N=10⁵) shows that an in-family direct estimator is brittle at the prior's boundary independent of the supervision type.
+
+## 6. Opus evidence review (2026-10-04, `claude-opus-5-5`)
+
+Checked: provenance (all 20 units at clean commit `0ac6b34`), the C-a and C-d verdicts the conclusion rests on (re-read from `analysis.json`), and the claims in §2–4. **The measurements and the outcome mapping are correct.**
+
+**On the "residual confound" (§5.2): it is the mechanism, not a nuisance.** The two arm families have the same declared channel, the same physics, the same prefixes, the same backbone, and matched (density) supervision. They differ in *how* the channel is used:
+- composition (A4) applies the declared channel analytically at inference and learns only the clean law;
+- the direct arms learn the channel's effect from simulated corrupted records.
+
+"The clean law is easier to learn" is exactly the advantage composition can offer, so this cannot be removed without changing the question. The view-count difference (two corrupted views per step for the direct arms vs one clean view for A4) favours the direct arms, so it cannot explain A4's advantage.
+The fixed-prior comparison C-d at P1 has no prior-family burden and is the cleanest in-family test. It gives the same answer: on the lead physics at N=10³, A4 is better by ≥Δ_min (−0.0177 ± 0.0071, ratio 0.58). At N=10⁵ the difference is within Δ_min (ratio 0.22).
+
+**Verdict (within S2, the exogenous single-flip channel, physics-informed features, the one-step endpoint, 5 seeds):**
+1. **Composition is never worse than direct training on simulated channel data under matched supervision.** Outcome 3 occurred in no cell.
+2. **It is materially better off-family** (P3/P4: all cells, both N, ratios ≤ 0.06). Prior-conditioned *direct* models are brittle at the prior's boundary: the density-direct model was worse there than the probe-trained one.
+3. **In-family, it is materially better at small N in the low-noise physics** (q_w=0.02, N=10³: P2, P5 vs A6pd; P1 vs A6d; P1 vs A6pd inconclusive with ratio 0.61). At N=10⁵ it is equivalent within the practical threshold, though 2–20× lower in error ratio.
+   On the high-noise physics (q_w=0.5) no in-family advantage is detectable at N=10³ (ratios ≈ 1.0, wide CIs). There, all learned arms are poor: A4 is worse than the exact naive filter at P1.
+4. Together with the pilot: the **multi-view route (folded vs candidate) is immaterial**. The levers are (a) using the declared channel analytically rather than learning it, (b) how the clean components are supervised, and (c) exact Bayesian weighting.
+
+**Decision: stop the experimental phase.** The predeclared question is answered within its scope. The remaining open items are outside the current scope, not unresolved pilot details: external validity (generic features, unknown physics, other channels and simulators), closed-loop policy relevance, and poisoned training data. More seeds for the high-noise N=10³ cells would only tighten an already-practical "no detectable advantage". A consolidated statement is in [findings_summary.md](../findings_summary.md).
