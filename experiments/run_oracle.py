@@ -77,12 +77,22 @@ def provenance(config_path):
     )
 
 
+def make_channel(c):
+    """Cell channel: pi = "uniform" (default) or "lag0" (all corruption mass on the last recorded action, j = L-1)."""
+    pi = c.get("pi", "uniform")
+    if pi == "uniform":
+        return ChannelSpec.uniform(c["L"], c["beta"])
+    if pi == "lag0":
+        return ChannelSpec.point_mass(c["L"], c["beta"], c["L"] - 1)
+    raise ValueError(f"unknown pi spec {pi!r}")
+
+
 def make_cells(cfg):
     ph = cfg["physics"]
     cells = []
     for i, c in enumerate(cfg["cells"]):
         phys = Physics(rho=ph["rho"], c=ph["c"], q_a=ph["q_a"], q_w=c["q_w"], lam=ph["lam"], eta=c["eta"], L=c["L"])
-        cells.append(Cell(i, c["name"], c["role"], phys, ChannelSpec.uniform(c["L"], c["beta"])))
+        cells.append(Cell(c.get("cell_id", i), c["name"], c["role"], phys, make_channel(c)))
     return cells
 
 

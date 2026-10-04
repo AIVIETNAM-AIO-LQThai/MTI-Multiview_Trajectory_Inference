@@ -137,3 +137,24 @@ def test_T12_inference_sees_only_the_prefix(primary):
         with pytest.raises(TypeError):
             fn(smp, phys, chan) if fn in (inference.candidate_route, inference.folded_route) else fn(smp, phys)
     assert set(Prefix.__dataclass_fields__) == {"s", "a"}
+
+
+def test_priors_config_builds_lag0_channel():
+    """Task 0 cells: pi = "lag0" is a point mass on the last recorded action; default stays uniform."""
+    import os
+    import sys
+    import tomllib
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)), "experiments"))
+    from run_oracle import make_cells
+    root = os.path.dirname(os.path.dirname(__file__))
+    cfg = tomllib.load(open(os.path.join(root, "configs", "oracle_v1_priors.toml"), "rb"))
+    cells = make_cells(cfg)
+    assert len(cells) == 4 and all(c.cell_id >= 10 for c in cells)
+    for c in cells:
+        pi = c.chan.pi_arr
+        assert pi[-1] == 1.0 and pi[:-1].sum() == 0.0 and c.chan.L == c.phys.L == 8
+    base = make_cells(tomllib.load(open(os.path.join(root, "configs", "oracle_v1.toml"), "rb")))
+    assert [c.cell_id for c in base] == list(range(10)) and np.allclose(base[0].chan.pi_arr, 1 / 8)
+    # the defining property of the channel: only the last recorded action is ever flipped
+    theta = sample_theta(cells[1].chan, 5000, master=41)
+    assert set(np.unique(theta)) <= {-1, 7} and (theta == 7).mean() > 0.4
