@@ -1,5 +1,7 @@
 # Literature positioning and next research decision
 
+> **Status note (2026-10-05, consolidation).** This review precedes E4. Its recommendation was carried out. The proof of the L = 4 threshold and the classification of each contribution (known principle / structural corollary / empirical / possibly new) are now in [research_synthesis.md](research_synthesis.md) §4 and [consolidation_review.md](consolidation_review.md) §5. Where they differ, those documents supersede this one.
+
 Written by Opus 5.5 (`claude-opus-5-5`) on 2026-10-05. Branch `exp/channel-identification`, base `3d20dac`.
 Scope:
 - The evidence through E3 ([findings_summary.md](findings_summary.md) v5, C1–C24).
@@ -115,11 +117,8 @@ Characters: E[(−1)^{Σ_A}] = (1−2η)^{|A|} · (q_none + Σ_j q_j (−1)^{|A 
     - **β = 0 (T0):** at η' = 0.03 the ridge costs 3.0% (lead) and 1.6% (secondary) of VOI_clean, against a margin of 0.2%. It is material: this is the absorption case.
     - **β = 0.2–0.35:** the cost is 0.8–1.4% of VOI_clean, which is **below** the margin (10% of V₂, clipped at 1.2–2% of VOI_clean).
     - The "5% of V₂" above is likewise below that margin.
-- **L ≥ 4:**
-  - For η' < η, the convolution puts positive mass on patterns that no single flip produces (an isolated interior edge, for example), so it is excluded **for every channel**.
-  - For η' > η, a signed deconvolution must vanish on all non-footprint patterns, a polynomial system in (1−2η)/(1−2η'), which generically has only the trivial root.
-  - Pattern-level check, min over q' of TV, at η' ∈ {0.01 … 0.12}, η = 0.05: zero only at η' = η for L = 4, 5, 8 on the clean, uniform-0.2 and lag-0-0.2 truths. The LP is in [check_joint_identification.py](../experiments/check_joint_identification.py).
-  - **Minimum L = 4** because identification rests on isolated interior single edges, which corruption cannot create and which need at least three edges.
+- **L ≥ 4:** global identification holds. See the proof in [research_synthesis.md](research_synthesis.md) §4 (Proposition (ii)): a persistence η' < η would force a channel B_ν ∗ F with full support, which a footprint law cannot have once 2^{L−1} > L + 1. *(This replaces the earlier "generic root" argument and the grid-based pattern check, which were weaker; the LP in `experiments/check_joint_identification.py` remains a numerical consistency check.)*
+  - **Minimum L = 4:** the single-flip footprints fill the edge-pattern cube exactly when L ≤ 3.
 
 **Weak information.**
 - Near η, the pattern-level distance grows slowly. At |η' − η| = 0.005: TV 4.5e-3 at L = 4, 1.9e-2 at L = 8.
@@ -152,7 +151,7 @@ Characters: E[(−1)^{Σ_A}] = (1−2η)^{|A|} · (q_none + Σ_j q_j (−1)^{|A 
 > 1. **Exact multi-view routes are equivalent**, so multi-view consistency carries no population information. Any detection value of learned inconsistency is a finite-learner property.
 > 2. Composition's value is **bounded by the declared prior**. The harm is predictable (over-declared recent corruption).
 > 3. The channel is identified from unlabeled corrupted records for L ≥ 3 when the clean law is known, and adaptation then removes the prior risk. This is an instance of known-component mixture identifiability, measured at decision level.
-> 4. **Clean-law error is absorbed into inferred corruption.** With unknown persistence, clean persistence and channel are jointly unidentified for L ≤ 3 (an exact, decision-relevant ridge) and separated for L ≥ 4 within the Markov family. They are never separated against clean laws outside the family.
+> 4. **Clean-law error is absorbed into inferred corruption.** With unknown persistence, clean persistence and channel are jointly unidentified for L ≤ 3 (an exact, decision-relevant ridge) and separated for L ≥ 4 within the Markov family. Attribution to corruption is not identified against an allowed clean family that can reproduce the corrupted law (consolidation review D1; synthesis Proposition (v)).
 >
 > Items 1, 3 and the general form of 4 follow from known theory; the contribution is the exact decision-level characterisation in this setting and its measured sample costs. Item 4's L-threshold and the E4 sample-cost results are the candidates for novelty. That is pending a fuller search of the switching-model outlier literature.
 

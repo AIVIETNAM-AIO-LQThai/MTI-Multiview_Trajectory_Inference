@@ -1,5 +1,7 @@
 # E4 protocol: joint identification of clean persistence and channel
 
+> **Completion note (2026-10-05).** Status below ("proposed; awaiting user approval") is historical. E4 was approved, run (stage 0 at `3f868c5`, stage 1 at `ea8bca4` + the A1 patch) and reviewed; see [reports/e4_report.md](reports/e4_report.md) (§9 Opus review) and [consolidation_review.md](consolidation_review.md). Deviation: stage 1 took 4.29 h against the 4 h cap, with no cell dropped. The evaluation-set SE promised in §5 is in `results/e4/stage1/eval_se_check.json`.
+
 Drafted by Opus 5.5 on 2026-10-05, **before any E4 data**. Status: **proposed; awaiting user approval.** No code or runs exist yet.
 - Branch: a new `exp/joint-identification`, from the commit that contains this file.
 - Notation: [mathematical_specification.md](mathematical_specification.md), [e3_protocol.md](e3_protocol.md).

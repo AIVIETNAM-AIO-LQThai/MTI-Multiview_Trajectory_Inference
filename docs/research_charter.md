@@ -5,6 +5,8 @@ Recorded 2026-10-04 (Opus planning pass, branch `exp/oracle-evidence`, base `c25
 
 ## Question
 
+> **Completion note (2026-10-05).** The original question below was narrowed by evidence. The completed work is summarised in [research_synthesis.md](research_synthesis.md): *Identifiability and decision costs of action-sign corruption in switching trajectories*. The claims ledger below is historical; the current claim-to-evidence map is [consolidation_review.md](consolidation_review.md) §4 and [findings_summary.md](findings_summary.md).
+
 When a model learned from clean trajectories meets possibly contaminated trajectory evidence, how do
 different query structures (full record, sign-repaired candidates, sign-folded magnitude-retaining
 observers) estimate a decision-relevant belief under finite data and compute — and what accuracy or
@@ -79,7 +81,7 @@ checked, tests saved) · **measured** (finite-sample/MC result with uncertainty)
 | C15–C19, H-loc | Misspecification results (see findings_summary v4) | measured / analytic+verified / descriptive | [E2](reports/e2_report.md), [E2b](reports/e2b_report.md) reports | user decision: empirical Bayes, mode-dependent channel, or MTM question |
 | C20–C24 | Identification and adaptive composition (see findings_summary v6; C18/C20/C21/C23/C24 are instances of known theory) | verified / measured | [E3 report](reports/e3_report.md) | — |
 | C25–C26 | Joint (η, q) identification (L ≤ 3 unidentified, L ≥ 4 separated within family); per-record harm oracle; route gap is finite-learner only | analytic + verified (pattern level) | [literature_review.md](literature_review.md) | — (E4 done) |
-| C27–C28 | Joint identification removes within-family η-error absorption for L ≥ 4 (measured cost); family error absorbed persistently; small clean set equivalent | measured | [E4 report](reports/e4_report.md) | consolidation |
+| C27–C28 | Joint identification removes within-family η-error absorption for L ≥ 4 (measured cost); one mild family violation absorbed persistently over the measured n; extra clean prefixes: CV-30/100/1,000 equivalent to J-MLE in 4/10/15 of 16 cells (not an equal budget) | measured | [E4 report](reports/e4_report.md); [consolidation_review](consolidation_review.md) §4 | completed; see [research_synthesis](research_synthesis.md) |
 | C11 | Conclusions about learned estimation hold for physics-informed learners (LLR-type features; A4/A5 families contain the truth) | **scope qualification** | learned report §5 | generic-feature / unknown-physics study (out of current scope) |
 | C10 | Aware belief costs realised cost in natural-switch states and on clean records | **measured**: D = −0.56 ± 0.10 (switch edge), −0.047 ± 0.008 (clean) in primary | report §3 | check in learned arms |
 

@@ -2,7 +2,7 @@
 
 Comparing different conditional views and inference routes over trajectory evidence.
 
-## Research question
+## Research question (original motivation; the completed work is summarised in [docs/research_synthesis.md](docs/research_synthesis.md): *Identifiability and decision costs of action-sign corruption in switching trajectories*)
 
 When a model learned from clean trajectories meets possibly contaminated trajectory evidence, how do different query structures
 (full record, sign-repaired candidates, sign-folded magnitude-retaining observers) estimate a decision-relevant belief under finite
@@ -12,12 +12,12 @@ channel? Scope is provisional and is narrowed by evidence. See [docs/research_ch
 Three questions are kept separate: **information** (how much decision value awareness can recover under the declared channel),
 **estimation** (do learned routes differ at finite data/compute), **policy relevance** (does belief error matter downstream).
 
-## Current evidence status (2026-10-04)
+## Current evidence status (2026-10-05)
 
 The *information* question (exact oracle) and a first *estimation* pilot have been measured, on synthetic data from the declared switching-mode scalar model ("S2") with a
 single-flip action-sign channel and a one-step quadratic decision. Policy relevance beyond the one-step cost has not been tested.
 
-- Exact reference implemented and validated (enumeration cross-checks, mutation audit; the full current suite has 85 tests, all passing); candidate and folded exact routes agree to ≤ 1.5e-14.
+- Exact reference implemented and validated (enumeration cross-checks, mutation audit; the full current suite has 114 tests, all passing); candidate and folded exact routes agree to ≤ 1.5e-14.
 - Primary cell (L=8, q_w=0.5, β=0.2, η=0.05): V_2 (value of awareness) = 0.0712 ± 0.0031, irrecoverable loss I_loss = 0.2614 ± 0.0069,
   naive excess 0.331, clean-history value 4.01 — awareness is worth ~1.8% of the clean history's decision value here; 13% at L=8, q_w=0.02, β=0.5; < 1.6% at L=32.
 - Learned pilot (5 seeds, N=10³/10⁵, two physics, five priors; [report](docs/reports/learned_pilot_report.md)): the exact-composition arms with learned components (shared masked-belief model queried by folded or candidate routes, density scorer, fitted HMM)
@@ -27,11 +27,12 @@ single-flip action-sign channel and a one-step quadratic decision. Policy releva
 - E3 (channel identification, branch `exp/channel-identification`): the channel is identified from unlabeled prefixes for L ≥ 3 (not at L=1/2); likelihood adaptation removes declared-prior risk given data, but clean-law error is absorbed into inferred corruption ([E3 report](docs/reports/e3_report.md)).
 - Literature positioning ([docs/literature_review.md](docs/literature_review.md)):
   - Most aggregate results are instances of known theory (known-component mixture identifiability, EM/NPMLE, Bayes decisions under prior uncertainty, misspecified-likelihood pseudo-true parameters).
-  - With clean persistence unknown, persistence and channel are jointly unidentified for L ≤ 3 and separated within the Markov family for L ≥ 4.
+  - With clean persistence unknown, persistence and channel are jointly unidentified for L ≤ 3 and identified for L ≥ 4 (proof in the synthesis §4).
 - E4 (joint identification, branch `exp/joint-identification`):
   - With clean persistence unknown, joint likelihood estimation from corrupted records removes clean-law (η) error absorption for L ≥ 4 (equivalent to known η at L = 8, n = 10⁴). It fails at L = 3, as derived.
-  - A few hundred clean prefixes do as well.
-  - Errors in the clean model *family* are still absorbed ([E4 report](docs/reports/e4_report.md)).
+  - Extra clean prefixes (n_c = 30 / 100 / 1,000) match the joint estimator in 4 / 10 / 15 of 16 cells at n = 10⁴; this is extra information, not an equal budget.
+  - One mild violation of the clean model *family* left persistent spurious corruption over the measured n ([E4 report](docs/reports/e4_report.md)).
+- **Research synthesis (first thesis draft): [docs/research_synthesis.md](docs/research_synthesis.md); response to the external review and claim-to-evidence map: [docs/consolidation_review.md](docs/consolidation_review.md).**
 - **Consolidated claims and limits: [docs/findings_summary.md](docs/findings_summary.md).**
 - Not established (oracle results only): any learned-model advantage of one route over the other, that localisation is necessary, any poisoning defence or policy robustness.
 
@@ -46,7 +47,7 @@ Python ≥ 3.11 (results here were produced with 3.14.7), numpy, scipy; pytest a
 ```bash
 uv venv .venv
 uv pip install -e ".[dev]"
-.venv/Scripts/python -m pytest -v                          # 85 tests, ~15 s (Linux/macOS: .venv/bin/python)
+.venv/Scripts/python -m pytest -v                          # 114 tests, a few minutes (Linux/macOS: .venv/bin/python)
 .venv/Scripts/python tests/mutation_audit.py               # shows the tests fail on 6 deliberate bugs
 .venv/Scripts/python experiments/run_oracle.py --out results/oracle_v1   # all 10 cells, ~2.5 min on 18 workers
 .venv/Scripts/python experiments/make_report.py            # tables + figure in docs/reports/

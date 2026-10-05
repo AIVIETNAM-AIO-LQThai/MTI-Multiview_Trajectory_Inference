@@ -1,0 +1,48 @@
+{
+ "lead": {
+  "R": 20,
+  "n_eval_prefixes": 20000,
+  "voi": 3.170917599453914,
+  "delta_over_voi": 0.002,
+  "max_rel_err_recomputed_vs_saved": 0.0,
+  "J_minus_EX": {
+   "mean_over_voi": 7.18506210339411e-05,
+   "prefix_se_per_replicate_over_voi": [
+    6.003168367085837e-09,
+    3.924600702697688e-05
+   ],
+   "se_of_replicate_mean_independent_over_voi": 2.4501102027799636e-06
+  },
+  "ETAm_minus_J": {
+   "mean_over_voi": 0.02831390212548303,
+   "prefix_se_per_replicate_over_voi": [
+    0.0011558486885969283,
+    0.0018557894698798159
+   ],
+   "se_of_replicate_mean_independent_over_voi": 0.00035624116310864094
+  }
+ },
+ "sec": {
+  "R": 20,
+  "n_eval_prefixes": 20000,
+  "voi": 4.037641441803311,
+  "delta_over_voi": 0.002,
+  "max_rel_err_recomputed_vs_saved": 0.0,
+  "J_minus_EX": {
+   "mean_over_voi": 0.00011244646863800903,
+   "prefix_se_per_replicate_over_voi": [
+    5.901806136438428e-09,
+    6.644241291847827e-05
+   ],
+   "se_of_replicate_mean_independent_over_voi": 3.981225009994461e-06
+  },
+  "ETAm_minus_J": {
+   "mean_over_voi": 0.028288127849958242,
+   "prefix_se_per_replicate_over_voi": [
+    0.0010128925223423695,
+    0.0018458947708369414
+   ],
+   "se_of_replicate_mean_independent_over_voi": 0.0003156756669923653
+  }
+ }
+}
