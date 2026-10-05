@@ -110,7 +110,11 @@ Characters: E[(−1)^{Σ_A}] = (1−2η)^{|A|} · (q_none + Σ_j q_j (−1)^{|A 
     - β' = 0.230;
     - beliefs differ by up to 0.21;
     - mean regret of the ridge belief 0.028, which is **5% of V₂** = 0.565.
-  - Confounding at L = 3 is therefore real and decision-relevant.
+  - Confounding at L = 3 is therefore real.
+  - *Correction after E4 stage 0 (Opus, 2026-10-05).* Whether it matters for decisions depends on the truth:
+    - **β = 0 (T0):** at η' = 0.03 the ridge costs 3.0% (lead) and 1.6% (secondary) of VOI_clean, against a margin of 0.2%. It is material: this is the absorption case.
+    - **β = 0.2–0.35:** the cost is 0.8–1.4% of VOI_clean, which is **below** the margin (10% of V₂, clipped at 1.2–2% of VOI_clean).
+    - The "5% of V₂" above is likewise below that margin.
 - **L ≥ 4:**
   - For η' < η, the convolution puts positive mass on patterns that no single flip produces (an isolated interior edge, for example), so it is excluded **for every channel**.
   - For η' > η, a signed deconvolution must vanish on all non-footprint patterns, a polynomial system in (1−2η)/(1−2η'), which generically has only the trivial root.

@@ -176,3 +176,36 @@ No cells, truths or estimators are added after seeing results.
 - learned neural clean models;
 - real data;
 - policy or closed-loop relevance.
+
+## 9. Amendment A1: Opus review of stage 0 (2026-10-05, `claude-opus-5-5`), before any stage-1 data
+
+**Ruling on the fired stop rule.** The rule in §3 was mis-specified (my error). It compared the KL along the ridge with zero. That KL is computed against the **true** parameters, but q*(η') is fitted on the same 2 × 10⁵ records, so it carries an in-sample fitting gain of order d/(2n).
+- The proof is that the KL at η' = η itself, the truth, is already −4.3e-6 (lead) and −6.6e-6 (secondary) on T3. The rule as written would fire at the truth.
+- Measured relative to the fitted value at η (the profile deficit), the L = 3 ridge is flat to EM tolerance:
+  - **T3 and T6** (all q_j > 0): |deficit| ≤ 1e-9 for every η' in 0.01–0.06, in both physics. The ridge is two-sided, as derived.
+    - It extends above η only until the deconvolved channel reaches the simplex boundary.
+    - T3 is still flat at η' = 0.08 (≤ 7.6e-9).
+    - T6, whose smallest q_j ≈ 0.03 at L = 3, has already exited at η' = 0.08 (lead 1.3e-5, secondary 3.7e-8).
+  - **T0 and T4** (channels on the simplex boundary): flat to −1e-6 … −8e-6 for η' < η, where the fit gains a few free weights, and clearly positive for η' > η (≥ 1.7e-4). The ridge is **one-sided**, exactly as derived in literature_review §4.3.
+  - The profile Fisher information at L = 3 is ≤ 3e-13 of I_η in all cells.
+- **The derivation and code are confirmed. The stop is lifted.**
+
+**The rule is amended** (for the record, and for any rerun): the ridge KL is measured as the profile deficit KL(η') − KL(η), with threshold |·| ≤ 1e-6 for two-sided truths (T3, T6) on η' ≤ 0.06. For boundary truths only η' < η is checked. The stage-0 data are unchanged. The stage-1 hypothesis, margins and comparisons are not touched by this amendment.
+
+**Stage-0 results that carry into stage 1:**
+- **Record-level separation at L ≥ 4 (C25 upgraded).**
+  - Profile information is 0.21–0.51 of I_η at L = 4 and 0.61–0.81 at L = 8.
+  - The profile deficit at η' = 0.03 is 6.6e-4 to 4.4e-3 at L = 4, and 1.1e-2 to 2.4e-2 at L = 8.
+- **C22 cross-check.** At L = 8 lead T0, the pseudo-true channel at η' = 0.03 is β* = 0.052, against E3's β̂ ≈ 0.054 at n = 10⁴. Its regret is 2.9% of VOI_clean, against a margin of 0.2%.
+- **The L = 3 ridge is material for decisions only at β = 0** (C25 wording corrected).
+- **Prediction recorded before stage 1.** Predicted SE(η̂) at n = 10⁴ is 0.0011–0.0016 (L = 8) and 0.0025–0.0064 (L = 4). H-E4 is **predicted to hold** at n = 10⁴.
+
+**A1 also fixes the following before stage 1:**
+1. **P7 scope.** The Fisher formula treats q as interior. P7 (measured SD(η̂) against predicted SE, band [0.7, 1.4]) is therefore evaluated on the interior truths **T3 and T6** only. T0 and T4 are reported descriptively.
+2. **F1 streams.** `run_f1_job` uses master 8501 with the same cell and chunk as the main lead-L8 jobs, so its first persistence class shares common random numbers with those adaptation sets. Its evaluation halves likewise reuse master 8601, cell 0. This does not bias F1, which is descriptive, but it breaks the protocol's disjoint-streams intent. Fix:
+   - F1 adaptation cell = task id + 300 on both masters;
+   - F1 evaluation cells = 2 and 3.
+   - Add an assertion test on these cell ids.
+3. **Smoke run and timing first.** Run `--smoke` and time one full L = 8, n = 10⁵ job. If the projection exceeds 4 h, apply the §7 reduction order. Record the projection in the report.
+
+No other changes.

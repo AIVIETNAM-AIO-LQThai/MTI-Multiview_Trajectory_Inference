@@ -1,9 +1,9 @@
 # Research status (replace in place)
 
-**Phase:** E4 approved by the user (2026-10-05). Stage 0 run and **a stop rule fired literally: STOPPED, awaiting Opus.** Stage 1 not started.
-**Updated:** by Sonnet 5.5 (`claude-sonnet-5-5`). Branch `exp/joint-identification` (from `329d7c3`).
+**Phase:** E4 stage 0 complete and reviewed by Opus 5.5 (2026-10-05). The stop rule was mis-specified; **stop lifted** by amendment A1 ([e4_protocol.md](e4_protocol.md) §9). **Next: Sonnet applies the A1 fixes, smoke and timing, then the full stage 1.**
+**Updated:** by Opus 5.5 (`claude-opus-5-5`). Branch `exp/joint-identification`, HEAD `3f868c5`.
 
-## Stage-0 stop (protocol section 3)
+## Stage-0 stop (protocol section 3), resolved by A1
 - Rule: "At L = 3 on T3, if KL along the ridge exceeds 1e-6 ... the derivation or the code is wrong. Stop."
 - Observed (`results/e4/stage0/summary.md`): KL = -4.3e-6 (lead) and -6.6e-6 (secondary) at every eta' from 0.01 to 0.08, identical to the digits shown; I_prof/I_eta = 1.4e-14. At eta' = 0.12, KL = +3.9e-3 (the ridge ends where the channel leaves the simplex).
 - Reading, to be confirmed by Opus: the constant negative offset is the in-sample likelihood gain of the fitted (eta', q*) over the true parameters (about d/(2n) = 3.75e-6 for 3 free weights at n = 2e5), not ridge curvature. The rule as written is violated in sign-blind form (KL > 1e-6 in absolute value); the ridge itself is exact. No threshold was changed by Sonnet.
