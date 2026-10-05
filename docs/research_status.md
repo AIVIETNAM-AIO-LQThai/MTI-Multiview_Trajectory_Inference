@@ -1,7 +1,8 @@
 # Research status (replace in place)
 
-**Phase:** E4 stage 0 complete and reviewed by Opus 5.5 (2026-10-05). The stop rule was mis-specified; **stop lifted** by amendment A1 ([e4_protocol.md](e4_protocol.md) §9). **Next: Sonnet applies the A1 fixes, smoke and timing, then the full stage 1.**
-**Updated:** by Opus 5.5 (`claude-opus-5-5`). Branch `exp/joint-identification`, HEAD `3f868c5`.
+**Phase:** E4 stage 1 complete (500/500 jobs, 4.29 h vs 4 h cap; no design change). Report: [reports/e4_report.md](reports/e4_report.md). **Awaiting Opus evidence review.** Claim ledger not yet updated for E4.
+**Updated:** by Sonnet 5.5 (`claude-sonnet-5-5`). Branch `exp/joint-identification` at `ea8bca4` (+ uncommitted A1 code fixes, stage-1 results and report).
+**Headline (Sonnet's reading; Opus to adjudicate):** H-E4 holds. At L = 8, n = 10⁴, β = 0, J-MLE is equivalent to known-η (CI within 0.0001-0.0002 VOI vs margin 0.002) and better than η̂ = 0.03 by 0.028 VOI, in both physics. L = 4 likewise. L = 3 (control): J-MLE fails as derived. CV-1000 (a clean set of 1,000) is equivalent to J-MLE in 15 of 16 L ≥ 4 cells; CV-30 is not. F1: no visible absorption.
 
 ## Stage-0 stop (protocol section 3), resolved by A1
 - Rule: "At L = 3 on T3, if KL along the ridge exceeds 1e-6 ... the derivation or the code is wrong. Stop."

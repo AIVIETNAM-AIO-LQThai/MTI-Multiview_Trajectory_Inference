@@ -41,6 +41,7 @@ ETA_TRUE = 0.05
 PHYS = {"lead": Physics(0.9, 1.0, 1.0, 0.02, 0.1, ETA_TRUE, 8), "sec": Physics(0.9, 1.0, 1.0, 0.5, 0.1, ETA_TRUE, 8)}
 NCS = (30, 100, 1_000)
 F1_TRUTHS, F1_NS, F1_R = ("T0", "T3"), (1_000, 10_000, 30_000), 10
+F1_ADAPT_OFFSET, F1_CLEAN_OFFSET, F1_EVAL_CELLS = 300, 500, (2, 3)    # amendment A1: F1 streams disjoint from the main jobs
 
 
 def truths(L):
@@ -156,7 +157,7 @@ def run_f1_job(job):
     wt = truth.view_weights()
     mo = MixtureOracle(phys)
     n_half = job.get("n_eval", N_EVAL) // 2
-    tlo, thi = TestSet(phys.with_(eta=0.02), n_half, 0, master=MASTER_EVAL), TestSet(phys.with_(eta=0.08), n_half, 1, master=MASTER_EVAL)
+    tlo, thi = TestSet(phys.with_(eta=0.02), n_half, F1_EVAL_CELLS[0], master=MASTER_EVAL), TestSet(phys.with_(eta=0.08), n_half, F1_EVAL_CELLS[1], master=MASTER_EVAL)
     ev = Prefix(np.concatenate([tlo.s_rec, thi.s_rec]), np.concatenate([tlo.a_rec, thi.a_rec]))
     kap = np.concatenate([tlo.kap, thi.kap])
     n_ev, V = len(kap), L + 1
@@ -182,9 +183,10 @@ def run_f1_job(job):
 
     nmax = max(F1_NS) if not job.get("ns") else max(job["ns"])
     ns = [n for n in (job.get("ns") or F1_NS)]
-    Hc, _, _ = interleave_persistence(phys, nmax, MASTER_ADAPT, MASTER_F1B, tid, r)
-    S = apply_channel(Hc, sample_theta(truth, nmax, MASTER_ADAPT, tid, r))
-    Hcv, _, _ = interleave_persistence(phys, max(NCS), MASTER_CLEAN, MASTER_F1B, tid + 500, r)
+    tf = tid + F1_ADAPT_OFFSET
+    Hc, _, _ = interleave_persistence(phys, nmax, MASTER_ADAPT, MASTER_F1B, tf, r)
+    S = apply_channel(Hc, sample_theta(truth, nmax, MASTER_ADAPT, tf, r))
+    Hcv, _, _ = interleave_persistence(phys, max(NCS), MASTER_CLEAN, MASTER_F1B, tid + F1_CLEAN_OFFSET, r)
     eta_cv = clean_eta_mle(Hcv, phys)
     pg = profile_grid(S, phys, ns)
     gi = {e: int(np.argmin(np.abs(ETA_GRID - e))) for e in (0.03, ETA_TRUE, 0.08)}

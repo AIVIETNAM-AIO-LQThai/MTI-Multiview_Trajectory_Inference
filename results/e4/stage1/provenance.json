@@ -1,0 +1,9 @@
+{
+ "git_commit": "ea8bca430fc2d5dfe3b93b8e8ea8c275f7c01ae6",
+ "branch": "exp/joint-identification",
+ "patch_sha256": "795bf052662646b4",
+ "untracked_code_hashes": {},
+ "python": "3.14.7",
+ "numpy": "2.5.3",
+ "command": "experiments/run_e4.py --out results/e4/stage1 --workers 18"
+}

@@ -142,3 +142,16 @@ def test_TE4_7_ex_mle_reproduces_e3():
     assert abs((1 - w[0]) - beta_e3) < 1e-6
     wf, _, _ = fit_channel(llS, logell)
     assert abs((1 - wf[0]) - beta_e3) < 1e-4
+
+
+def test_TE4_8_f1_streams_disjoint_from_main_jobs():
+    """Amendment A1: F1 adaptation, clean and evaluation cells never coincide with a main-job cell on the same master."""
+    import sys
+    sys.path.insert(0, os.path.join(ROOT, "experiments"))
+    import run_e4
+    main_tids = {run_e4.task_id(pn, L, j) for pn in run_e4.PHYS for L in run_e4.LS for j in range(4)}
+    f1_tids = {run_e4.task_id("lead", 8, j) for j in range(4)}
+    f1_adapt = {t + run_e4.F1_ADAPT_OFFSET for t in f1_tids}
+    f1_clean = {t + run_e4.F1_CLEAN_OFFSET for t in f1_tids}
+    assert not (f1_adapt & main_tids) and not (f1_clean & main_tids) and not (f1_adapt & f1_clean)
+    assert not (set(run_e4.F1_EVAL_CELLS) & {0}) and len(set(run_e4.F1_EVAL_CELLS)) == 2
