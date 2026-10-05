@@ -1,4 +1,4 @@
-# MTI findings summary — v6 (phase 1 corrected + E2/E2b + E3 + literature positioning, 2026-10-05)
+# MTI findings summary — v7 (phase 1 corrected + E2/E2b + E3 + literature positioning + E4 joint identification, 2026-10-05)
 
 v1 overstated two claims ("never worse", "the route does not matter") and attributed a pipeline difference to supervision alone. This version replaces it;
 the corrections are documented in [e1_report.md](reports/e1_report.md) §7 and [learned_pilot_report.md](reports/learned_pilot_report.md) §6.
@@ -42,8 +42,14 @@ the corrections are documented in [e1_report.md](reports/e1_report.md) §7 and [
 - Learned route gaps vanish for a converged learner, so any detection value they have is a property of the finite learner (C26).
 - The harm-relevant per-record target is κ(μ − μ₂)², not the corruption posterior (C26).
 
+**Joint identification (E4):**
+- With η unknown, joint profile-likelihood estimation from corrupted records alone removes the η-error absorption of C22 for L ≥ 4. At L = 8, n = 10⁴ it is equivalent to knowing η, in both physics.
+- At L = 3 it fails at every n, as derived.
+- A clean set of a few hundred to 1,000 prefixes does as well.
+- Error *of* the clean family is still absorbed and is not removed by data. A mild violation (record-heterogeneous persistence) left persistent spurious corruption β̂ ≈ 0.01, immaterial at that size.
+
 **Most important unresolved questions:**
-- The sample cost of joint (η, q) estimation at L ≥ 4, and whether it removes the C22 harm at practical n. This is proposed E4, [e4_protocol.md](e4_protocol.md), awaiting approval.
+- How large family-error absorption becomes for stronger violations of the clean family (dose–response untested).
 - Validating the clean *family* from corrupted records alone. This is impossible in general; it needs clean data or external knowledge.
 - The original MTM question (per-record detection) remains untested and is deprioritised (literature_review §4.1–4.2).
 
@@ -69,17 +75,19 @@ the corrections are documented in [e1_report.md](reports/e1_report.md) §7 and [
 | H-loc | Harm tracks overstatement of the lag-0 (recent) corruption rate | **supported descriptively** (AUC 0.990 vs 0.913 for the overall rate; no harm at lag-0 ratio ≤ 1.5); not causal; one grid/simulator | E2b §4, §6 |
 | C20 | Channel identification from unlabeled prefixes: L=1 rate unidentified, L=2 allocation unidentified (both decision-relevant); L ≥ 3 with η < ½ identified via residual–action cross-moments | **verified**; instance of known-component mixture identifiability (Teicher 1963; Yakowitz & Spragins 1968), not MPE-type | [E3](reports/e3_report.md) §2, §5 |
 | C21 | Full-simplex MLE adaptation removes declared-prior risk given data and a correct clean law (near-oracle by n=10⁴; beats fixed q̄ from n=10 where q̄ harms); small-n boundary bias at β=0 (mean loss 2% → 0.03% of VOI_clean) | **measured** | E3 §3, §5 |
-| C22 | Clean-law error is absorbed into the inferred channel and not removed by data *at fixed clean law* (pseudo-true parameter, White 1982; joint estimation: C25, E4) (η̂=0.03 → β̂≈0.054 at β=0, harm 1.00 at n=10⁴; A4-10³ β̂ 0.020) | **measured; predicted sign confirmed** | E3 §3.3, §5 |
+| C22 | Clean-law error is absorbed into the inferred channel and not removed by data *at fixed clean law*; within-family (η) error is removed by joint estimation for L ≥ 4 (C27); family error is not (C28) (pseudo-true parameter, White 1982; joint estimation: C25, E4) (η̂=0.03 → β̂≈0.054 at β=0, harm 1.00 at n=10⁴; A4-10³ β̂ 0.020) | **measured; predicted sign confirmed** | E3 §3.3, §5 |
 | C23 | Restricted-family Bayesian adaptation fails off-family; shrinkage helps only near its target (a correctly specified PP would be Bayes-optimal) | **measured**; known mechanism (Kleijn & van der Vaart 2012) | E3 §3 |
 | C24 | Aggregate channel information is present in plain residual–action moments (moment estimator identifies; 1.6–41× MLE regret) | **measured**; raises the bar for any MTM detection claim | E3 §3, §5 |
-| C25 | Joint (η, q) identification with η unknown: L = 2, 3 unidentified (exact ridge η' < η with larger channel; L = 3 record-level check: log-lik diff 5e-15; ridge regret material only at β = 0); L ≥ 4 separated for all tested truths, at pattern level and at record level (E4 stage 0: profile Fisher information 0.21–0.51 of I_η at L = 4, 0.61–0.81 at L = 8; L = 3 ≤ 3e-13); minimum L = 4 (isolated interior edges); never identified against clean families containing the corrupted law | **analytic + verified** (pattern and record level, population approximation n = 2×10⁵); finite-sample cost: E4 stage 1 | [literature_review §4.3](literature_review.md); `experiments/check_joint_identification.py`; `results/e4/stage0/` |
+| C25 | Joint (η, q) identification with η unknown: L = 2, 3 unidentified (exact ridge η' < η with larger channel; L = 3 record-level check: log-lik diff 5e-15; ridge regret material only at β = 0); L ≥ 4 separated for all tested truths, at pattern level and at record level (E4 stage 0: profile Fisher information 0.21–0.51 of I_η at L = 4, 0.61–0.81 at L = 8; L = 3 ≤ 3e-13); minimum L = 4 (isolated interior edges); never identified against clean families containing the corrupted law | **analytic + verified + measured** (pattern/record level; estimation confirms: J-MLE fails at L = 3 at every n, succeeds at L ≥ 4) | [literature_review §4.3](literature_review.md); `experiments/check_joint_identification.py`; `results/e4/stage0/` |
 | C26 | Per-record harm oracle h*(S) = κ(μ − μ₂)² + κVar_θ(μ(T_θS)\|S); the recoverable part κ(μ − μ₂)² is the decision-relevant detection target; learned route gap = Ẑ⁻¹Σq_jĈ_j/(1−r̂_j) vanishes for a converged learner | **analytic** | literature_review §4.1–4.2 |
+| C27 | Joint (η, q) profile likelihood from corrupted prefixes alone removes η-error absorption for L ≥ 4: L = 8, n = 10⁴, β = 0, equivalent to known-η (CI ≤ 0.0002 vs margin 0.002 VOI) and better than η̂ = 0.03 by 0.028 VOI, both physics; L = 4 likewise; crossover with no corruption 10³–10⁴; stage-0 Fisher SE calibrated (23/24 ratios in [0.7, 1.4]) | **measured** | [E4](reports/e4_report.md) §2–5, §9 |
+| C28 | Family error is absorbed persistently: record-heterogeneous persistence (Var η_r = 0.0009) gives β̂ ≈ 0.010 at n = 10⁴ and 3×10⁴ (in-family 0.0045 → 0.0026); immaterial at this size (0.0007 VOI); a clean set of 100–1,000 prefixes matches J-MLE (CV-1000 equivalent in 15/16 cells) | **measured** (one mild violation; scaling untested) | E4 §4, §6, §9 |
 | C5 | (s_L, μ̃) recalibration | lower bound only | oracle §5, §11 |
 | C6 | Contaminated queries are harder | descriptive (4–6×); not isolated from target difficulty | pilot §3.3 |
 | C11 | Learned results hold for physics-informed learners only | scope qualification | pilot §5 |
 | — | Multi-view consistency detects harmful trajectories beyond residual/rarity/dynamics signals (the original MTM question) | **not addressed**; deprioritised: route gap is a finite-learner diagnostic (C26); closest predecessor RDT (residual-based correction) | literature_review §2, §4 |
-| C9 | MTM/DT poisoning defence; closed-loop control benefit; thesis-level novelty | **not established**; candidate novelty limited to C25 and E4's sample costs, pending a fuller switching-model outlier search | literature_review §5 |
+| C9 | MTM/DT poisoning defence; closed-loop control benefit; thesis-level novelty | **not established**; candidate novelty limited to C25/C27 (L = 4 threshold, estimation confirmation, measured costs), pending a fuller switching-model outlier search | literature_review §5 |
 
 ## Next experiment
 
-Proposed (awaiting user approval): E4, joint identification of clean persistence and channel, [e4_protocol.md](e4_protocol.md). Rationale: [literature_review.md](literature_review.md) §1.
+None scheduled; E4 done. Recommended next step: consolidation (synthesis, no new experiments). See [research_status.md](research_status.md).

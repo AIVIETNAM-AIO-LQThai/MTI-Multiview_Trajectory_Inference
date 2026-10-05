@@ -1,36 +1,21 @@
 # Research status (replace in place)
 
-**Phase:** E4 stage 1 complete (500/500 jobs, 4.29 h vs 4 h cap; no design change). Report: [reports/e4_report.md](reports/e4_report.md). **Awaiting Opus evidence review.** Claim ledger not yet updated for E4.
-**Updated:** by Sonnet 5.5 (`claude-sonnet-5-5`). Branch `exp/joint-identification` at `ea8bca4` (+ uncommitted A1 code fixes, stage-1 results and report).
-**Headline (Sonnet's reading; Opus to adjudicate):** H-E4 holds. At L = 8, n = 10⁴, β = 0, J-MLE is equivalent to known-η (CI within 0.0001-0.0002 VOI vs margin 0.002) and better than η̂ = 0.03 by 0.028 VOI, in both physics. L = 4 likewise. L = 3 (control): J-MLE fails as derived. CV-1000 (a clean set of 1,000) is equivalent to J-MLE in 15 of 16 L ≥ 4 cells; CV-30 is not. F1: no visible absorption.
-
-## Stage-0 stop (protocol section 3), resolved by A1
-- Rule: "At L = 3 on T3, if KL along the ridge exceeds 1e-6 ... the derivation or the code is wrong. Stop."
-- Observed (`results/e4/stage0/summary.md`): KL = -4.3e-6 (lead) and -6.6e-6 (secondary) at every eta' from 0.01 to 0.08, identical to the digits shown; I_prof/I_eta = 1.4e-14. At eta' = 0.12, KL = +3.9e-3 (the ridge ends where the channel leaves the simplex).
-- Reading, to be confirmed by Opus: the constant negative offset is the in-sample likelihood gain of the fitted (eta', q*) over the true parameters (about d/(2n) = 3.75e-6 for 3 free weights at n = 2e5), not ridge curvature. The rule as written is violated in sign-blind form (KL > 1e-6 in absolute value); the ridge itself is exact. No threshold was changed by Sonnet.
-- Other stop rules: none fired (L=8 KL(0.03) 1.1e-2 to 2.4e-2; I_prof/I_eta 0.61-0.81 at L=8, 0.21-0.51 at L=4).
-- Stage-0 prediction recorded before stage 1: predicted SE(eta_hat) at n = 1e4 is 0.0011-0.0016 (L=8), 0.0025-0.0064 (L=4), none above 0.01 -> H-E4 is **not** predicted to fail at 1e4.
+**Phase:** E4 (joint identification of clean persistence and channel) complete and reviewed by Opus 5.5 (2026-10-05). **Experimental work stopped.**
+**Updated:** 2026-10-05 by Opus 5.5 (`claude-opus-5-5`). Branch `exp/joint-identification` at `7b95b9d`.
 
 ## Provenance
-Uncommitted:
-- `docs/literature_review.md` and `docs/e4_protocol.md`;
-- updated findings_summary (v6), charter, README and this file;
-- the derivation check `experiments/check_joint_identification.py`, with output in `results/derivation_checks/joint_identification.json`. It runs no estimators and no training (about 1 min).
-
-The user makes all git commits. Pushing is done only when the user asks.
+- E4 stage 0: `3f868c5`.
+- Stage 1: run at `ea8bca4` + the A1 patch (`results/e4/stage1/code_patch.diff`), committed in `7b95b9d`.
+- Uncommitted: the Opus review (e4_report §9), findings_summary v7, charter, README and this file.
+- The user makes all git commits. Pushing is done only when the user asks.
 
 ## Where things stand
-- Claims: [findings_summary.md](findings_summary.md) v6 (C1–C26).
-- Positioning: [literature_review.md](literature_review.md). Most aggregate results are instances of known theory measured at decision level.
-- The candidate contribution is C25 (joint identification threshold L = 4) together with E4's sample costs.
-- The per-record MTM question is deprioritised: the route gap is a finite-learner diagnostic (C26).
+- Claims: [findings_summary.md](findings_summary.md) v7 (C1–C28). Positioning: [literature_review.md](literature_review.md).
+- E4 result: within-family clean-law (η) error is removable from corrupted records alone for L ≥ 4, at measured cost. L = 3 is not. Family error is absorbed persistently. A few hundred clean prefixes do as well as joint estimation.
 
-## Next (needs user approval)
-**E4: joint identification of clean persistence and channel.** Protocol: [e4_protocol.md](e4_protocol.md).
-- Stage 0 is an exact-law diagnostic.
-- Stage 1 compares deployable estimators against known-η, absorption and clean-validation baselines.
-- No neural training.
-- Hand to Sonnet 5.5 on a new branch `exp/joint-identification` after approval.
+## Recommended next step (needs user decision)
+**Consolidation:** a synthesis of phases 1–E4 against the revised contribution statement, with no new experiments.
+- Optional, only if the thesis needs it: a family-violation dose–response (absorbed β̂ and regret against the excess short-excursion rate), exact-law first, cheap.
 
 ## On resume
-Read this file, findings_summary.md and literature_review.md. Do not rerun completed work.
+Read this file, findings_summary.md, literature_review.md and reports/e4_report.md §9. Do not rerun completed work.

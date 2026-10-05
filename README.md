@@ -28,7 +28,10 @@ single-flip action-sign channel and a one-step quadratic decision. Policy releva
 - Literature positioning ([docs/literature_review.md](docs/literature_review.md)):
   - Most aggregate results are instances of known theory (known-component mixture identifiability, EM/NPMLE, Bayes decisions under prior uncertainty, misspecified-likelihood pseudo-true parameters).
   - With clean persistence unknown, persistence and channel are jointly unidentified for L ≤ 3 and separated within the Markov family for L ≥ 4.
-  - Proposed next study: [docs/e4_protocol.md](docs/e4_protocol.md), awaiting approval.
+- E4 (joint identification, branch `exp/joint-identification`):
+  - With clean persistence unknown, joint likelihood estimation from corrupted records removes clean-law (η) error absorption for L ≥ 4 (equivalent to known η at L = 8, n = 10⁴). It fails at L = 3, as derived.
+  - A few hundred clean prefixes do as well.
+  - Errors in the clean model *family* are still absorbed ([E4 report](docs/reports/e4_report.md)).
 - **Consolidated claims and limits: [docs/findings_summary.md](docs/findings_summary.md).**
 - Not established (oracle results only): any learned-model advantage of one route over the other, that localisation is necessary, any poisoning defence or policy robustness.
 
