@@ -1,7 +1,14 @@
 # Research status (replace in place)
 
-**Phase:** literature positioning complete (Opus 5.5, 2026-10-05). **E4 proposed, awaiting user approval**; no E4 code or runs exist.
-**Updated:** 2026-10-05 by Opus 5.5 (`claude-opus-5-5`). Branch `exp/channel-identification` at `3d20dac` (= origin).
+**Phase:** E4 approved by the user (2026-10-05). Stage 0 run and **a stop rule fired literally: STOPPED, awaiting Opus.** Stage 1 not started.
+**Updated:** by Sonnet 5.5 (`claude-sonnet-5-5`). Branch `exp/joint-identification` (from `329d7c3`).
+
+## Stage-0 stop (protocol section 3)
+- Rule: "At L = 3 on T3, if KL along the ridge exceeds 1e-6 ... the derivation or the code is wrong. Stop."
+- Observed (`results/e4/stage0/summary.md`): KL = -4.3e-6 (lead) and -6.6e-6 (secondary) at every eta' from 0.01 to 0.08, identical to the digits shown; I_prof/I_eta = 1.4e-14. At eta' = 0.12, KL = +3.9e-3 (the ridge ends where the channel leaves the simplex).
+- Reading, to be confirmed by Opus: the constant negative offset is the in-sample likelihood gain of the fitted (eta', q*) over the true parameters (about d/(2n) = 3.75e-6 for 3 free weights at n = 2e5), not ridge curvature. The rule as written is violated in sign-blind form (KL > 1e-6 in absolute value); the ridge itself is exact. No threshold was changed by Sonnet.
+- Other stop rules: none fired (L=8 KL(0.03) 1.1e-2 to 2.4e-2; I_prof/I_eta 0.61-0.81 at L=8, 0.21-0.51 at L=4).
+- Stage-0 prediction recorded before stage 1: predicted SE(eta_hat) at n = 1e4 is 0.0011-0.0016 (L=8), 0.0025-0.0064 (L=4), none above 0.01 -> H-E4 is **not** predicted to fail at 1e4.
 
 ## Provenance
 Uncommitted:

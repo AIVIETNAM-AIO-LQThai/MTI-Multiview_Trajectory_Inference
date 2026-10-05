@@ -1,0 +1,14 @@
+{
+ "git_commit": "329d7c3beb848833352a733bb6dc56dccb7d4b64",
+ "branch": "exp/joint-identification",
+ "patch_sha256": "e3b0c44298fc1c14",
+ "untracked_code_hashes": {
+  "experiments/run_e4.py": "431bdf351a8716f5",
+  "experiments/run_e4_stage0.py": "b49a7d3a7922d19f",
+  "src/mti/joint.py": "31d2c238548ccb4d",
+  "tests/test_e4.py": "d280a4aa31d3be7c"
+ },
+ "python": "3.14.7",
+ "numpy": "2.5.3",
+ "command": "experiments/run_e4_stage0.py --out results/e4/stage0"
+}
