@@ -1,0 +1,1441 @@
+{
+ "tolerances": {
+  "hmm": 1e-12,
+  "loglik": 1e-12
+ },
+ "cells": {
+  "lead_L2_T0": {
+   "physics": "lead",
+   "truth": "T0",
+   "eta": 0.05,
+   "beta": 0.0,
+   "h": 0.9,
+   "r": 0.9,
+   "voi_ref": 3.104826260511664,
+   "margin_ref_raw": 0.006209652521023328,
+   "margin_ref_over_voi": 0.002,
+   "E_kappa": 3.9451413112566014,
+   "n_prefixes": 20000,
+   "truth_uv": [
+    0.9,
+    0.81
+   ],
+   "truth_in_triangle": true,
+   "vertices": {
+    "A": [
+     0.9,
+     0.81
+    ],
+    "B": [
+     0.9,
+     1.0
+    ],
+    "C": [
+     1.0,
+     0.9
+    ]
+   },
+   "vertex_worlds": {
+    "A": {
+     "eta": 0.04999999999999999,
+     "q0": 0.0,
+     "q1": 0.0
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.04999999999999999
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.04999999999999999,
+     "q1": 0.0
+    }
+   },
+   "G": [
+    [
+     16.64709080290219,
+     -14.594117940134806
+    ],
+    [
+     -14.594117940134806,
+     16.611654727751016
+    ]
+   ],
+   "G_monte_carlo_1e6": [
+    [
+     16.719535215630387,
+     -14.673528666191126
+    ],
+    [
+     -14.673528666191126,
+     16.694205882209694
+    ]
+   ],
+   "G_rel_diff_mc": 0.004958893745223387,
+   "angle_inner_products": {
+    "A": 0.006771054981980995,
+    "B": 0.5929096806898304,
+    "C": 0.031560133419397576
+   },
+   "angle_cosines": {
+    "A": 0.044660147126955915,
+    "B": 0.9688861937791778,
+    "C": 0.20398910072368434
+   },
+   "checks": {
+    "truth": {
+     "eta": 0.05,
+     "q0": 0.0,
+     "q1": 0.0,
+     "uv": [
+      0.9,
+      0.81
+     ],
+     "max_abs_formula_vs_hmm": 3.9968028886505635e-15,
+     "max_abs_loglik_diff_vs_truth": 0.0
+    },
+    "A": {
+     "eta": 0.04999999999999999,
+     "q0": 0.0,
+     "q1": 0.0,
+     "uv": [
+      0.9,
+      0.81
+     ],
+     "max_abs_formula_vs_hmm": 3.9968028886505635e-15,
+     "max_abs_loglik_diff_vs_truth": 1.7763568394002505e-15
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.04999999999999999,
+     "uv": [
+      0.9,
+      1.0
+     ],
+     "max_abs_formula_vs_hmm": 4.6629367034256575e-15,
+     "max_abs_loglik_diff_vs_truth": 1.7763568394002505e-15
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.04999999999999999,
+     "q1": 0.0,
+     "uv": [
+      1.0,
+      0.9
+     ],
+     "max_abs_formula_vs_hmm": 4.6629367034256575e-15,
+     "max_abs_loglik_diff_vs_truth": 1.7763568394002505e-15
+    }
+   },
+   "minimax_on_fresh_mc_G": {
+    "kind": "circumcentre",
+    "V_star_raw": 0.15720539200165998,
+    "least_favourable_weights": {
+     "A": 0.09092045742859867,
+     "B": 0.4954191176795727,
+     "C": 0.41366042489182864
+    }
+   },
+   "minimax": {
+    "kind": "circumcentre",
+    "V_star_raw": 0.1564294565744463,
+    "center_uv": [
+     0.9412499691936846,
+     0.9412400329952598
+    ],
+    "least_favourable_weights": {
+     "A": 0.09215788321608193,
+     "B": 0.49534242484707175,
+     "C": 0.4124996919368463
+    },
+    "n_support": 3
+   },
+   "endpoint_pair_lower_bound": {
+    "d2_over_4_raw": 0.156117453527307,
+    "V_over_lower": 1.0019985148366817
+   },
+   "jung_upper_bound_raw": 0.20815660470307598,
+   "farthest_pair_midpoint_worst_raw": 0.1628885085092879,
+   "eta_known_segment": {
+    "endpoints_uv": [
+     [
+      0.9,
+      0.81
+     ],
+     [
+      0.9,
+      0.81
+     ]
+    ],
+    "V_star_raw": 0.0,
+    "note": "affine dimension 1: V* = d^2/4 exactly; the endpoint midpoint is minimax"
+   },
+   "normalised": {
+    "V_star_over_Ekappa": 0.03965116689942358,
+    "V_star_over_voi_ref": 0.05038267633972772,
+    "lower_over_voi_ref": 0.05028218664369948,
+    "segment_V_over_voi_ref": 0.0,
+    "V_star_over_margin": 25.191338169863858,
+    "segment_V_over_margin": 0.0
+   },
+   "checks_ok": true
+  },
+  "lead_L2_T3": {
+   "physics": "lead",
+   "truth": "T3",
+   "eta": 0.05,
+   "beta": 0.2,
+   "h": 0.54,
+   "r": 0.9,
+   "voi_ref": 3.104826260511664,
+   "margin_ref_raw": 0.06209652521023328,
+   "margin_ref_over_voi": 0.02,
+   "E_kappa": 3.9451413112566014,
+   "n_prefixes": 20000,
+   "truth_uv": [
+    0.63,
+    0.7290000000000001
+   ],
+   "truth_in_triangle": true,
+   "vertices": {
+    "A": [
+     0.54,
+     0.2916
+    ],
+    "B": [
+     0.54,
+     1.0
+    ],
+    "C": [
+     1.0,
+     0.54
+    ]
+   },
+   "vertex_worlds": {
+    "A": {
+     "eta": 0.22999999999999998,
+     "q0": 0.0,
+     "q1": 0.0
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.22999999999999998
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.22999999999999998,
+     "q1": 0.0
+    }
+   },
+   "G": [
+    [
+     4.8992051938939625,
+     -2.4535265093857688
+    ],
+    [
+     -2.453526509385769,
+     4.876862854705657
+    ]
+   ],
+   "G_monte_carlo_1e6": [
+    [
+     4.884121726192235,
+     -2.4449392000532426
+    ],
+    [
+     -2.4449392000532426,
+     4.865857263487857
+    ]
+   ],
+   "G_rel_diff_mc": 0.003078758105605938,
+   "angle_inner_products": {
+    "A": 0.058648817679850196,
+    "B": 2.3887099997402883,
+    "C": 0.7182384181154483
+   },
+   "angle_cosines": {
+    "A": 0.04253353164447509,
+    "B": 0.866258645897931,
+    "C": 0.46229864122046105
+   },
+   "checks": {
+    "truth": {
+     "eta": 0.05,
+     "q0": 0.05,
+     "q1": 0.15000000000000002,
+     "uv": [
+      0.63,
+      0.7290000000000001
+     ],
+     "max_abs_formula_vs_hmm": 7.494005416219807e-16,
+     "max_abs_loglik_diff_vs_truth": 1.7763568394002505e-15
+    },
+    "A": {
+     "eta": 0.22999999999999998,
+     "q0": 0.0,
+     "q1": 0.0,
+     "uv": [
+      0.54,
+      0.2916
+     ],
+     "max_abs_formula_vs_hmm": 6.140921104957897e-16,
+     "max_abs_loglik_diff_vs_truth": 1.7763568394002505e-15
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.22999999999999998,
+     "uv": [
+      0.54,
+      1.0
+     ],
+     "max_abs_formula_vs_hmm": 3.774758283725532e-15,
+     "max_abs_loglik_diff_vs_truth": 1.7763568394002505e-15
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.22999999999999998,
+     "q1": 0.0,
+     "uv": [
+      1.0,
+      0.54
+     ],
+     "max_abs_formula_vs_hmm": 3.774758283725532e-15,
+     "max_abs_loglik_diff_vs_truth": 1.7763568394002505e-15
+    }
+   },
+   "minimax_on_fresh_mc_G": {
+    "kind": "circumcentre",
+    "V_star_raw": 0.7759005234765739,
+    "least_favourable_weights": {
+     "A": 0.04880038444699897,
+     "B": 0.48872903196361006,
+     "C": 0.46247058358939097
+    }
+   },
+   "minimax": {
+    "kind": "circumcentre",
+    "V_star_raw": 0.7781448473298388,
+    "center_uv": [
+     0.7530222049918622,
+     0.7529704582652014
+    ],
+    "least_favourable_weights": {
+     "A": 0.048005839558069474,
+     "B": 0.48890241045962135,
+     "C": 0.4630917499823092
+    },
+    "n_support": 3
+   },
+   "endpoint_pair_lower_bound": {
+    "d2_over_4_raw": 0.7767371044639342,
+    "V_over_lower": 1.00181238009336
+   },
+   "jung_upper_bound_raw": 1.035649472618579,
+   "farthest_pair_midpoint_worst_raw": 0.8353859221437843,
+   "eta_known_segment": {
+    "endpoints_uv": [
+     [
+      0.54,
+      0.81
+     ],
+     [
+      0.9,
+      0.48600000000000004
+     ]
+    ],
+    "V_star_raw": 0.42981230306843776,
+    "note": "affine dimension 1: V* = d^2/4 exactly; the endpoint midpoint is minimax"
+   },
+   "normalised": {
+    "V_star_over_Ekappa": 0.19724131176482118,
+    "V_star_over_voi_ref": 0.25062428040711154,
+    "lower_over_voi_ref": 0.25017087569206875,
+    "segment_V_over_voi_ref": 0.13843360851940434,
+    "V_star_over_margin": 12.531214020355577,
+    "segment_V_over_margin": 6.921680425970216
+   },
+   "checks_ok": true
+  },
+  "lead_L2_T4": {
+   "physics": "lead",
+   "truth": "T4",
+   "eta": 0.05,
+   "beta": 0.35,
+   "h": 0.2700000000000001,
+   "r": 0.9,
+   "voi_ref": 3.104826260511664,
+   "margin_ref_raw": 0.06209652521023328,
+   "margin_ref_over_voi": 0.02,
+   "E_kappa": 3.9451413112566014,
+   "n_prefixes": 20000,
+   "truth_uv": [
+    0.2700000000000001,
+    0.81
+   ],
+   "truth_in_triangle": true,
+   "vertices": {
+    "A": [
+     0.2700000000000001,
+     0.07290000000000003
+    ],
+    "B": [
+     0.2700000000000001,
+     1.0
+    ],
+    "C": [
+     1.0,
+     0.2700000000000001
+    ]
+   },
+   "vertex_worlds": {
+    "A": {
+     "eta": 0.365,
+     "q0": 0.0,
+     "q1": 0.0
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.365
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.365,
+     "q1": 0.0
+    }
+   },
+   "G": [
+    [
+     3.8439263833747557,
+     -0.9459276073283761
+    ],
+    [
+     -0.945927607328376,
+     3.822653304110068
+    ]
+   ],
+   "G_monte_carlo_1e6": [
+    [
+     3.830016832765355,
+     -0.9400888292073525
+    ],
+    [
+     -0.9400888292073524,
+     3.812765733620976
+    ]
+   ],
+   "G_rel_diff_mc": 0.0036185788233511562,
+   "angle_inner_products": {
+    "A": 0.05833110433067157,
+    "B": 3.2272944949860443,
+    "C": 1.866395464365201
+   },
+   "angle_cosines": {
+    "A": 0.023195655027729935,
+    "B": 0.7888842888656753,
+    "C": 0.5960777296498502
+   },
+   "checks": {
+    "truth": {
+     "eta": 0.05,
+     "q0": 0.0,
+     "q1": 0.35,
+     "uv": [
+      0.2700000000000001,
+      0.81
+     ],
+     "max_abs_formula_vs_hmm": 6.661338147750939e-16,
+     "max_abs_loglik_diff_vs_truth": 0.0
+    },
+    "A": {
+     "eta": 0.365,
+     "q0": 0.0,
+     "q1": 0.0,
+     "uv": [
+      0.27,
+      0.0729
+     ],
+     "max_abs_formula_vs_hmm": 2.636779683484747e-16,
+     "max_abs_loglik_diff_vs_truth": 1.7763568394002505e-15
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.365,
+     "uv": [
+      0.27,
+      1.0
+     ],
+     "max_abs_formula_vs_hmm": 3.6637359812630166e-15,
+     "max_abs_loglik_diff_vs_truth": 1.7763568394002505e-15
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.365,
+     "q1": 0.0,
+     "uv": [
+      1.0,
+      0.27
+     ],
+     "max_abs_formula_vs_hmm": 3.552713678800501e-15,
+     "max_abs_loglik_diff_vs_truth": 1.7763568394002505e-15
+    }
+   },
+   "minimax_on_fresh_mc_G": {
+    "kind": "circumcentre",
+    "V_star_raw": 1.26943478212746,
+    "least_favourable_weights": {
+     "A": 0.02441984093424332,
+     "B": 0.49105866743693527,
+     "C": 0.48452149162882147
+    }
+   },
+   "minimax": {
+    "kind": "circumcentre",
+    "V_star_raw": 1.2741080088878403,
+    "center_uv": [
+     0.6241287802317108,
+     0.6240802827176433
+    ],
+    "least_favourable_weights": {
+     "A": 0.02350440842481505,
+     "B": 0.4913876734495538,
+     "C": 0.48510791812563114
+    },
+    "n_support": 3
+   },
+   "endpoint_pair_lower_bound": {
+    "d2_over_4_raw": 1.2734224898378113,
+    "V_over_lower": 1.0005383280533362
+   },
+   "jung_upper_bound_raw": 1.6978966531170816,
+   "farthest_pair_midpoint_worst_raw": 1.3317535941684822,
+   "eta_known_segment": {
+    "endpoints_uv": [
+     [
+      0.2700000000000001,
+      0.81
+     ],
+     [
+      0.9,
+      0.24300000000000008
+     ]
+    ],
+    "V_star_raw": 0.8575962427185049,
+    "note": "affine dimension 1: V* = d^2/4 exactly; the endpoint midpoint is minimax"
+   },
+   "normalised": {
+    "V_star_over_Ekappa": 0.32295624120039773,
+    "V_star_over_voi_ref": 0.4103637054003376,
+    "lower_over_voi_ref": 0.41014291396387376,
+    "segment_V_over_voi_ref": 0.27621392334435363,
+    "V_star_over_margin": 20.51818527001688,
+    "segment_V_over_margin": 13.810696167217682
+   },
+   "checks_ok": true
+  },
+  "lead_L2_T6": {
+   "physics": "lead",
+   "truth": "T6",
+   "eta": 0.05,
+   "beta": 0.2,
+   "h": 0.54,
+   "r": 0.9,
+   "voi_ref": 3.104826260511664,
+   "margin_ref_raw": 0.06209652521023328,
+   "margin_ref_over_voi": 0.02,
+   "E_kappa": 3.9451413112566014,
+   "n_prefixes": 20000,
+   "truth_uv": [
+    0.66,
+    0.7020000000000001
+   ],
+   "truth_in_triangle": true,
+   "vertices": {
+    "A": [
+     0.54,
+     0.2916
+    ],
+    "B": [
+     0.54,
+     1.0
+    ],
+    "C": [
+     1.0,
+     0.54
+    ]
+   },
+   "vertex_worlds": {
+    "A": {
+     "eta": 0.22999999999999998,
+     "q0": 0.0,
+     "q1": 0.0
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.22999999999999998
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.22999999999999998,
+     "q1": 0.0
+    }
+   },
+   "G": [
+    [
+     4.8992051938939625,
+     -2.4535265093857674
+    ],
+    [
+     -2.4535265093857674,
+     4.876862854705659
+    ]
+   ],
+   "G_monte_carlo_1e6": [
+    [
+     4.884121726192235,
+     -2.4449392000532426
+    ],
+    [
+     -2.4449392000532426,
+     4.865857263487857
+    ]
+   ],
+   "G_rel_diff_mc": 0.003078758105605938,
+   "angle_inner_products": {
+    "A": 0.05864881767985097,
+    "B": 2.3887099997402883,
+    "C": 0.7182384181154481
+   },
+   "angle_cosines": {
+    "A": 0.04253353164447564,
+    "B": 0.8662586458979308,
+    "C": 0.46229864122046077
+   },
+   "checks": {
+    "truth": {
+     "eta": 0.05,
+     "q0": 0.06666666666666667,
+     "q1": 0.13333333333333333,
+     "uv": [
+      0.66,
+      0.7020000000000001
+     ],
+     "max_abs_formula_vs_hmm": 6.245004513516506e-16,
+     "max_abs_loglik_diff_vs_truth": 0.0
+    },
+    "A": {
+     "eta": 0.22999999999999998,
+     "q0": 0.0,
+     "q1": 0.0,
+     "uv": [
+      0.54,
+      0.2916
+     ],
+     "max_abs_formula_vs_hmm": 6.140921104957897e-16,
+     "max_abs_loglik_diff_vs_truth": 1.7763568394002505e-15
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.22999999999999998,
+     "uv": [
+      0.54,
+      1.0
+     ],
+     "max_abs_formula_vs_hmm": 3.774758283725532e-15,
+     "max_abs_loglik_diff_vs_truth": 1.7763568394002505e-15
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.22999999999999998,
+     "q1": 0.0,
+     "uv": [
+      1.0,
+      0.54
+     ],
+     "max_abs_formula_vs_hmm": 3.774758283725532e-15,
+     "max_abs_loglik_diff_vs_truth": 1.7763568394002505e-15
+    }
+   },
+   "minimax_on_fresh_mc_G": {
+    "kind": "circumcentre",
+    "V_star_raw": 0.7759005234765739,
+    "least_favourable_weights": {
+     "A": 0.04880038444699897,
+     "B": 0.48872903196361006,
+     "C": 0.46247058358939097
+    }
+   },
+   "minimax": {
+    "kind": "circumcentre",
+    "V_star_raw": 0.7781448473298381,
+    "center_uv": [
+     0.7530222049918616,
+     0.7529704582652009
+    ],
+    "least_favourable_weights": {
+     "A": 0.04800583955807103,
+     "B": 0.48890241045962124,
+     "C": 0.46309174998230773
+    },
+    "n_support": 3
+   },
+   "endpoint_pair_lower_bound": {
+    "d2_over_4_raw": 0.7767371044639341,
+    "V_over_lower": 1.0018123800933594
+   },
+   "jung_upper_bound_raw": 1.0356494726185788,
+   "farthest_pair_midpoint_worst_raw": 0.8353859221437852,
+   "eta_known_segment": {
+    "endpoints_uv": [
+     [
+      0.54,
+      0.81
+     ],
+     [
+      0.9,
+      0.48600000000000004
+     ]
+    ],
+    "V_star_raw": 0.42981230306843765,
+    "note": "affine dimension 1: V* = d^2/4 exactly; the endpoint midpoint is minimax"
+   },
+   "normalised": {
+    "V_star_over_Ekappa": 0.19724131176482101,
+    "V_star_over_voi_ref": 0.2506242804071113,
+    "lower_over_voi_ref": 0.25017087569206875,
+    "segment_V_over_voi_ref": 0.13843360851940428,
+    "V_star_over_margin": 12.531214020355565,
+    "segment_V_over_margin": 6.921680425970214
+   },
+   "checks_ok": true
+  },
+  "sec_L2_T0": {
+   "physics": "sec",
+   "truth": "T0",
+   "eta": 0.05,
+   "beta": 0.0,
+   "h": 0.9,
+   "r": 0.9,
+   "voi_ref": 3.5634932162049853,
+   "margin_ref_raw": 0.007126986432409971,
+   "margin_ref_over_voi": 0.002,
+   "E_kappa": 5.797884506529695,
+   "n_prefixes": 20000,
+   "truth_uv": [
+    0.9,
+    0.81
+   ],
+   "truth_in_triangle": true,
+   "vertices": {
+    "A": [
+     0.9,
+     0.81
+    ],
+    "B": [
+     0.9,
+     1.0
+    ],
+    "C": [
+     1.0,
+     0.9
+    ]
+   },
+   "vertex_worlds": {
+    "A": {
+     "eta": 0.04999999999999999,
+     "q0": 0.0,
+     "q1": 0.0
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.04999999999999999
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.04999999999999999,
+     "q1": 0.0
+    }
+   },
+   "G": [
+    [
+     9.02301692853745,
+     -6.5999877193845835
+    ],
+    [
+     -6.599987719384583,
+     8.95843865104768
+    ]
+   ],
+   "G_monte_carlo_1e6": [
+    [
+     8.360171541402227,
+     -5.914881488644536
+    ],
+    [
+     -5.914881488644536,
+     8.264496210602541
+    ]
+   ],
+   "G_rel_diff_mc": 0.0769080282062179,
+   "angle_inner_products": {
+    "A": 0.02778953426460823,
+    "B": 0.29561010103821284,
+    "C": 0.016204209145329967
+   },
+   "angle_cosines": {
+    "A": 0.232978608300971,
+    "B": 0.9308966892153107,
+    "C": 0.13835165540276392
+   },
+   "checks": {
+    "truth": {
+     "eta": 0.05,
+     "q0": 0.0,
+     "q1": 0.0,
+     "uv": [
+      0.9,
+      0.81
+     ],
+     "max_abs_formula_vs_hmm": 3.885780586188048e-15,
+     "max_abs_loglik_diff_vs_truth": 0.0
+    },
+    "A": {
+     "eta": 0.04999999999999999,
+     "q0": 0.0,
+     "q1": 0.0,
+     "uv": [
+      0.9,
+      0.81
+     ],
+     "max_abs_formula_vs_hmm": 3.885780586188048e-15,
+     "max_abs_loglik_diff_vs_truth": 3.552713678800501e-15
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.04999999999999999,
+     "uv": [
+      0.9,
+      1.0
+     ],
+     "max_abs_formula_vs_hmm": 3.6637359812630166e-15,
+     "max_abs_loglik_diff_vs_truth": 3.552713678800501e-15
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.04999999999999999,
+     "q1": 0.0,
+     "uv": [
+      1.0,
+      0.9
+     ],
+     "max_abs_formula_vs_hmm": 4.3298697960381105e-15,
+     "max_abs_loglik_diff_vs_truth": 3.552713678800501e-15
+    }
+   },
+   "minimax_on_fresh_mc_G": {
+    "kind": "circumcentre",
+    "V_star_raw": 0.0759749374458877,
+    "least_favourable_weights": {
+     "A": 0.3344048189213266,
+     "B": 0.48221157472169734,
+     "C": 0.18338360635697606
+    }
+   },
+   "minimax": {
+    "kind": "circumcentre",
+    "V_star_raw": 0.0824276717736621,
+    "center_uv": [
+     0.9194734952357965,
+     0.9193467890350199
+    ],
+    "least_favourable_weights": {
+     "A": 0.32199850383780904,
+     "B": 0.4832665438042265,
+     "C": 0.1947349523579645
+    },
+    "n_support": 3
+   },
+   "endpoint_pair_lower_bound": {
+    "d2_over_4_raw": 0.08084990882570528,
+    "V_over_lower": 1.0195147152405346
+   },
+   "jung_upper_bound_raw": 0.1077998784342737,
+   "farthest_pair_midpoint_worst_raw": 0.09705411797103523,
+   "eta_known_segment": {
+    "endpoints_uv": [
+     [
+      0.9,
+      0.81
+     ],
+     [
+      0.9,
+      0.81
+     ]
+    ],
+    "V_star_raw": 0.0,
+    "note": "affine dimension 1: V* = d^2/4 exactly; the endpoint midpoint is minimax"
+   },
+   "normalised": {
+    "V_star_over_Ekappa": 0.014216853005752423,
+    "V_star_over_voi_ref": 0.023131143171206913,
+    "lower_over_voi_ref": 0.022688385783376917,
+    "segment_V_over_voi_ref": 0.0,
+    "V_star_over_margin": 11.565571585603456,
+    "segment_V_over_margin": 0.0
+   },
+   "checks_ok": true
+  },
+  "sec_L2_T3": {
+   "physics": "sec",
+   "truth": "T3",
+   "eta": 0.05,
+   "beta": 0.2,
+   "h": 0.54,
+   "r": 0.9,
+   "voi_ref": 3.5634932162049853,
+   "margin_ref_raw": 0.04810941492025035,
+   "margin_ref_over_voi": 0.013500633227382836,
+   "E_kappa": 5.797884506529695,
+   "n_prefixes": 20000,
+   "truth_uv": [
+    0.63,
+    0.7290000000000001
+   ],
+   "truth_in_triangle": true,
+   "vertices": {
+    "A": [
+     0.54,
+     0.2916
+    ],
+    "B": [
+     0.54,
+     1.0
+    ],
+    "C": [
+     1.0,
+     0.54
+    ]
+   },
+   "vertex_worlds": {
+    "A": {
+     "eta": 0.22999999999999998,
+     "q0": 0.0,
+     "q1": 0.0
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.22999999999999998
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.22999999999999998,
+     "q1": 0.0
+    }
+   },
+   "G": [
+    [
+     4.03423080442647,
+     -1.3684341169141536
+    ],
+    [
+     -1.3684341169141536,
+     3.9606407570098665
+    ]
+   ],
+   "G_monte_carlo_1e6": [
+    [
+     3.990365475386994,
+     -1.3169559507277024
+    ],
+    [
+     -1.3169559507277024,
+     3.909047725758772
+    ]
+   ],
+   "G_rel_diff_mc": 0.01278881495686496,
+   "angle_inner_products": {
+    "A": 0.2510169143327084,
+    "B": 1.7365536547163765,
+    "C": 0.5342824859616216
+   },
+   "angle_cosines": {
+    "A": 0.20092041896169588,
+    "B": 0.8173988624276383,
+    "C": 0.4000924963932452
+   },
+   "checks": {
+    "truth": {
+     "eta": 0.05,
+     "q0": 0.05,
+     "q1": 0.15000000000000002,
+     "uv": [
+      0.63,
+      0.7290000000000001
+     ],
+     "max_abs_formula_vs_hmm": 9.43689570931383e-16,
+     "max_abs_loglik_diff_vs_truth": 1.7763568394002505e-15
+    },
+    "A": {
+     "eta": 0.22999999999999998,
+     "q0": 0.0,
+     "q1": 0.0,
+     "uv": [
+      0.54,
+      0.2916
+     ],
+     "max_abs_formula_vs_hmm": 6.938893903907228e-16,
+     "max_abs_loglik_diff_vs_truth": 3.552713678800501e-15
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.22999999999999998,
+     "uv": [
+      0.54,
+      1.0
+     ],
+     "max_abs_formula_vs_hmm": 3.3653635433950058e-15,
+     "max_abs_loglik_diff_vs_truth": 3.552713678800501e-15
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.22999999999999998,
+     "q1": 0.0,
+     "uv": [
+      1.0,
+      0.54
+     ],
+     "max_abs_formula_vs_hmm": 2.220446049250313e-15,
+     "max_abs_loglik_diff_vs_truth": 3.552713678800501e-15
+    }
+   },
+   "minimax_on_fresh_mc_G": {
+    "kind": "circumcentre",
+    "V_star_raw": 0.5825462086933713,
+    "least_favourable_weights": {
+     "A": 0.19584092293015398,
+     "B": 0.4537924240743537,
+     "C": 0.35036665299549224
+    }
+   },
+   "minimax": {
+    "kind": "circumcentre",
+    "V_star_raw": 0.591590980177656,
+    "center_uv": [
+     0.7030644334622868,
+     0.7021401095164045
+    ],
+    "least_favourable_weights": {
+     "A": 0.19028155988327045,
+     "B": 0.4552305412856714,
+     "C": 0.35448789883105813
+    },
+    "n_support": 3
+   },
+   "endpoint_pair_lower_bound": {
+    "d2_over_4_raw": 0.5677090351694996,
+    "V_over_lower": 1.0420672272743132
+   },
+   "jung_upper_bound_raw": 0.7569453802259994,
+   "farthest_pair_midpoint_worst_raw": 0.8187259495022079,
+   "eta_known_segment": {
+    "endpoints_uv": [
+     [
+      0.54,
+      0.81
+     ],
+     [
+      0.9,
+      0.48600000000000004
+     ]
+    ],
+    "V_star_raw": 0.31445921178881797,
+    "note": "affine dimension 1: V* = d^2/4 exactly; the endpoint midpoint is minimax"
+   },
+   "normalised": {
+    "V_star_over_Ekappa": 0.10203566137121121,
+    "V_star_over_voi_ref": 0.16601434162618747,
+    "lower_over_voi_ref": 0.1593125062194149,
+    "segment_V_over_voi_ref": 0.08824465004137365,
+    "V_star_over_margin": 12.296781849422198,
+    "segment_V_over_margin": 6.536334152267043
+   },
+   "checks_ok": true
+  },
+  "sec_L2_T4": {
+   "physics": "sec",
+   "truth": "T4",
+   "eta": 0.05,
+   "beta": 0.35,
+   "h": 0.2700000000000001,
+   "r": 0.9,
+   "voi_ref": 3.5634932162049853,
+   "margin_ref_raw": 0.07126986432409971,
+   "margin_ref_over_voi": 0.02,
+   "E_kappa": 5.797884506529695,
+   "n_prefixes": 20000,
+   "truth_uv": [
+    0.2700000000000001,
+    0.81
+   ],
+   "truth_in_triangle": true,
+   "vertices": {
+    "A": [
+     0.2700000000000001,
+     0.07290000000000003
+    ],
+    "B": [
+     0.2700000000000001,
+     1.0
+    ],
+    "C": [
+     1.0,
+     0.2700000000000001
+    ]
+   },
+   "vertex_worlds": {
+    "A": {
+     "eta": 0.365,
+     "q0": 0.0,
+     "q1": 0.0
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.365
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.365,
+     "q1": 0.0
+    }
+   },
+   "G": [
+    [
+     3.501512987187814,
+     -0.5527422255708839
+    ],
+    [
+     -0.552742225570884,
+     3.4224593918795168
+    ]
+   ],
+   "G_monte_carlo_1e6": [
+    [
+     3.48119760054148,
+     -0.531324248831512
+    ],
+    [
+     -0.531324248831512,
+     3.403112713743793
+    ]
+   ],
+   "G_rel_diff_mc": 0.006116777752286329,
+   "angle_inner_products": {
+    "A": 0.2513042886973473,
+    "B": 2.6903488762629344,
+    "C": 1.5885486685554941
+   },
+   "angle_cosines": {
+    "A": 0.10802209843600463,
+    "B": 0.7583102472661921,
+    "C": 0.5661650070686123
+   },
+   "checks": {
+    "truth": {
+     "eta": 0.05,
+     "q0": 0.0,
+     "q1": 0.35,
+     "uv": [
+      0.2700000000000001,
+      0.81
+     ],
+     "max_abs_formula_vs_hmm": 1.033895191682177e-15,
+     "max_abs_loglik_diff_vs_truth": 0.0
+    },
+    "A": {
+     "eta": 0.365,
+     "q0": 0.0,
+     "q1": 0.0,
+     "uv": [
+      0.27,
+      0.0729
+     ],
+     "max_abs_formula_vs_hmm": 3.0878077872387166e-16,
+     "max_abs_loglik_diff_vs_truth": 1.7763568394002505e-15
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.365,
+     "uv": [
+      0.27,
+      1.0
+     ],
+     "max_abs_formula_vs_hmm": 3.219646771412954e-15,
+     "max_abs_loglik_diff_vs_truth": 3.552713678800501e-15
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.365,
+     "q1": 0.0,
+     "uv": [
+      1.0,
+      0.27
+     ],
+     "max_abs_formula_vs_hmm": 1.887379141862766e-15,
+     "max_abs_loglik_diff_vs_truth": 3.552713678800501e-15
+    }
+   },
+   "minimax_on_fresh_mc_G": {
+    "kind": "circumcentre",
+    "V_star_raw": 1.072481465931234,
+    "least_favourable_weights": {
+     "A": 0.10483984878811181,
+     "B": 0.4610793220795256,
+     "C": 0.43408082913236257
+    }
+   },
+   "minimax": {
+    "kind": "circumcentre",
+    "V_star_raw": 1.0823541316851797,
+    "center_uv": [
+     0.5888656646638739,
+     0.5879482055192939
+    ],
+    "least_favourable_weights": {
+     "A": 0.10051356899669106,
+     "B": 0.4626841506418379,
+     "C": 0.436802280361471
+    },
+    "n_support": 3
+   },
+   "endpoint_pair_lower_bound": {
+    "d2_over_4_raw": 1.0697243862046073,
+    "V_over_lower": 1.0118065416133804
+   },
+   "jung_upper_bound_raw": 1.426299181606143,
+   "farthest_pair_midpoint_worst_raw": 1.321028674901954,
+   "eta_known_segment": {
+    "endpoints_uv": [
+     [
+      0.2700000000000001,
+      0.81
+     ],
+     [
+      0.9,
+      0.24300000000000008
+     ]
+    ],
+    "V_star_raw": 0.7212309132107869,
+    "note": "affine dimension 1: V* = d^2/4 exactly; the endpoint midpoint is minimax"
+   },
+   "normalised": {
+    "V_star_over_Ekappa": 0.18668087135337216,
+    "V_star_over_voi_ref": 0.3037340233350731,
+    "lower_over_voi_ref": 0.30018981973644165,
+    "segment_V_over_voi_ref": 0.20239435560898203,
+    "V_star_over_margin": 15.186701166753654,
+    "segment_V_over_margin": 10.119717780449102
+   },
+   "checks_ok": true
+  },
+  "sec_L2_T6": {
+   "physics": "sec",
+   "truth": "T6",
+   "eta": 0.05,
+   "beta": 0.2,
+   "h": 0.54,
+   "r": 0.9,
+   "voi_ref": 3.5634932162049853,
+   "margin_ref_raw": 0.03823038879214618,
+   "margin_ref_over_voi": 0.0107283461683871,
+   "E_kappa": 5.797884506529695,
+   "n_prefixes": 20000,
+   "truth_uv": [
+    0.66,
+    0.7020000000000001
+   ],
+   "truth_in_triangle": true,
+   "vertices": {
+    "A": [
+     0.54,
+     0.2916
+    ],
+    "B": [
+     0.54,
+     1.0
+    ],
+    "C": [
+     1.0,
+     0.54
+    ]
+   },
+   "vertex_worlds": {
+    "A": {
+     "eta": 0.22999999999999998,
+     "q0": 0.0,
+     "q1": 0.0
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.22999999999999998
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.22999999999999998,
+     "q1": 0.0
+    }
+   },
+   "G": [
+    [
+     4.03423080442647,
+     -1.3684341169141538
+    ],
+    [
+     -1.3684341169141538,
+     3.960640757009868
+    ]
+   ],
+   "G_monte_carlo_1e6": [
+    [
+     3.990365475386994,
+     -1.3169559507277024
+    ],
+    [
+     -1.3169559507277024,
+     3.909047725758772
+    ]
+   ],
+   "G_rel_diff_mc": 0.01278881495686529,
+   "angle_inner_products": {
+    "A": 0.2510169143327085,
+    "B": 1.7365536547163771,
+    "C": 0.5342824859616215
+   },
+   "angle_cosines": {
+    "A": 0.20092041896169593,
+    "B": 0.8173988624276382,
+    "C": 0.40009249639324496
+   },
+   "checks": {
+    "truth": {
+     "eta": 0.05,
+     "q0": 0.06666666666666667,
+     "q1": 0.13333333333333333,
+     "uv": [
+      0.66,
+      0.7020000000000001
+     ],
+     "max_abs_formula_vs_hmm": 8.049116928532385e-16,
+     "max_abs_loglik_diff_vs_truth": 0.0
+    },
+    "A": {
+     "eta": 0.22999999999999998,
+     "q0": 0.0,
+     "q1": 0.0,
+     "uv": [
+      0.54,
+      0.2916
+     ],
+     "max_abs_formula_vs_hmm": 6.938893903907228e-16,
+     "max_abs_loglik_diff_vs_truth": 3.552713678800501e-15
+    },
+    "B": {
+     "eta": 0.0,
+     "q0": 0.0,
+     "q1": 0.22999999999999998,
+     "uv": [
+      0.54,
+      1.0
+     ],
+     "max_abs_formula_vs_hmm": 3.3653635433950058e-15,
+     "max_abs_loglik_diff_vs_truth": 3.552713678800501e-15
+    },
+    "C": {
+     "eta": 0.0,
+     "q0": 0.22999999999999998,
+     "q1": 0.0,
+     "uv": [
+      1.0,
+      0.54
+     ],
+     "max_abs_formula_vs_hmm": 2.220446049250313e-15,
+     "max_abs_loglik_diff_vs_truth": 3.552713678800501e-15
+    }
+   },
+   "minimax_on_fresh_mc_G": {
+    "kind": "circumcentre",
+    "V_star_raw": 0.5825462086933713,
+    "least_favourable_weights": {
+     "A": 0.19584092293015398,
+     "B": 0.4537924240743537,
+     "C": 0.35036665299549224
+    }
+   },
+   "minimax": {
+    "kind": "circumcentre",
+    "V_star_raw": 0.5915909801776559,
+    "center_uv": [
+     0.7030644334622865,
+     0.7021401095164044
+    ],
+    "least_favourable_weights": {
+     "A": 0.190281559883271,
+     "B": 0.4552305412856714,
+     "C": 0.35448789883105764
+    },
+    "n_support": 3
+   },
+   "endpoint_pair_lower_bound": {
+    "d2_over_4_raw": 0.5677090351694998,
+    "V_over_lower": 1.0420672272743126
+   },
+   "jung_upper_bound_raw": 0.7569453802259997,
+   "farthest_pair_midpoint_worst_raw": 0.8187259495022081,
+   "eta_known_segment": {
+    "endpoints_uv": [
+     [
+      0.54,
+      0.81
+     ],
+     [
+      0.9,
+      0.48600000000000004
+     ]
+    ],
+    "V_star_raw": 0.3144592117888181,
+    "note": "affine dimension 1: V* = d^2/4 exactly; the endpoint midpoint is minimax"
+   },
+   "normalised": {
+    "V_star_over_Ekappa": 0.10203566137121119,
+    "V_star_over_voi_ref": 0.16601434162618744,
+    "lower_over_voi_ref": 0.15931250621941498,
+    "segment_V_over_voi_ref": 0.08824465004137368,
+    "V_star_over_margin": 15.474364736232785,
+    "segment_V_over_margin": 8.225373105633148
+   },
+   "checks_ok": true
+  }
+ },
+ "failed_cells": [],
+ "_provenance": {
+  "git_commit": "08dd58e86ed4d127004e356c3329b389356b1548",
+  "working_tree_dirty_code": true,
+  "script": "experiments/decision_id/l2_geometry.py",
+  "script_sha256": "51c8ddf5e9ee279d",
+  "numpy": "2.5.3",
+  "python": "3.14.7"
+ }
+}

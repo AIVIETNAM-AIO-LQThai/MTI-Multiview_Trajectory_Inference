@@ -1,0 +1,82 @@
+{
+ "lead_T0": {
+  "eta_hi": 0.05,
+  "Vstar_raw": 0.15749002391635128,
+  "Vstar_over_voi": 0.050277930420089226,
+  "se_Vstar_over_voi_fixedvoi": 0.0026705738970892786,
+  "se_Vstar_over_voi_ratio": 0.00262744069781237,
+  "Vstar_over_Ekappa": 0.03965416831805867,
+  "Ekappa": 3.97158812292199,
+  "voi": 3.132388755870986
+ },
+ "lead_T3": {
+  "eta_hi": 0.08483111962240804,
+  "Vstar_raw": 0.14555303832963237,
+  "Vstar_over_voi": 0.046467105354284215,
+  "se_Vstar_over_voi_fixedvoi": 0.0006187461796095124,
+  "se_Vstar_over_voi_ratio": 0.00040588783541263486,
+  "Vstar_over_Ekappa": 0.03664857327213115,
+  "Ekappa": 3.97158812292199,
+  "voi": 3.132388755870986
+ },
+ "lead_T4": {
+  "eta_hi": 0.05,
+  "Vstar_raw": 0.07631457886048348,
+  "Vstar_over_voi": 0.024363061167758406,
+  "se_Vstar_over_voi_fixedvoi": 0.0008187285875117463,
+  "se_Vstar_over_voi_ratio": 0.0007817729323659339,
+  "Vstar_over_Ekappa": 0.01921512918724741,
+  "Ekappa": 3.97158812292199,
+  "voi": 3.132388755870986
+ },
+ "lead_T6": {
+  "eta_hi": 0.07915823221180987,
+  "Vstar_raw": 0.1366211355313958,
+  "Vstar_over_voi": 0.0436156384725009,
+  "se_Vstar_over_voi_fixedvoi": 0.0006295987676804453,
+  "se_Vstar_over_voi_ratio": 0.00045190142581270063,
+  "Vstar_over_Ekappa": 0.03439962335038922,
+  "Ekappa": 3.97158812292199,
+  "voi": 3.132388755870986
+ },
+ "sec_T0": {
+  "eta_hi": 0.05,
+  "Vstar_raw": 0.10303161342163658,
+  "Vstar_over_voi": 0.026631494801539122,
+  "se_Vstar_over_voi_fixedvoi": 0.0017564362462161361,
+  "se_Vstar_over_voi_ratio": 0.0017384082640459814,
+  "Vstar_over_Ekappa": 0.017590259229243885,
+  "Ekappa": 5.85731068990422,
+  "voi": 3.8687882219695022
+ },
+ "sec_T3": {
+  "eta_hi": 0.08483111962240804,
+  "Vstar_raw": 0.12510956309170307,
+  "Vstar_over_voi": 0.03233817823918337,
+  "se_Vstar_over_voi_fixedvoi": 0.0005169852947302757,
+  "se_Vstar_over_voi_ratio": 0.0003861193939277973,
+  "Vstar_over_Ekappa": 0.021359557263599567,
+  "Ekappa": 5.85731068990422,
+  "voi": 3.8687882219695022
+ },
+ "sec_T4": {
+  "eta_hi": 0.05,
+  "Vstar_raw": 0.05280914059644753,
+  "Vstar_over_voi": 0.013650046879424104,
+  "se_Vstar_over_voi_fixedvoi": 0.0004350323656810837,
+  "se_Vstar_over_voi_ratio": 0.00040663866769100006,
+  "Vstar_over_Ekappa": 0.009015936389966549,
+  "Ekappa": 5.85731068990422,
+  "voi": 3.8687882219695022
+ },
+ "sec_T6": {
+  "eta_hi": 0.07915823221180987,
+  "Vstar_raw": 0.113965886280317,
+  "Vstar_over_voi": 0.029457773272040164,
+  "se_Vstar_over_voi_fixedvoi": 0.0005106792954665845,
+  "se_Vstar_over_voi_ratio": 0.000402918634656204,
+  "Vstar_over_Ekappa": 0.01945703281144893,
+  "Ekappa": 5.85731068990422,
+  "voi": 3.8687882219695022
+ }
+}

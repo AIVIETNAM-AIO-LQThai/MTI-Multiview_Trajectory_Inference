@@ -199,7 +199,7 @@ No cells, truths or estimators are added after seeing results.
   - Profile information is 0.21–0.51 of I_η at L = 4 and 0.61–0.81 at L = 8.
   - The profile deficit at η' = 0.03 is 6.6e-4 to 4.4e-3 at L = 4, and 1.1e-2 to 2.4e-2 at L = 8.
 - **C22 cross-check.** At L = 8 lead T0, the pseudo-true channel at η' = 0.03 is β* = 0.052, against E3's β̂ ≈ 0.054 at n = 10⁴. Its regret is 2.9% of VOI_clean, against a margin of 0.2%.
-- **The L = 3 ridge is material for decisions only at β = 0** (C25 wording corrected).
+- **The L = 3 ridge is material for decisions only at β = 0** (C25 wording corrected). *(Superseded 2026-10-12: that held only for the η′ = 0.03 comparison point; see decision_identification_closeout.md.)*
 - **Prediction recorded before stage 1.** Predicted SE(η̂) at n = 10⁴ is 0.0011–0.0016 (L = 8) and 0.0025–0.0064 (L = 4). H-E4 is **predicted to hold** at n = 10⁴.
 
 **A1 also fixes the following before stage 1:**

@@ -73,7 +73,7 @@ Both conditions of H-E4 are met in both physics, and the stage-0 prediction (H-E
   - lead T3 at n = 10³ / 10⁴ / 10⁵: 0.054 / 0.058 / 0.056 VOI, against Δ = 0.02;
   - secondary T3 falls 0.035 → 0.019 → 0.014, against Δ = 0.014;
   - the other L = 3 cells stay at 0.04–0.17 VOI.
-- **Reading note for P3.** The spread of η̂ does shrink somewhat with n (e.g. lead T3 SD 0.0062 → 0.0032). *(Corrected in §9: η̂ is not pinned at the bracket bound; it drifts below the truth along the flat ridge.)* The criterion that holds is "regret does not vanish", not "spread does not shrink". The ridge was found to be one-sided or two-sided as derived; at secondary T3 it is partly resolved by the simplex boundary at large n (β̂ 0.255 → 0.237).
+- **Reading note for P3.** The spread of η̂ does shrink somewhat with n (e.g. lead T3 SD 0.0062 → 0.0032). *(Corrected in §9 and again 2026-10-12: η̂ lies near the bottom of the search domain because the sample profile is exactly non-increasing in η at L ≤ 3; see §9 item 2.)* The criterion that holds is "regret does not vanish", not "spread does not shrink". The ridge was found to be one-sided or two-sided as derived; at secondary T3 it is partly resolved by the simplex boundary at large n (β̂ 0.255 → 0.237).
 
 ## 4. Practical baseline (P4): a small clean set does as well
 
@@ -89,7 +89,7 @@ CV-n_c (η̂ from n_c clean prefixes, then EM over q) relative to J-MLE at n = 1
 - CV-100 is equivalent in 10 of 16 cells and CV-30 in 4 of 16.
 - sd(η̂_cv) over replicates is 0.012–0.040 at n_c = 30, 0.006–0.025 at 100 and 0.002–0.007 at 1,000.
 - At L = 3 the CV arms beat J-MLE (clean data resolve the ridge).
-- So where separate clean prefixes exist, a few hundred are as good as joint estimation at n = 10⁴, and a clean set beats J-MLE at L = 3. Joint estimation is the option when no clean records exist.
+- *(Wording withdrawn at consolidation, 2026-10-05: use the exact counts above — 4 / 10 / 15 of 16 cells for 30 / 100 / 1,000 clean prefixes — which give extra information, not an equal budget, and estimate η within an assumed family without validating it.)* So where separate clean prefixes exist, a few hundred are as good as joint estimation at n = 10⁴, and a clean set beats J-MLE at L = 3. Joint estimation is the option when no clean records exist.
 
 ## 5. Estimator comparison and calibration (P5, P7)
 
@@ -114,7 +114,7 @@ Truths T0, T3 (L = 8, lead), R = 10, n = 10³, 10⁴, 3 × 10⁴. The oracle is 
 ## 7. Limits (Sonnet's view; Opus to adjudicate)
 
 - All results: S2 simulator, physics (ρ, c, q_a, q_w, λ) supplied, η = 0.05, one clean family (first-order symmetric Markov), the exogenous single-flip channel, one-step regret. No neural models.
-- The profile-likelihood estimator searches η ∈ [0.001, 0.499], with the coarse grid 0.005–0.15. The truth is inside the grid.
+- The profile-likelihood estimator uses a coarse grid 0.005–0.15, then bounded refinement within ±0.005 of the best grid point, clipped to [0.001, 0.499]: effective domain [0.001, 0.155] (*corrected 2026-10-12; the earlier text said [0.001, 0.499]*). This is the tested procedure, not the theorem domain [0, ½). At L = 3 the bound 0.001 is attained (45% of lead T3 replicates at n = 10⁴). The truth is inside the grid.
 - The CV baseline's clean HMM is correctly specified, so it shares the family assumption with J-MLE.
 - No claim about family validation, other channels, other L, trained policies or real data.
 
@@ -149,7 +149,7 @@ Truths T0, T3 (L = 8, lead), R = 10, n = 10³, 10⁴, 3 × 10⁴. The oracle is 
 2. **§3 (P3): η̂ is not pinned at the bracket bound.**
    - At n = 10⁵, lead η̂ is spread over 0.001–0.011.
    - Secondary T3 is over 0.023–0.033 (with one value at 0.001); the other secondary truths are mostly at 0.001–0.011.
-   - The estimates drift *below* the truth along the flat ridge. This is consistent with the in-sample effect seen in stage 0: lower η' leaves the fitted channel further from the simplex boundary, a fitted gain of about 1e-6.
+   - *(Corrected 2026-10-12, replacing the original reading of a "drift" and a "fitted gain of about 1e-6".)* At L ≤ 3 the sample profile log-likelihood is exactly non-increasing in η (the ridge map preserves every record's likelihood; Proposition B), so its maximiser set contains the lower end of the search domain. The reported η̂ lie near the bottom in the saved runs; they are tie-breaks on a flat set (the returned point depends on the EM tolerance and the refinement/tie rule, not on a theorem about J-MLE), and the reported regret is that of a near-bottom arc point (0.057 VOI at η′ = 0.005 on lead T3, from the received archive), not an intrinsic property of joint likelihood.
    - The negative control passes for the reason that matters: η̂ never concentrates at the truth, and regret does not vanish.
 3. **§3 (P2): equivalence to known-η is not nearness to the oracle.** "Crossover at n = 300" for corrupted truths means J-MLE tracks the known-η estimator, under a margin of 0.012–0.02 VOI. Its own regret at n = 300 is 0.2–0.5 Δ (lead) but 0.4–3.9 Δ (secondary). Both estimators reach ≤ 0.13 Δ by n = 10⁴.
 

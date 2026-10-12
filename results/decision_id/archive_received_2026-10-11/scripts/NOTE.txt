@@ -1,0 +1,12 @@
+Received scripts of the 2026-10-11 verification archive (Opus), kept for provenance of the archived JSON outputs in the parent directory.
+They are NOT runnable here: they import /home/claude/mti and each other. Superseded by experiments/decision_id/ (did_common.py, ridgelib.py,
+l3_certify.py, l2_geometry.py, l3_beta_cap.py, se_e4.py, kflip.py, nuisance.py).
+
+Provenance (updated 2026-10-12 after the user re-extracted the original zip):
+  - ALL nine received scripts are now present as received: diam_se.py, ridge_l3_extra.py, se_shared.py (moved unchanged earlier), and ridge_l3.py,
+    ridgelib.py, kflip.py, nuisance.py, e4common.py (recovered from the zip; sizes match the zip listing: 5796, 1579, 2347, 1945, 1451 bytes).
+  - An earlier in-session transcription of e4common.py was byte-identical to the recovered original.
+  - The README.txt and the four JSON outputs in the parent directory are byte-identical to the re-extracted copies.
+  - The ported replacements in experiments/decision_id/ are NOT these files. The re-extraction briefly overwrote three of them (ridgelib.py, kflip.py,
+    nuisance.py); they were restored and verified (kflip.py and nuisance.py hash-identical to the runs recorded in results/decision_id/*.json; ridgelib.py
+    by identical outputs of every dependent script and test).

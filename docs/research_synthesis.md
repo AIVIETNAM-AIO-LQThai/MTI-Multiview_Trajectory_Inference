@@ -11,7 +11,7 @@ Trajectory records used for learning and control can contain corrupted actions. 
 - Exact inference routes that query a clean model through different conditional views coincide. Multi-view consistency therefore carries no population information beyond the declared corruption prior.
 - The value of corruption awareness is strongly prior-dependent: from under 2% to 159% of the clean-history decision value across the priors and record lengths studied.
 - We prove that, from unlabeled records with the physics known, the corruption channel is identified iff the record has L ≥ 3 actions when switching persistence is known. Persistence and channel are jointly identified iff L ≥ 4.
-- Where identification fails (L ≤ 2 with persistence known; L ≤ 3 with it unknown), observationally equivalent parameters generally imply different decisions.
+- Where identification fails (L ≤ 2 with persistence known; L ≤ 3 with it unknown), observationally equivalent parameters generally imply different decisions, with an exact two-law lower bound on the worst-case decision cost that exceeds the common reference margin in 5 of 6 corrupted L = 3 cases.
 - Attribution to corruption is always conditional on the clean-dynamics family: a family that can reproduce the corrupted law makes it unidentifiable.
 
 **Estimation.**
@@ -51,7 +51,7 @@ The strongest completed evidence now concerns **identifiability and the decision
    - V₂ is prior-specific.
 2. **Identification** (§4).
    - A complete proposition: L ≥ 3 with persistence known; L ≥ 4 jointly.
-   - Explicit, decision-relevant non-identification at L ≤ 3.
+   - Explicit, decision-relevant non-identification at L ≤ 3, with a quantified lower bound on the worst-case decision cost (two-law; the minimax value is certified numerically where stated).
    - Attribution conditional on the clean family.
 3. **Estimation costs** (§5).
    - When declared priors harm.
@@ -179,7 +179,7 @@ Under §4.1:
 - Their beliefs μ₂ differ in general.
 - For L = 2 and L = 1, (η, q) is likewise not identified.
 
-**(iv) η = ½.** P_{½,q} is uniform for every q. Nothing about the channel is identified, and V₂ = 0 because μ₂ ≡ 0.
+**(iv) η = ½.** P_{½,q} is uniform for every q. Nothing about the channel is identified, and V₂ = 0 because μ₂ ≡ 0. This holds with η known, or L ≥ 4. At L = 3 with η unknown, (η′ < ½, uniform footprint law, β′ = ¾) is observationally equivalent and its beliefs are not zero (mean |μ| ≈ 0.71 in the discussion's check); admissibility of that alternative depends on the declared channel domain, since it needs β′ = ¾.
 
 **(v) Clean family not fixed.** Let 𝒢 be the allowed family of apparent-edge laws for the clean dynamics. If some G' ∈ 𝒢 equals G ∗ F_q for the true clean law G, then (G', none) and (G, q) are observationally equivalent.
 - So attribution to corruption is identified only relative to a family that excludes such G'.
@@ -205,11 +205,13 @@ Under §4.1:
   - The beliefs differ in general: μ₂ = E[m_L | S] = (1 − 2η) E[m̃_{L−1} σ_{L−1} | S], and the posterior split of apparent edges into switches E and footprint F differs between the two parameterisations.
   - Numerically (`experiments/check_joint_identification.py`; η = 0.05 → 0.03, (β, α) = (0.2, 0.5), q_w = 0.5): the record log-likelihoods agree to 5e-15 and the beliefs differ by up to 0.21.
   - L = 2 and L = 1 follow from (i) together with the freedom in η.
-  - Not every point is ambiguous: at η = 0 there is no η' < η branch.
+  - (η, q) is identified at L = 3 iff η = 0 and some footprint mass is zero; with full support an upper branch η′ ∈ (η, η_hi] also exists (Proposition A, [decision_identification_discussion.md](decision_identification_discussion.md) §3; accepted in the closeout for nonuniform footprint laws, connectedness of the arc added in the closeout Part III). If F is uniform on the two-edge cube, every η′ < ½ with uniform F′ is compatible, and at η′ = ½ every channel is: the identified set then contains a boundary stratum and is not a compact arc. The 0.4999 cutoff in the code is a numerical cutoff, not an identification endpoint.
 
-- **(iv).** B̂_½(A) = 0 for every A ≠ ∅, so P is uniform. Also μ₂ = (1 − 2η)(…) = 0.
+- **(iv).** B̂_½(A) = 0 for every A ≠ ∅, so P is uniform. Also μ₂ = (1 − 2η)(…) = 0 when η = ½ is the true or known persistence; with η unknown at L = 3 see the qualification above.
 
 - **(v).** This is immediate from Lemma 1: the record law depends on the clean dynamics and the channel only through the apparent-edge law. ∎
+
+**Decision identification (definition).** The decision target is the map ξ ↦ μ_ξ ∈ L²(P, κ). It is identified at P iff μ_ξ = μ_ξ′ P-a.s. on {κ > 0} for all ξ, ξ′ compatible with P. Equality is required only on {κ > 0} because the decision a* = −ρ c s_L μ/(c² + λ) ignores μ where κ = 0: with ρ = 0, κ ≡ 0 and every compatible world gives the zero action even when beliefs differ, so action identification can hold while belief identification fails. The experiments use ρ = 0.9 and c ≠ 0, so κ > 0 almost surely and the two notions coincide there. Parameter identification implies decision identification; the converse fails. Corrections of 2026-10-12 to (iii)–(iv) and the L = 2 geometry: [decision_identification_closeout.md](decision_identification_closeout.md).
 
 ### 4.5 What is proved, what is local, what is numerical
 
@@ -226,6 +228,48 @@ Under §4.1:
 - Lovett & Zhang (2017, §1.1) note that with an unknown noise rate the parameters of noisy population recovery are not identifiable in general. Their single-bit example is our L = 2 case. Their Theorem 1 returns a statistically close proper representation, not the true parameters.
 - With the support *known and proper*, the unknown rate is identified, by the argument in (ii). That is the specialisation used here.
 - HMM identifiability theorems cover the clean switching model but not a superposed record-level channel. Examples: Alexandrovich et al. 2016, Theorem 1 (full-rank ergodic transitions, distinct emissions, 2K + 1 observations); Allman et al. 2009, Theorem 6 (generic).
+
+### 4.6 Decision identification where the parameters are not identified (closing section)
+
+Details, proofs and evidence paths: [decision_identification_closeout.md](decision_identification_closeout.md). Discussion of record: [decision_identification_discussion.md](decision_identification_discussion.md).
+
+**Objects.** Let Ξ(P) be the set of parameters compatible with the record law P, and let T(P) = {μ_ξ : ξ ∈ Ξ(P)} ⊂ L²(P, κ) be the corresponding set of decision targets.
+- The worst-case decision cost of the best belief rule is
+
+  V*(P) = inf_b sup_ξ E_P[κ(b − μ_ξ)²],
+
+  which is the squared Chebyshev radius of T(P).
+- Priors on Ξ(P) are not updated by records, so V* = max_π E_P[κ Var_π μ_ξ]. Every minimax rule is a fixed mixture of compatible beliefs (Γ-minimax).
+
+**Universal bracket (proved).**
+- ¼ diam²(P) ≤ V*(P) ≤ (n / (2(n + 1))) diam²(P), where n is the affine dimension of T(P).
+- The lower bound is two-point. The upper bound is Jung's theorem (standard result, not re-read).
+- **Endpoint-ball criterion.** For a, c ∈ T(P), the midpoint (a + c)/2 is minimax, with V* = ¼‖a − c‖², iff ⟨μ − a, μ − c⟩ ≤ 0 for every μ ∈ T(P). The criterion is tested on that midpoint. The pointwise-envelope midpoint solves a different, per-record problem and can be suboptimal even when the endpoint midpoint is minimax.
+
+**Results** (S2, supplied physics, full single-flip simplex; numbers are on the E4 evaluation measure, as fractions of the reference truth's VOI_clean, against the common reference margin Δ):
+
+| regime | compatible decision targets | minimax structure | decision cost |
+|---|---|---|---|
+| L = 1 | a segment (β, and η if unknown) | midpoint (the zero belief) exactly minimax | (proved) |
+| L = 2, η known | the allocation segment | endpoint midpoint exactly minimax, V* = ¼d² (proved) | 8.8–27.6% at β = 0.2–0.35, 0 at β = 0 (6.5–13.8 × Δ) |
+| L = 2, η unknown, h > 0 | a **triangle** with vertices (η = (1 − h)/2, β = 0), (η = 0, last flip), (η = 0, first flip) (proved) | circumcentre in the G metric; **three-point least-favourable prior** in all 8 cells (on the evaluation measure and a fresh 10⁶ sample; the triangle is acute for ρ → 1 by an analytic limit) | V* 16.6–41.0% at β = 0.2–0.35 and 2.3–5.0% at β = 0; 11.6–25.2 × Δ; V* exceeds ¼d² by 0.05–4.2% |
+| L = 3, η unknown | an **arc** η′ ∈ [0, η_hi] (Proposition A; non-compact only for the uniform footprint law) | endpoint midpoint **certified minimax on the evaluation measure** in all 8 cells (continuous worst case = ¼d² to 1e-15; Frank–Wolfe bracket gap ≈ 1e-13); not a population theorem | ¼d² = 1.4–4.6% at β = 0.2–0.35 (above Δ in 5 of 6 cells; secondary T4 at 0.68 Δ) and 2.7–5.0% at β = 0 |
+| L ≥ 4 (η unknown), L ≥ 3 (η known) | a point | identified | 0 |
+
+**Reading.**
+- Non-identification at L ≤ 3 is a substantive information limit, not an incidental negative control. The two-law lower bound alone shows decision-material ambiguity in 5 of 6 corrupted L = 3 cells and in every L = 2 cell. That result needs no minimax computation.
+- **No universal two-endpoint formula.** It holds exactly on segments and is certified numerically for the tested L = 3 arcs, but it fails on the L = 2 triangle.
+- The E4 J-MLE at L = 3 selects near the bottom of the arc; Proposition B makes the sample profile non-increasing in η. Its regret is that of one selection rule on a flat set.
+
+**Side information, each stated as an assumption** (no intended application currently supplies any of them):
+- A cap β′ ≤ β̄ restricts the arc. On T3 and T6 (true β = 0.2), caps up to about 0.23–0.24 bound the certified worst-case cost below Δ. It bounds the cost but does not identify the decision, except at the single point cap = β_true on the boundary truth T4.
+- Clean calibration needs clean prefixes with at least one mode edge. It identifies the decision at L = 3 (Proposition (i)), but only β at L = 2, and nothing at L = 1.
+- Trusted outcomes (y, u) on the corrupted prefixes identify μ₂ through E[u(y − ρ s_L) | S]/q_u = cμ₂(S), under exogenous u, intact s_L, mean-zero noise and calibration–deployment transfer. No Markov or clean-family assumption is needed. This is a corollary (discussion §5.3, slope check 0.81 / 1.00 / 1.11 along the arc).
+- There is no intrinsic ordering of these regimes without an application and a resource model.
+
+**Structural corollaries (concise).**
+- *Physics within S2:* ρ, q_a, c² and q_w are identified by channel-invariant moments, and the decision is invariant to the sign of c. Lemma 1 and the Proposition therefore hold with the physics identified rather than supplied, within S2 (discussion §5.4; `experiments/decision_id/nuisance.py`). The plug-in finite-sample cost is unmeasured.
+- *At most k flips (common η):* the channel is identified with η known iff L ≥ 2k + 1, and jointly iff L ≥ 2k + 2. Sketch in discussion §5.5; LP-consistent for k ≤ 3, L ≤ 9 (`kflip.py`, 0 mismatches).
 
 ## 5. Empirical results
 
@@ -256,7 +300,7 @@ All results: S2, supplied physics, the exogenous single-flip channel, one-step r
 - **Absorption (C22).** With η fixed at a wrong 0.03 (truth 0.05) and no corruption, the inferred channel settles at β̂ ≈ 0.054 and every replicate is harmed at n = 10⁴. More data do not remove it.
 
 ### 5.4 Joint estimation removes within-family absorption (E4; C27)
-Comparators: EX-MLE (η known, q estimated) and the η = 0.03 arm. Replicates: R = 20 for n ≤ 3 × 10⁴; **R = 10 at n = 10⁵**. Replicate intervals are 90% paired t-intervals on one fixed evaluation set (20,000 prefixes).
+Comparators: EX-MLE (η known, q estimated) and the η = 0.03 arm. Replicates: R = 20 for n ≤ 3 × 10⁴; **R = 10 at n = 10⁵**. Replicate intervals are 90% paired t-intervals on one fixed evaluation set (20,000 prefixes): fit uncertainty only, conditional on that set. The J-MLE searches a coarse grid 0.005–0.15, then refines within ±0.005 of the best grid point, clipped to [0.001, 0.499] (effective domain [0.001, 0.155]); this is the tested procedure, not the theorem domain [0, ½). At L = 3 the bound 0.001 is attained (45% of lead T3 replicates at n = 10⁴).
 
 **Table A. Primary contrasts at n = 10⁴ (regret in units of VOI_clean; true-law oracle regret = 0; R = 20)**
 
@@ -280,10 +324,8 @@ Comparators: EX-MLE (η known, q estimated) and the η = 0.03 arm. Replicates: R
 | sec | 4 | T6 | 0.0116 | 0.00021 | 0.00154 | 0.0132 | +0.0013 [+0.0008, +0.0019] | +0.0117 [+0.0109, +0.0125] | equivalent | inconclusive |
 
 - **Primary contrast (P1).** At L = 8, n = 10⁴, β = 0 (truth T0), J-MLE minus EX-MLE is +0.00007 [0.0000, 0.00014] VOI (lead) and +0.00011 [0.00002, 0.00020] (secondary), against Δ = 0.002. J-MLE beats the η = 0.03 arm by 0.0283 VOI [0.0270, 0.0296] in both physics.
-- **Evaluation-set uncertainty** (recomputed in `experiments/check_e4_eval_se.py`; recomputed mean regrets equal the saved ones exactly):
-  - the prefix-level SE of J − EX is at most 4 × 10⁻⁵ VOI (lead) and 7 × 10⁻⁵ (secondary) per replicate, so two orders below Δ;
-  - the SE of ETA⁻ − J is 0.0012–0.0019 VOI per replicate, so about 15 times smaller than the 0.0283 effect.
-- **L = 3 (negative control).** J-MLE is worse than EX-MLE at every n in every cell except secondary T3 at n ≥ 10⁴ (inconclusive). η̂ drifts below 0.05 along the flat ridge (median at n = 10⁴: 0.004 lead T0, 0.005 lead T3, 0.0015 secondary T0), and β̂ settles near 0.26 on lead T3 (truth 0.2). Regret does not vanish: lead T3 is 0.054, 0.058, 0.056 VOI at n = 10³, 10⁴, 10⁵ against Δ = 0.02. This matches Proposition (iii).
+- **Evaluation-set uncertainty** (recomputed in `experiments/check_e4_eval_se.py` and `experiments/decision_id/se_e4.py`; recomputed mean regrets equal the saved ones exactly): Evaluation-prefix SE of the replicate-average contrast (fits and VOI_clean fixed; `experiments/decision_id/se_e4.py`): J − EX 4.0e-6 (lead) and 7.7e-6 (secondary); ETA⁻ − J 0.0016 and 0.0014 VOI. A crossed (replicate + prefix) SE for population regret, from the unbiased two-way ANOVA estimator (MS_R + MS_C − MS_E)/(RN) under independently sampled fits and prefixes, is 4.0e-5 and 5.2e-5 for J − EX, and 0.0017 and 0.0016 VOI for ETA⁻ − J. The Table A intervals are replicate intervals conditional on the fixed evaluation set (fit uncertainty only). SE²_shared = SE²_indep + (R²N)⁻¹ Σ_{r≠r′} Cov_i(D_r, D_r′), so the independent-evaluation-set figure (J − EX 2.5e-6 and 4.0e-6; ETA⁻ − J 0.00036 and 0.00032) is an approximation, not a bound; individual J − EX cross-replicate correlations reach −0.9998. Conclusions are unchanged: ETA⁻ − J ≈ 0.0283 is about 15 crossed SEs above Δ, and J − EX stays within ±Δ.
+- **L = 3 (negative control).** J-MLE is worse than EX-MLE at every n in every cell except secondary T3 at n ≥ 10⁴ (inconclusive). η̂ lies near the bottom of the search domain (median at n = 10⁴: 0.004 lead T0, 0.005 lead T3, 0.0015 secondary T0), and β̂ settles near 0.26 on lead T3 (truth 0.2). At L ≤ 3 the sample profile log-likelihood is exactly non-increasing in η (the ridge map preserves every record's likelihood; Proposition B), so its maximiser set contains the lower end of the search domain. The reported η̂ lie near the bottom in the saved runs; they are tie-breaks on a flat set (the returned point depends on the EM tolerance and the refinement/tie rule, not on a theorem about J-MLE), and the reported regret is that of a near-bottom arc point (0.057 VOI at η′ = 0.005 on lead T3, from the received archive), not an intrinsic property of joint likelihood. Regret does not vanish: lead T3 is 0.054, 0.058, 0.056 VOI at n = 10³, 10⁴, 10⁵ against Δ = 0.02. This matches Proposition (iii).
 - **Crossover** (smallest n from which J-MLE stays equivalent to EX-MLE). For corrupted truths it is 300 (the smallest n run) except secondary L = 4 (1,000–3,000). With no corruption it is 3,000 (lead L = 8), 1,000 (secondary L = 8) and 10⁴ (L = 4), because the margin is only 0.002 VOI there.
 - **Equivalence is not oracle accuracy.** Mean regret relative to Δ (Table B): at n = 300 the secondary-physics L = 4 cells have J-MLE regret of 1.8–3.9 Δ, against 0.3–1.8 Δ for EX-MLE; the lead cells are 0.2–0.5 Δ. By n = 10⁴ J-MLE is at about 0.13 Δ or less in every cell (largest 0.132).
 - **Calibration.** Stage-0 profile Fisher information predicted the measured SD of η̂ on the interior truths T3 and T6: 23 of 24 ratios lie in [0.7, 1.4]. The exception is lead L = 8 T6 at n = 10⁵ (ratio 1.68, R = 10). This is a planning aid, not a finite-sample guarantee.
@@ -319,7 +361,7 @@ The CV arm estimates η from n_c separate **clean** prefixes and then fits the c
 | 1000 | 15 | 1 | 0 |
 
 - CV-1000 is equivalent to J-MLE in 15 of 16 cells (one inconclusive: secondary L = 4 T0) and never worse. CV-100 is equivalent in 10 of 16 and CV-30 in 4 of 16. The spread of η̂_cv over replicates is 0.012–0.040 (n_c = 30), 0.006–0.025 (100) and 0.002–0.007 (1,000).
-- At L = 3 the CV arms beat J-MLE, because clean records have no channel confound.
+- At L = 3 the CV arms beat J-MLE, because clean records have no channel confound. Clean prefixes must contain at least one mode edge (L_clean ≥ 2) to identify η, and calibration is not a universal collapse for L ≤ 3: with η known, L = 3 identifies the channel, L = 2 identifies β but leaves the allocation (and generally the action), and L = 1 identifies nothing.
 - Joint estimation therefore matters when no clean records exist (L ≥ 4). When clean prefixes exist they add information.
 - Estimating η from clean data is **parameter estimation within an assumed family**. It does not validate the family (§6).
 
@@ -352,7 +394,7 @@ CV-1000 on F1-T0 (clean prefixes from the same mixture): n=10000: β̂ 0.0102, r
 - **Relative to a clean model.** An estimated corruption rate is a statement about the data *given a clean-dynamics family*.
   - If the family is right, the channel is identified (L ≥ 3 with η known; L ≥ 4 jointly; Proposition (i)–(ii)).
   - If the allowed family can reproduce footprints, attribution is not identified (Proposition (v)).
-  - The decision cost of the L ≤ 3 ambiguity depends on the truth: material at β = 0 (1.6–3.0% of VOI_clean against Δ = 0.2%), below the margin at β = 0.2–0.35.
+  - The decision cost of the L ≤ 3 ambiguity: At L = 3 the identified set is an arc η′ ∈ [0, η_hi] ([decision_identification_closeout.md](decision_identification_closeout.md) Part I; [decision_identification_discussion.md](decision_identification_discussion.md) §3): η_hi = η for the boundary channels T0 and T4, ≈ 0.085 (T3) and ≈ 0.079 (T6) for the interior channels. The stage-0 comparison at η′ = 0.03 (0.8–1.4% of VOI_clean at β = 0.2–0.35; 1.6–3.0% at β = 0) is one interior point. Over the arc, acting on the truth's belief costs up to 4.9–9.7% of VOI_clean at β = 0.2–0.35 and 10.7–20.1% at β = 0 (continuous worst case). No belief rule can guarantee less than the endpoint-pair lower bound ¼·diam²: 1.4–4.6% of VOI_clean at β = 0.2–0.35 (above the common reference margin in 5 of 6 corrupted cells; 0.68 of the margin for secondary T4, the exception) and 2.7–5.0% at β = 0. On the 20,000-prefix evaluation measure the endpoint midpoint is certified minimax in all 8 cells (so the lower bound equals the minimax value there; a numerical certificate on that measure, not a population theorem). Reference VOI_clean of the truth; prefix-level SE ≤ 0.0026 VOI_clean. VOI_clean depends on the latent law: raw cost and E_P[κ] (3.97 lead, 5.86 secondary) are in `results/decision_id/l3_certify.json`.
 - **Detection versus attribution.** That attribution is not identified does not mean every family violation is undetectable.
   - A violation can change the apparent-edge law in a way no (η, q) pair reproduces, and is then visible to a goodness-of-fit test on pattern statistics.
   - What cannot be done without more information is to say *which* mechanism, dynamics or corruption, produced a misfit that some (η, q) can reproduce.
@@ -363,9 +405,10 @@ CV-1000 on F1-T0 (clean prefixes from the same mixture): n=10000: β̂ 0.0102, r
 - **Practical reading for this model class** (each item inherits the scope above):
   1. Understate rather than overstate corruption. Do not over-declare corruption of the most recent actions.
   2. With unlabeled corrupted records (L ≥ 3), estimate the channel by full-simplex likelihood rather than a restricted Bayesian grid.
-  3. With L ≥ 4 and no clean records, estimate persistence jointly. With clean records, use them for persistence *and* for checking the model family.
-  4. Treat an inferred corruption rate as evidence of corruption only relative to a clean family that cannot mimic footprints.
-  5. Do not expect consistency between views to detect harm beyond what the posterior and residual statistics provide.
+  3. A declared cap β′ ≤ β̄ bounds the L = 3 decision cost rather than removing the ambiguity: for T3 and T6 (true β = 0.2), caps up to about 0.23–0.24 keep the certified worst-case cost below the common reference margin (T4: about 0.393 lead; no crossing in secondary, whose full arc is already below the margin); the residual set is a sub-arc, and it is a single point only for a cap equal to the true β on the boundary truth T4 (`results/decision_id/l3_beta_cap.json`).
+  4. With L ≥ 4 and no clean records, estimate persistence jointly. With clean records, use them for persistence *and* for checking the model family.
+  5. Treat an inferred corruption rate as evidence of corruption only relative to a clean family that cannot mimic footprints.
+  6. Do not expect consistency between views to detect harm beyond what the posterior and residual statistics provide.
 
 ## 7. Limitations and open questions
 

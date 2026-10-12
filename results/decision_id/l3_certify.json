@@ -1,0 +1,884 @@
+{
+ "tolerances": {
+  "hmm": 1e-10,
+  "loglik": 1e-12,
+  "root_residual": 1e-08,
+  "gap_rel": 0.01
+ },
+ "grid_points": 401,
+ "cells": {
+  "lead_L3_T0": {
+   "physics": "lead",
+   "truth": "T0",
+   "eta": 0.05,
+   "w_truth": [
+    1.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "voi_ref": 3.132388755870986,
+   "margin_ref_raw": 0.006264777511741972,
+   "margin_ref_over_voi": 0.002,
+   "V2_ref_over_voi": 0.0,
+   "E_kappa": 3.97158812292199,
+   "n_prefixes": 20000,
+   "checks": {
+    "max_abs_hmm_vs_four_function": 6.372680161348399e-14,
+    "record_loglik_diff_endpoints": {
+     "0.00000": 3.552713678800501e-15,
+     "0.05000": 0.0
+    },
+    "hmm_ok": true,
+    "loglik_ok": true,
+    "root_residual_ok": true,
+    "bracket_ok": true,
+    "all_ok": true
+   },
+   "arc": {
+    "eta_lo": 0.0,
+    "eta_hi": 0.05,
+    "t_hi": 1.0,
+    "eta_hi_bisection_crosscheck": 0.05,
+    "abs_diff": 0.0
+   },
+   "diameter_sq": {
+    "endpoint_pair_raw": 0.6299600956654086,
+    "grid_max_pair_raw": 0.6299600956654254,
+    "grid_max_attained_by_endpoints": true
+   },
+   "lower_bound": {
+    "d2_over_4_raw": 0.15749002391635214,
+    "d2_over_4_over_Ekappa": 0.03965416831805889,
+    "d2_over_4_over_voi_ref": 0.050277930420089496,
+    "se_prefix_over_voi_fixed_voi": 0.0026705738970892816,
+    "se_prefix_over_voi_delta_method": 0.002627440697812373,
+    "mean_prefix_d2_matches_M": 4.758400075042281e-15,
+    "exceeds_common_reference_margin": true,
+    "ratio_to_margin": 25.13896521004475
+   },
+   "endpoint_midpoint": {
+    "sup_risk_raw": 0.15749002391635214,
+    "d2_over_4_raw": 0.15749002391635214,
+    "excess_over_lower_bound_rel": 0.0,
+    "argmax_r": 1.0,
+    "max_root_residual_rel": 2.7728304693103796e-17,
+    "dense_grid_max_raw": 0.15749002391635214,
+    "dense_minus_sup_rel": 0.0,
+    "certified_minimax_on_evaluation_measure": true
+   },
+   "farthest_from_truth": {
+    "sup_risk_raw": 0.6299600956654086,
+    "over_voi_ref": 0.20111172168035799,
+    "over_Ekappa": 0.15861667327223555,
+    "argmax_r": 1.0,
+    "max_root_residual_rel": 3.3066467497142404e-16,
+    "note": "max over compatible parameters of E_P[kappa (mu_truth - mu_xi)^2]: the decision cost of acting on the truth's belief when another compatible world is true"
+   },
+   "frank_wolfe": {
+    "grid_points": 401,
+    "iterations": 403,
+    "termination": "fw_gap<=tol",
+    "fw_gap_raw": 9.769962616701378e-15,
+    "tol_abs": 3.912796272986105e-13,
+    "support_tol": 1e-06,
+    "support": {
+     "0.00000": 0.500000000000016,
+     "0.05000": 0.49999999999998707
+    },
+    "mass_below_tol": 0.0,
+    "n_support": 2,
+    "lower_bound_raw": 0.15749002391634148,
+    "upper_bound_raw": 0.1574900239163622,
+    "bracket_gap_raw": 2.070565940925917e-14,
+    "bracket_gap_rel": 1.3147283170302897e-13,
+    "upper_root_residual_rel": 1.38641523465518e-16,
+    "lower_le_upper": true,
+    "noncertifiable_gap_over_1pct": false,
+    "endpoint_mass": 1.000000000000003
+   },
+   "jung": {
+    "affine_dim_numerical": 4,
+    "upper_bound_raw_dim4": 0.25198403826617016,
+    "upper_bound_raw_dim_eff": 0.25198403826617016,
+    "lower_bound_raw": 0.15749002391635636
+   },
+   "descriptive_grid": {
+    "worst_pointwise_envelope_midpoint_raw": 0.1580588790093068,
+    "worst_bottom_endpoint_continuous_raw": 0.6299600956654086,
+    "worst_naive_raw": 0.6299600956654051,
+    "note": "grid (401 pts) quantities are descriptive, not certificates; the bottom-endpoint value is a continuous worst case"
+   },
+   "reproduction_vs_received_archive": {
+    "archive_Vstar_raw": 0.15749002391635128,
+    "here_d2_over_4_raw": 0.15749002391635214,
+    "rel_diff": 5.463348234307834e-15
+   }
+  },
+  "lead_L3_T3": {
+   "physics": "lead",
+   "truth": "T3",
+   "eta": 0.05,
+   "w_truth": [
+    0.8,
+    0.03333333333333333,
+    0.03333333333333333,
+    0.13333333333333333
+   ],
+   "voi_ref": 3.132388755870986,
+   "margin_ref_raw": 0.06264777511741972,
+   "margin_ref_over_voi": 0.02,
+   "V2_ref_over_voi": 0.3137864594187954,
+   "E_kappa": 3.97158812292199,
+   "n_prefixes": 20000,
+   "checks": {
+    "max_abs_hmm_vs_four_function": 3.913536161803677e-14,
+    "record_loglik_diff_endpoints": {
+     "0.00000": 2.6645352591003757e-15,
+     "0.08483": 3.552713678800501e-15
+    },
+    "hmm_ok": true,
+    "loglik_ok": true,
+    "root_residual_ok": true,
+    "bracket_ok": true,
+    "all_ok": true
+   },
+   "arc": {
+    "eta_lo": 0.0,
+    "eta_hi": 0.08483111962240802,
+    "t_hi": 1.0838962679253066,
+    "eta_hi_bisection_crosscheck": 0.08483111962240804,
+    "abs_diff": 1.3877787807814457e-17
+   },
+   "diameter_sq": {
+    "endpoint_pair_raw": 0.5822121533185315,
+    "grid_max_pair_raw": 0.5822121533185314,
+    "grid_max_attained_by_endpoints": true
+   },
+   "lower_bound": {
+    "d2_over_4_raw": 0.14555303832963287,
+    "d2_over_4_over_Ekappa": 0.03664857327213128,
+    "d2_over_4_over_voi_ref": 0.046467105354284374,
+    "se_prefix_over_voi_fixed_voi": 0.0006187461796095128,
+    "se_prefix_over_voi_delta_method": 0.00040588783541263524,
+    "mean_prefix_d2_matches_M": 2.860356877549791e-15,
+    "exceeds_common_reference_margin": true,
+    "ratio_to_margin": 2.323355267714219
+   },
+   "endpoint_midpoint": {
+    "sup_risk_raw": 0.1455530383296329,
+    "d2_over_4_raw": 0.14555303832963287,
+    "excess_over_lower_bound_rel": 2.220446049250313e-16,
+    "argmax_r": 1.0,
+    "max_root_residual_rel": 1.813988429846529e-15,
+    "dense_grid_max_raw": 0.1455530383296329,
+    "dense_minus_sup_rel": 0.0,
+    "certified_minimax_on_evaluation_measure": true
+   },
+   "farthest_from_truth": {
+    "sup_risk_raw": 0.224688011699366,
+    "over_voi_ref": 0.07173056386383614,
+    "over_Ekappa": 0.05657384520881732,
+    "argmax_r": 1.0,
+    "max_root_residual_rel": 1.4098977928786888e-15,
+    "note": "max over compatible parameters of E_P[kappa (mu_truth - mu_xi)^2]: the decision cost of acting on the truth's belief when another compatible world is true"
+   },
+   "frank_wolfe": {
+    "grid_points": 401,
+    "iterations": 406,
+    "termination": "fw_gap<=tol",
+    "fw_gap_raw": 8.43769498715119e-15,
+    "tol_abs": 3.7940808651573626e-13,
+    "support_tol": 1e-06,
+    "support": {
+     "0.00000": 0.49999999999999656,
+     "0.08483": 0.5000000000000066
+    },
+    "mass_below_tol": 0.0,
+    "n_support": 2,
+    "lower_bound_raw": 0.1455530383296253,
+    "upper_bound_raw": 0.145553038329633,
+    "bracket_gap_raw": 7.716050021144838e-15,
+    "bracket_gap_rel": 5.301194746392555e-14,
+    "upper_root_residual_rel": 3.5685018292063043e-16,
+    "lower_le_upper": true,
+    "noncertifiable_gap_over_1pct": false,
+    "endpoint_mass": 1.000000000000003
+   },
+   "jung": {
+    "affine_dim_numerical": 4,
+    "upper_bound_raw_dim4": 0.23288486132741257,
+    "upper_bound_raw_dim_eff": 0.23288486132741257,
+    "lower_bound_raw": 0.14555303832963284
+   },
+   "descriptive_grid": {
+    "worst_pointwise_envelope_midpoint_raw": 0.14555720489287416,
+    "worst_bottom_endpoint_continuous_raw": 0.5822121533185315,
+    "worst_naive_raw": 1.9452121896609222,
+    "note": "grid (401 pts) quantities are descriptive, not certificates; the bottom-endpoint value is a continuous worst case"
+   },
+   "reproduction_vs_received_archive": {
+    "archive_Vstar_raw": 0.14555303832963237,
+    "here_d2_over_4_raw": 0.14555303832963287,
+    "rel_diff": 3.4324282530597607e-15
+   }
+  },
+  "lead_L3_T4": {
+   "physics": "lead",
+   "truth": "T4",
+   "eta": 0.05,
+   "w_truth": [
+    0.65,
+    0.0,
+    0.0,
+    0.35
+   ],
+   "voi_ref": 3.132388755870986,
+   "margin_ref_raw": 0.06264777511741972,
+   "margin_ref_over_voi": 0.02,
+   "V2_ref_over_voi": 1.057636051353197,
+   "E_kappa": 3.97158812292199,
+   "n_prefixes": 20000,
+   "checks": {
+    "max_abs_hmm_vs_four_function": 4.574118861455645e-14,
+    "record_loglik_diff_endpoints": {
+     "0.00000": 4.440892098500626e-15,
+     "0.05000": 0.0
+    },
+    "hmm_ok": true,
+    "loglik_ok": true,
+    "root_residual_ok": true,
+    "bracket_ok": true,
+    "all_ok": true
+   },
+   "arc": {
+    "eta_lo": 0.0,
+    "eta_hi": 0.05,
+    "t_hi": 1.0,
+    "eta_hi_bisection_crosscheck": 0.05,
+    "abs_diff": 0.0
+   },
+   "diameter_sq": {
+    "endpoint_pair_raw": 0.3052583154419327,
+    "grid_max_pair_raw": 0.30525831544193416,
+    "grid_max_attained_by_endpoints": true
+   },
+   "lower_bound": {
+    "d2_over_4_raw": 0.07631457886048318,
+    "d2_over_4_over_Ekappa": 0.019215129187247333,
+    "d2_over_4_over_voi_ref": 0.02436306116775831,
+    "se_prefix_over_voi_fixed_voi": 0.0008187285875117458,
+    "se_prefix_over_voi_delta_method": 0.0007817729323659334,
+    "mean_prefix_d2_matches_M": 3.4551454294273913e-15,
+    "exceeds_common_reference_margin": true,
+    "ratio_to_margin": 1.2181530583879154
+   },
+   "endpoint_midpoint": {
+    "sup_risk_raw": 0.07631457886048325,
+    "d2_over_4_raw": 0.07631457886048318,
+    "excess_over_lower_bound_rel": 8.881784197001252e-16,
+    "argmax_r": 0.9,
+    "max_root_residual_rel": 1.7527453256281948e-15,
+    "dense_grid_max_raw": 0.07631457886048325,
+    "dense_minus_sup_rel": 0.0,
+    "certified_minimax_on_evaluation_measure": true
+   },
+   "farthest_from_truth": {
+    "sup_risk_raw": 0.3052583154419327,
+    "over_voi_ref": 0.09745224467103324,
+    "over_Ekappa": 0.07686051674898933,
+    "argmax_r": 1.0,
+    "max_root_residual_rel": 1.0007680482825213e-15,
+    "note": "max over compatible parameters of E_P[kappa (mu_truth - mu_xi)^2]: the decision cost of acting on the truth's belief when another compatible world is true"
+   },
+   "frank_wolfe": {
+    "grid_points": 401,
+    "iterations": 406,
+    "termination": "fw_gap<=tol",
+    "fw_gap_raw": 9.769962616701378e-15,
+    "tol_abs": 3.8425245535094823e-13,
+    "support_tol": 1e-06,
+    "support": {
+     "0.00000": 0.49999999999999295,
+     "0.05000": 0.5000000000000102
+    },
+    "mass_below_tol": 0.0,
+    "n_support": 2,
+    "lower_bound_raw": 0.07631457886047377,
+    "upper_bound_raw": 0.07631457886048376,
+    "bracket_gap_raw": 9.992007221626409e-15,
+    "bracket_gap_rel": 1.309318267993699e-13,
+    "upper_root_residual_rel": 1.0358370509155863e-16,
+    "lower_le_upper": true,
+    "noncertifiable_gap_over_1pct": false,
+    "endpoint_mass": 1.000000000000003
+   },
+   "jung": {
+    "affine_dim_numerical": 4,
+    "upper_bound_raw_dim4": 0.12210332617677366,
+    "upper_bound_raw_dim_eff": 0.12210332617677366,
+    "lower_bound_raw": 0.07631457886048354
+   },
+   "descriptive_grid": {
+    "worst_pointwise_envelope_midpoint_raw": 0.07631462773368261,
+    "worst_bottom_endpoint_continuous_raw": 0.3052583154419327,
+    "worst_naive_raw": 4.26039090879544,
+    "note": "grid (401 pts) quantities are descriptive, not certificates; the bottom-endpoint value is a continuous worst case"
+   },
+   "reproduction_vs_received_archive": {
+    "archive_Vstar_raw": 0.07631457886048348,
+    "here_d2_over_4_raw": 0.07631457886048318,
+    "rel_diff": 4.000694707758016e-15
+   }
+  },
+  "lead_L3_T6": {
+   "physics": "lead",
+   "truth": "T6",
+   "eta": 0.05,
+   "w_truth": [
+    0.8,
+    0.02857142857142857,
+    0.05714285714285714,
+    0.11428571428571428
+   ],
+   "voi_ref": 3.132388755870986,
+   "margin_ref_raw": 0.06264777511741972,
+   "margin_ref_over_voi": 0.02,
+   "V2_ref_over_voi": 0.25784258881054645,
+   "E_kappa": 3.97158812292199,
+   "n_prefixes": 20000,
+   "checks": {
+    "max_abs_hmm_vs_four_function": 3.8413716652030416e-14,
+    "record_loglik_diff_endpoints": {
+     "0.00000": 2.6645352591003757e-15,
+     "0.07916": 3.552713678800501e-15
+    },
+    "hmm_ok": true,
+    "loglik_ok": true,
+    "root_residual_ok": true,
+    "bracket_ok": true,
+    "all_ok": true
+   },
+   "arc": {
+    "eta_lo": 0.0,
+    "eta_hi": 0.0791582322118099,
+    "t_hi": 1.0692854997854806,
+    "eta_hi_bisection_crosscheck": 0.07915823221180987,
+    "abs_diff": 2.7755575615628914e-17
+   },
+   "diameter_sq": {
+    "endpoint_pair_raw": 0.5464845421255837,
+    "grid_max_pair_raw": 0.5464845421255848,
+    "grid_max_attained_by_endpoints": true
+   },
+   "lower_bound": {
+    "d2_over_4_raw": 0.13662113553139593,
+    "d2_over_4_over_Ekappa": 0.034399623350389257,
+    "d2_over_4_over_voi_ref": 0.04361563847250094,
+    "se_prefix_over_voi_fixed_voi": 0.0006295987676804462,
+    "se_prefix_over_voi_delta_method": 0.00045190142581270123,
+    "mean_prefix_d2_matches_M": 4.063145209219931e-16,
+    "exceeds_common_reference_margin": true,
+    "ratio_to_margin": 2.180781923625047
+   },
+   "endpoint_midpoint": {
+    "sup_risk_raw": 0.136621135531396,
+    "d2_over_4_raw": 0.13662113553139593,
+    "excess_over_lower_bound_rel": 4.440892098500626e-16,
+    "argmax_r": 1.0,
+    "max_root_residual_rel": 1.3171704101422655e-15,
+    "dense_grid_max_raw": 0.136621135531396,
+    "dense_minus_sup_rel": 0.0,
+    "certified_minimax_on_evaluation_measure": true
+   },
+   "farthest_from_truth": {
+    "sup_risk_raw": 0.23635327639651912,
+    "over_voi_ref": 0.07545464334640008,
+    "over_Ekappa": 0.059511024074326346,
+    "argmax_r": 1.0,
+    "max_root_residual_rel": 4.706973457409209e-16,
+    "note": "max over compatible parameters of E_P[kappa (mu_truth - mu_xi)^2]: the decision cost of acting on the truth's belief when another compatible world is true"
+   },
+   "frank_wolfe": {
+    "grid_points": 401,
+    "iterations": 404,
+    "termination": "fw_gap<=tol",
+    "fw_gap_raw": 8.43769498715119e-15,
+    "tol_abs": 3.77785818191672e-13,
+    "support_tol": 1e-06,
+    "support": {
+     "0.00000": 0.4999999999999963,
+     "0.07916": 0.5000000000000068
+    },
+    "mass_below_tol": 0.0,
+    "n_support": 2,
+    "lower_bound_raw": 0.13662113553138777,
+    "upper_bound_raw": 0.13662113553139632,
+    "bracket_gap_raw": 8.548717289613705e-15,
+    "bracket_gap_rel": 6.257243622199068e-14,
+    "upper_root_residual_rel": 7.494245437016354e-16,
+    "lower_le_upper": true,
+    "noncertifiable_gap_over_1pct": false,
+    "endpoint_mass": 1.000000000000003
+   },
+   "jung": {
+    "affine_dim_numerical": 4,
+    "upper_bound_raw_dim4": 0.21859381685023394,
+    "upper_bound_raw_dim_eff": 0.21859381685023394,
+    "lower_bound_raw": 0.1366211355313962
+   },
+   "descriptive_grid": {
+    "worst_pointwise_envelope_midpoint_raw": 0.13662274316140005,
+    "worst_bottom_endpoint_continuous_raw": 0.5464845421255837,
+    "worst_naive_raw": 1.7569681164036464,
+    "note": "grid (401 pts) quantities are descriptive, not certificates; the bottom-endpoint value is a continuous worst case"
+   },
+   "reproduction_vs_received_archive": {
+    "archive_Vstar_raw": 0.1366211355313958,
+    "here_d2_over_4_raw": 0.13662113553139593,
+    "rel_diff": 1.0157863023049837e-15
+   }
+  },
+  "sec_L3_T0": {
+   "physics": "sec",
+   "truth": "T0",
+   "eta": 0.05,
+   "w_truth": [
+    1.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "voi_ref": 3.8687882219695022,
+   "margin_ref_raw": 0.007737576443939005,
+   "margin_ref_over_voi": 0.002,
+   "V2_ref_over_voi": 0.0,
+   "E_kappa": 5.85731068990422,
+   "n_prefixes": 20000,
+   "checks": {
+    "max_abs_hmm_vs_four_function": 5.284661597215745e-14,
+    "record_loglik_diff_endpoints": {
+     "0.00000": 3.552713678800501e-15,
+     "0.05000": 0.0
+    },
+    "hmm_ok": true,
+    "loglik_ok": true,
+    "root_residual_ok": true,
+    "bracket_ok": true,
+    "all_ok": true
+   },
+   "arc": {
+    "eta_lo": 0.0,
+    "eta_hi": 0.05,
+    "t_hi": 1.0,
+    "eta_hi_bisection_crosscheck": 0.05,
+    "abs_diff": 0.0
+   },
+   "diameter_sq": {
+    "endpoint_pair_raw": 0.4121264536865459,
+    "grid_max_pair_raw": 0.41212645368654854,
+    "grid_max_attained_by_endpoints": true
+   },
+   "lower_bound": {
+    "d2_over_4_raw": 0.10303161342163647,
+    "d2_over_4_over_Ekappa": 0.017590259229243867,
+    "d2_over_4_over_voi_ref": 0.026631494801539094,
+    "se_prefix_over_voi_fixed_voi": 0.0017564362462161374,
+    "se_prefix_over_voi_delta_method": 0.0017384082640459824,
+    "mean_prefix_d2_matches_M": 1.4816390893661535e-15,
+    "exceeds_common_reference_margin": true,
+    "ratio_to_margin": 13.315747400769546
+   },
+   "endpoint_midpoint": {
+    "sup_risk_raw": 0.1030316134216365,
+    "d2_over_4_raw": 0.10303161342163647,
+    "excess_over_lower_bound_rel": 2.220446049250313e-16,
+    "argmax_r": 0.9,
+    "max_root_residual_rel": 1.3082910409096288e-16,
+    "dense_grid_max_raw": 0.1030316134216365,
+    "dense_minus_sup_rel": 0.0,
+    "certified_minimax_on_evaluation_measure": true
+   },
+   "farthest_from_truth": {
+    "sup_risk_raw": 0.4121264536865459,
+    "over_voi_ref": 0.10652597920615638,
+    "over_Ekappa": 0.07036103691697547,
+    "argmax_r": 1.0,
+    "max_root_residual_rel": 0.0,
+    "note": "max over compatible parameters of E_P[kappa (mu_truth - mu_xi)^2]: the decision cost of acting on the truth's belief when another compatible world is true"
+   },
+   "frank_wolfe": {
+    "grid_points": 401,
+    "iterations": 403,
+    "termination": "fw_gap<=tol",
+    "fw_gap_raw": 1.3322676295501878e-14,
+    "tol_abs": 4.972017044828624e-13,
+    "support_tol": 1e-06,
+    "support": {
+     "0.00000": 0.5000000000000024,
+     "0.05000": 0.5000000000000007
+    },
+    "mass_below_tol": 0.0,
+    "n_support": 2,
+    "lower_bound_raw": 0.10303161342162426,
+    "upper_bound_raw": 0.10303161342163852,
+    "bracket_gap_raw": 1.426636586643326e-14,
+    "bracket_gap_rel": 1.3846590762441696e-13,
+    "upper_root_residual_rel": 1.417315294318767e-16,
+    "lower_le_upper": true,
+    "noncertifiable_gap_over_1pct": false,
+    "endpoint_mass": 1.000000000000003
+   },
+   "jung": {
+    "affine_dim_numerical": 4,
+    "upper_bound_raw_dim4": 0.16485058147461942,
+    "upper_bound_raw_dim_eff": 0.16485058147461942,
+    "lower_bound_raw": 0.10303161342163714
+   },
+   "descriptive_grid": {
+    "worst_pointwise_envelope_midpoint_raw": 0.10318466214678627,
+    "worst_bottom_endpoint_continuous_raw": 0.4121264536865459,
+    "worst_naive_raw": 0.41212645368654754,
+    "note": "grid (401 pts) quantities are descriptive, not certificates; the bottom-endpoint value is a continuous worst case"
+   },
+   "reproduction_vs_received_archive": {
+    "archive_Vstar_raw": 0.10303161342163658,
+    "here_d2_over_4_raw": 0.10303161342163647,
+    "rel_diff": 1.0775557013572014e-15
+   }
+  },
+  "sec_L3_T3": {
+   "physics": "sec",
+   "truth": "T3",
+   "eta": 0.05,
+   "w_truth": [
+    0.8,
+    0.03333333333333333,
+    0.03333333333333333,
+    0.13333333333333333
+   ],
+   "voi_ref": 3.8687882219695022,
+   "margin_ref_raw": 0.054327900223573526,
+   "margin_ref_over_voi": 0.014042614148550257,
+   "V2_ref_over_voi": 0.14042614148550256,
+   "E_kappa": 5.85731068990422,
+   "n_prefixes": 20000,
+   "checks": {
+    "max_abs_hmm_vs_four_function": 3.552713678800501e-15,
+    "record_loglik_diff_endpoints": {
+     "0.00000": 5.329070518200751e-15,
+     "0.08483": 5.329070518200751e-15
+    },
+    "hmm_ok": true,
+    "loglik_ok": true,
+    "root_residual_ok": true,
+    "bracket_ok": true,
+    "all_ok": true
+   },
+   "arc": {
+    "eta_lo": 0.0,
+    "eta_hi": 0.08483111962240802,
+    "t_hi": 1.0838962679253066,
+    "eta_hi_bisection_crosscheck": 0.08483111962240804,
+    "abs_diff": 1.3877787807814457e-17
+   },
+   "diameter_sq": {
+    "endpoint_pair_raw": 0.5004382523668122,
+    "grid_max_pair_raw": 0.5004382523668127,
+    "grid_max_attained_by_endpoints": true
+   },
+   "lower_bound": {
+    "d2_over_4_raw": 0.12510956309170304,
+    "d2_over_4_over_Ekappa": 0.02135955726359956,
+    "d2_over_4_over_voi_ref": 0.03233817823918336,
+    "se_prefix_over_voi_fixed_voi": 0.0005169852947302762,
+    "se_prefix_over_voi_delta_method": 0.0003861193939277975,
+    "mean_prefix_d2_matches_M": 8.874006088658333e-16,
+    "exceeds_common_reference_margin": true,
+    "ratio_to_margin": 2.3028602721041023
+   },
+   "endpoint_midpoint": {
+    "sup_risk_raw": 0.1251095630917031,
+    "d2_over_4_raw": 0.12510956309170304,
+    "excess_over_lower_bound_rel": 4.440892098500626e-16,
+    "argmax_r": 1.0,
+    "max_root_residual_rel": 5.577033085318255e-16,
+    "dense_grid_max_raw": 0.1251095630917031,
+    "dense_minus_sup_rel": 0.0,
+    "certified_minimax_on_evaluation_measure": true
+   },
+   "farthest_from_truth": {
+    "sup_risk_raw": 0.18999249340978874,
+    "over_voi_ref": 0.049109044617869614,
+    "over_Ekappa": 0.03243681332070427,
+    "argmax_r": 1.0,
+    "max_root_residual_rel": 2.5020492112606734e-16,
+    "note": "max over compatible parameters of E_P[kappa (mu_truth - mu_xi)^2]: the decision cost of acting on the truth's belief when another compatible world is true"
+   },
+   "frank_wolfe": {
+    "grid_points": 401,
+    "iterations": 405,
+    "termination": "fw_gap<=tol",
+    "fw_gap_raw": 9.769962616701378e-15,
+    "tol_abs": 4.364420168233296e-13,
+    "support_tol": 1e-06,
+    "support": {
+     "0.00000": 0.49999999999999567,
+     "0.08483": 0.5000000000000074
+    },
+    "mass_below_tol": 0.0,
+    "n_support": 2,
+    "lower_bound_raw": 0.12510956309169297,
+    "upper_bound_raw": 0.1251095630917031,
+    "bracket_gap_raw": 1.0130785099704553e-14,
+    "bracket_gap_rel": 8.09753055590138e-14,
+    "upper_root_residual_rel": 4.901029074976669e-16,
+    "lower_le_upper": true,
+    "noncertifiable_gap_over_1pct": false,
+    "endpoint_mass": 1.000000000000003
+   },
+   "jung": {
+    "affine_dim_numerical": 4,
+    "upper_bound_raw_dim4": 0.2001753009467251,
+    "upper_bound_raw_dim_eff": 0.2001753009467251,
+    "lower_bound_raw": 0.12510956309170318
+   },
+   "descriptive_grid": {
+    "worst_pointwise_envelope_midpoint_raw": 0.12511540373081528,
+    "worst_bottom_endpoint_continuous_raw": 0.5004382523668122,
+    "worst_naive_raw": 1.0965570566673262,
+    "note": "grid (401 pts) quantities are descriptive, not certificates; the bottom-endpoint value is a continuous worst case"
+   },
+   "reproduction_vs_received_archive": {
+    "archive_Vstar_raw": 0.12510956309170307,
+    "here_d2_over_4_raw": 0.12510956309170304,
+    "rel_diff": 2.2185015221645826e-16
+   }
+  },
+  "sec_L3_T4": {
+   "physics": "sec",
+   "truth": "T4",
+   "eta": 0.05,
+   "w_truth": [
+    0.65,
+    0.0,
+    0.0,
+    0.35
+   ],
+   "voi_ref": 3.8687882219695022,
+   "margin_ref_raw": 0.07737576443939005,
+   "margin_ref_over_voi": 0.02,
+   "V2_ref_over_voi": 0.5521503868847568,
+   "E_kappa": 5.85731068990422,
+   "n_prefixes": 20000,
+   "checks": {
+    "max_abs_hmm_vs_four_function": 7.494005416219807e-15,
+    "record_loglik_diff_endpoints": {
+     "0.00000": 5.329070518200751e-15,
+     "0.05000": 0.0
+    },
+    "hmm_ok": true,
+    "loglik_ok": true,
+    "root_residual_ok": true,
+    "bracket_ok": true,
+    "all_ok": true
+   },
+   "arc": {
+    "eta_lo": 0.0,
+    "eta_hi": 0.05,
+    "t_hi": 1.0,
+    "eta_hi_bisection_crosscheck": 0.05,
+    "abs_diff": 0.0
+   },
+   "diameter_sq": {
+    "endpoint_pair_raw": 0.21123656238578886,
+    "grid_max_pair_raw": 0.21123656238578903,
+    "grid_max_attained_by_endpoints": true
+   },
+   "lower_bound": {
+    "d2_over_4_raw": 0.052809140596447215,
+    "d2_over_4_over_Ekappa": 0.009015936389966495,
+    "d2_over_4_over_voi_ref": 0.013650046879424022,
+    "se_prefix_over_voi_fixed_voi": 0.00043503236568108276,
+    "se_prefix_over_voi_delta_method": 0.000406638667690999,
+    "mean_prefix_d2_matches_M": 4.8616408361290356e-15,
+    "exceeds_common_reference_margin": false,
+    "ratio_to_margin": 0.682502343971201
+   },
+   "endpoint_midpoint": {
+    "sup_risk_raw": 0.05280914059644727,
+    "d2_over_4_raw": 0.052809140596447215,
+    "excess_over_lower_bound_rel": 1.1102230246251565e-15,
+    "argmax_r": 0.9,
+    "max_root_residual_rel": 3.767237696838322e-16,
+    "dense_grid_max_raw": 0.05280914059644727,
+    "dense_minus_sup_rel": 0.0,
+    "certified_minimax_on_evaluation_measure": true
+   },
+   "farthest_from_truth": {
+    "sup_risk_raw": 0.21123656238578886,
+    "over_voi_ref": 0.05460018751769609,
+    "over_Ekappa": 0.03606374555986598,
+    "argmax_r": 1.0,
+    "max_root_residual_rel": 9.378168158235652e-16,
+    "note": "max over compatible parameters of E_P[kappa (mu_truth - mu_xi)^2]: the decision cost of acting on the truth's belief when another compatible world is true"
+   },
+   "frank_wolfe": {
+    "grid_points": 401,
+    "iterations": 402,
+    "termination": "fw_gap<=tol",
+    "fw_gap_raw": 1.1102230246251565e-14,
+    "tol_abs": 4.4053409269900244e-13,
+    "support_tol": 1e-06,
+    "support": {
+     "0.00000": 0.4999999999999882,
+     "0.05000": 0.5000000000000149
+    },
+    "mass_below_tol": 0.0,
+    "n_support": 2,
+    "lower_bound_raw": 0.0528091405964366,
+    "upper_bound_raw": 0.052809140596447715,
+    "bracket_gap_raw": 1.111610803405938e-14,
+    "bracket_gap_rel": 2.104959086346022e-13,
+    "upper_root_residual_rel": 2.9151846070165242e-15,
+    "lower_le_upper": true,
+    "noncertifiable_gap_over_1pct": false,
+    "endpoint_mass": 1.000000000000003
+   },
+   "jung": {
+    "affine_dim_numerical": 4,
+    "upper_bound_raw_dim4": 0.08449462495431562,
+    "upper_bound_raw_dim_eff": 0.08449462495431562,
+    "lower_bound_raw": 0.05280914059644726
+   },
+   "descriptive_grid": {
+    "worst_pointwise_envelope_midpoint_raw": 0.05280927877567019,
+    "worst_bottom_endpoint_continuous_raw": 0.21123656238578886,
+    "worst_naive_raw": 2.764759375242555,
+    "note": "grid (401 pts) quantities are descriptive, not certificates; the bottom-endpoint value is a continuous worst case"
+   },
+   "reproduction_vs_received_archive": {
+    "archive_Vstar_raw": 0.05280914059644753,
+    "here_d2_over_4_raw": 0.052809140596447215,
+    "rel_diff": 5.912806422319062e-15
+   }
+  },
+  "sec_L3_T6": {
+   "physics": "sec",
+   "truth": "T6",
+   "eta": 0.05,
+   "w_truth": [
+    0.8,
+    0.02857142857142857,
+    0.05714285714285714,
+    0.11428571428571428
+   ],
+   "voi_ref": 3.8687882219695022,
+   "margin_ref_raw": 0.04506604872785108,
+   "margin_ref_over_voi": 0.011648621258702318,
+   "V2_ref_over_voi": 0.11648621258702317,
+   "E_kappa": 5.85731068990422,
+   "n_prefixes": 20000,
+   "checks": {
+    "max_abs_hmm_vs_four_function": 2.55351295663786e-15,
+    "record_loglik_diff_endpoints": {
+     "0.00000": 3.552713678800501e-15,
+     "0.07916": 5.329070518200751e-15
+    },
+    "hmm_ok": true,
+    "loglik_ok": true,
+    "root_residual_ok": true,
+    "bracket_ok": true,
+    "all_ok": true
+   },
+   "arc": {
+    "eta_lo": 0.0,
+    "eta_hi": 0.0791582322118099,
+    "t_hi": 1.0692854997854806,
+    "eta_hi_bisection_crosscheck": 0.07915823221180987,
+    "abs_diff": 2.7755575615628914e-17
+   },
+   "diameter_sq": {
+    "endpoint_pair_raw": 0.4558635451212688,
+    "grid_max_pair_raw": 0.45586354512126803,
+    "grid_max_attained_by_endpoints": true
+   },
+   "lower_bound": {
+    "d2_over_4_raw": 0.1139658862803172,
+    "d2_over_4_over_Ekappa": 0.01945703281144897,
+    "d2_over_4_over_voi_ref": 0.02945777327204022,
+    "se_prefix_over_voi_fixed_voi": 0.0005106792954665854,
+    "se_prefix_over_voi_delta_method": 0.0004029186346562046,
+    "mean_prefix_d2_matches_M": 6.08857100171179e-16,
+    "exceeds_common_reference_margin": true,
+    "ratio_to_margin": 2.528863512497949
+   },
+   "endpoint_midpoint": {
+    "sup_risk_raw": 0.11396588628031726,
+    "d2_over_4_raw": 0.1139658862803172,
+    "excess_over_lower_bound_rel": 4.440892098500626e-16,
+    "argmax_r": 1.0,
+    "max_root_residual_rel": 2.3836993099676813e-16,
+    "dense_grid_max_raw": 0.11396588628031726,
+    "dense_minus_sup_rel": 0.0,
+    "certified_minimax_on_evaluation_measure": true
+   },
+   "farthest_from_truth": {
+    "sup_risk_raw": 0.19546513877572894,
+    "over_voi_ref": 0.050523607796816174,
+    "over_Ekappa": 0.03337114063500791,
+    "argmax_r": 1.0,
+    "max_root_residual_rel": 6.191796370756251e-16,
+    "note": "max over compatible parameters of E_P[kappa (mu_truth - mu_xi)^2]: the decision cost of acting on the truth's belief when another compatible world is true"
+   },
+   "frank_wolfe": {
+    "grid_points": 401,
+    "iterations": 402,
+    "termination": "fw_gap<=tol",
+    "fw_gap_raw": 9.769962616701378e-15,
+    "tol_abs": 4.3185154983859503e-13,
+    "support_tol": 1e-06,
+    "support": {
+     "0.00000": 0.49999999999999567,
+     "0.07916": 0.5000000000000073
+    },
+    "mass_below_tol": 0.0,
+    "n_support": 2,
+    "lower_bound_raw": 0.11396588628030768,
+    "upper_bound_raw": 0.11396588628031726,
+    "bracket_gap_raw": 9.575673587391975e-15,
+    "bracket_gap_rel": 8.402227982362972e-14,
+    "upper_root_residual_rel": 6.288908817787078e-16,
+    "lower_le_upper": true,
+    "noncertifiable_gap_over_1pct": false,
+    "endpoint_mass": 1.000000000000003
+   },
+   "jung": {
+    "affine_dim_numerical": 4,
+    "upper_bound_raw_dim4": 0.18234541804850724,
+    "upper_bound_raw_dim_eff": 0.18234541804850724,
+    "lower_bound_raw": 0.11396588628031701
+   },
+   "descriptive_grid": {
+    "worst_pointwise_envelope_midpoint_raw": 0.11396794391416769,
+    "worst_bottom_endpoint_continuous_raw": 0.4558635451212688,
+    "worst_naive_raw": 0.9795185801031695,
+    "note": "grid (401 pts) quantities are descriptive, not certificates; the bottom-endpoint value is a continuous worst case"
+   },
+   "reproduction_vs_received_archive": {
+    "archive_Vstar_raw": 0.113965886280317,
+    "here_d2_over_4_raw": 0.1139658862803172,
+    "rel_diff": 1.8265713005135403e-15
+   }
+  }
+ },
+ "failed_cells": [],
+ "_provenance": {
+  "git_commit": "08dd58e86ed4d127004e356c3329b389356b1548",
+  "working_tree_dirty_code": true,
+  "script": "experiments/decision_id/l3_certify.py",
+  "script_sha256": "f02c5ec73aaa171b",
+  "numpy": "2.5.3",
+  "python": "3.14.7"
+ }
+}

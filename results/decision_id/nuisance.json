@@ -1,0 +1,59 @@
+{
+ "physics_moments": {
+  "lead": {
+   "truth": "T4",
+   "n": 200000,
+   "rho": 0.9003935103859286,
+   "rho_true": 0.9,
+   "q_a": 1.0003377320271376,
+   "q_a_true": 1.0,
+   "c2": 0.9997991894655198,
+   "c2_true": 1.0,
+   "q_w": 0.020106002044918636,
+   "q_w_true": 0.02
+  },
+  "sec": {
+   "truth": "T4",
+   "n": 200000,
+   "rho": 0.9001695445455092,
+   "rho_true": 0.9,
+   "q_a": 1.0003377320271376,
+   "q_a_true": 1.0,
+   "c2": 0.9993227897878073,
+   "c2_true": 1.0,
+   "q_w": 0.5001547456600764,
+   "q_w_true": 0.5
+  }
+ },
+ "trusted_outcome": {
+  "truth": "T3",
+  "physics": "lead",
+  "L": 3,
+  "n": 400000,
+  "arc_points": [
+   {
+    "eta_prime": 0.0,
+    "mean_sq_resid": 2.4336878514704408,
+    "slope_z_on_mu2": 0.8123683331701432
+   },
+   {
+    "eta_prime": 0.05,
+    "mean_sq_resid": 2.378633007082891,
+    "slope_z_on_mu2": 1.000232764573032
+   },
+   {
+    "eta_prime": 0.08483111962240802,
+    "mean_sq_resid": 2.399372507998666,
+    "slope_z_on_mu2": 1.107583205134865
+   }
+  ]
+ },
+ "_provenance": {
+  "git_commit": "08dd58e86ed4d127004e356c3329b389356b1548",
+  "working_tree_dirty_code": true,
+  "script": "experiments/decision_id/nuisance.py",
+  "script_sha256": "23a631aac554c82c",
+  "numpy": "2.5.3",
+  "python": "3.14.7"
+ }
+}

@@ -1,0 +1,74 @@
+{
+ "lead": {
+  "R": 20,
+  "N": 20000,
+  "voi": 3.170917599453914,
+  "max_rel_err_vs_saved": 1.3637323188113507e-13,
+  "J_minus_EX": {
+   "mean_over_voi": 7.18506210339411e-05,
+   "rep_interval90_over_voi": [
+    3.7142043310038215e-06,
+    0.00013998703773687837
+   ],
+   "se_rep_over_voi": 3.9404964297096306e-05,
+   "se_shared_fixedfits_fixedvoi": 3.952989306366011e-06,
+   "se_indep_approx": 2.4501102027799636e-06,
+   "shared_over_indep": 1.6133924514419138,
+   "mean_cross_rep_corr": 0.23201085116796685,
+   "min_cross_rep_corr": -0.9997932937261635,
+   "se_ratio_delta_method": 3.885106674834762e-06,
+   "se_crossed_total_over_voi": 3.9602744042700855e-05
+  },
+  "ETAm_minus_J": {
+   "mean_over_voi": 0.028313902125483036,
+   "rep_interval90_over_voi": [
+    0.027037427371706127,
+    0.029590376879259948
+   ],
+   "se_rep_over_voi": 0.0007382167207004833,
+   "se_shared_fixedfits_fixedvoi": 0.0015786976423645847,
+   "se_indep_approx": 0.000356241163108641,
+   "shared_over_indep": 4.431541904333884,
+   "mean_cross_rep_corr": 0.9968431552142966,
+   "min_cross_rep_corr": 0.973021037382129,
+   "se_ratio_delta_method": 0.00155310469172899,
+   "se_crossed_total_over_voi": 0.0017427708319596338
+  }
+ },
+ "sec": {
+  "R": 20,
+  "N": 20000,
+  "voi": 4.037641441803311,
+  "max_rel_err_vs_saved": 1.875867585141886e-12,
+  "J_minus_EX": {
+   "mean_over_voi": 0.00011244646863800901,
+   "rep_interval90_over_voi": [
+    2.3343378356625385e-05,
+    0.00020154955891939265
+   ],
+   "se_rep_over_voi": 5.1530506903623415e-05,
+   "se_shared_fixedfits_fixedvoi": 7.706006803139212e-06,
+   "se_indep_approx": 3.981225009994461e-06,
+   "shared_over_indep": 1.935586856757421,
+   "mean_cross_rep_corr": 0.08235768158081665,
+   "min_cross_rep_corr": -0.9947111518761036,
+   "se_ratio_delta_method": 7.659760969512495e-06,
+   "se_crossed_total_over_voi": 5.21035093117e-05
+  },
+  "ETAm_minus_J": {
+   "mean_over_voi": 0.02828812784995825,
+   "rep_interval90_over_voi": [
+    0.02698389954006401,
+    0.02959235615985249
+   ],
+   "se_rep_over_voi": 0.0007542672842733928,
+   "se_shared_fixedfits_fixedvoi": 0.0013856454111977213,
+   "se_indep_approx": 0.0003156756669923654,
+   "shared_over_indep": 4.389459043199656,
+   "mean_cross_rep_corr": 0.9866606817945828,
+   "min_cross_rep_corr": 0.9179293499025645,
+   "se_ratio_delta_method": 0.0013774943307852268,
+   "se_crossed_total_over_voi": 0.0015776350470557063
+  }
+ }
+}

@@ -113,10 +113,7 @@ Characters: E[(−1)^{Σ_A}] = (1−2η)^{|A|} · (q_none + Σ_j q_j (−1)^{|A 
     - beliefs differ by up to 0.21;
     - mean regret of the ridge belief 0.028, which is **5% of V₂** = 0.565.
   - Confounding at L = 3 is therefore real.
-  - *Correction after E4 stage 0 (Opus, 2026-10-05).* Whether it matters for decisions depends on the truth:
-    - **β = 0 (T0):** at η' = 0.03 the ridge costs 3.0% (lead) and 1.6% (secondary) of VOI_clean, against a margin of 0.2%. It is material: this is the absorption case.
-    - **β = 0.2–0.35:** the cost is 0.8–1.4% of VOI_clean, which is **below** the margin (10% of V₂, clipped at 1.2–2% of VOI_clean).
-    - The "5% of V₂" above is likewise below that margin.
+  - *Correction after E4 stage 0 (Opus, 2026-10-05), superseded 2026-10-12.* The stage-0 comparison at η′ = 0.03 is one interior point of an arc. At L = 3 the identified set is an arc η′ ∈ [0, η_hi] ([decision_identification_closeout.md](decision_identification_closeout.md) Part I; [decision_identification_discussion.md](decision_identification_discussion.md) §3): η_hi = η for the boundary channels T0 and T4, ≈ 0.085 (T3) and ≈ 0.079 (T6) for the interior channels. The stage-0 comparison at η′ = 0.03 (0.8–1.4% of VOI_clean at β = 0.2–0.35; 1.6–3.0% at β = 0) is one interior point. Over the arc, acting on the truth's belief costs up to 4.9–9.7% of VOI_clean at β = 0.2–0.35 and 10.7–20.1% at β = 0 (continuous worst case). No belief rule can guarantee less than the endpoint-pair lower bound ¼·diam²: 1.4–4.6% of VOI_clean at β = 0.2–0.35 (above the common reference margin in 5 of 6 corrupted cells; 0.68 of the margin for secondary T4, the exception) and 2.7–5.0% at β = 0. On the 20,000-prefix evaluation measure the endpoint midpoint is certified minimax in all 8 cells (so the lower bound equals the minimax value there; a numerical certificate on that measure, not a population theorem). Reference VOI_clean of the truth; prefix-level SE ≤ 0.0026 VOI_clean. VOI_clean depends on the latent law: raw cost and E_P[κ] (3.97 lead, 5.86 secondary) are in `results/decision_id/l3_certify.json`.
 - **L ≥ 4:** global identification holds. See the proof in [research_synthesis.md](research_synthesis.md) §4 (Proposition (ii)): a persistence η' < η would force a channel B_ν ∗ F with full support, which a footprint law cannot have once 2^{L−1} > L + 1. *(This replaces the earlier "generic root" argument and the grid-based pattern check, which were weaker; the LP in `experiments/check_joint_identification.py` remains a numerical consistency check.)*
   - **Minimum L = 4:** the single-flip footprints fill the edge-pattern cube exactly when L ≤ 3.
 
@@ -127,7 +124,7 @@ Characters: E[(−1)^{Σ_A}] = (1−2η)^{|A|} · (q_none + Σ_j q_j (−1)^{|A 
 
 **Does joint estimation resolve the confound, or shift it?** It **shifts** it.
 - Joint (η, q) estimation removes the η-error part of C22 within the first-order symmetric Markov family.
-- It cannot validate the family. Any clean law that produces excess length-one excursions is observationally equivalent to interior corruption. Examples: a non-geometric dwell time, or record-heterogeneous persistence.
+- It cannot validate the family. A clean law whose apparent-edge law equals G ∗ F_q for the true G and some channel q is observationally equivalent to that channel (Proposition (v)). Excess length-one excursions alone do not imply equal record laws: F1 produces them and is absorbed as a misspecified fit (β̂ ≈ 0.010), without any claim of exact equivalence.
 - The general counterexample: if the clean family contains G ∗ F for the true G and F, the channel is unidentified.
 - So the condition moves from "η known" to "the clean switch process is first-order Markov with the supplied physics". This is **within-family correction, not family validation**. Family validation needs information that corrupted records cannot provide, such as a clean validation set or external knowledge of the dynamics.
 

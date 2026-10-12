@@ -1,6 +1,6 @@
 # Consolidation review: response to the external (ChatGPT/Codex) review of E4 and the claim-to-evidence map
 
-Opus 5.5 (`claude-opus-5-5`), 2026-10-05. Branch `exp/joint-identification`, HEAD `64e2234`; this review and the synthesis are uncommitted. Final review (O3) of the assembled synthesis: §8.
+Opus 5.5 (`claude-opus-5-5`), 2026-10-05. Written on branch `exp/joint-identification` at `64e2234`; committed in `08dd58e` (consolidation commit). Final review (O3) of the assembled synthesis: §8. Decision-identification closeout (2026-10-12): [decision_identification_closeout.md](decision_identification_closeout.md).
 Companion: [research_synthesis.md](research_synthesis.md) (the write-up). Superseded: the earlier draft `synthesis.md`, which was never committed.
 
 ## 1. Verdict in brief
@@ -13,7 +13,7 @@ On one point the reviewer is stronger than our own work. **B (the proof route) i
 - I verified it, and closed the step the reviewer flagged: that the noisy record law identifies the apparent-pattern law.
 - The completed proposition and proof are in research_synthesis §4.
 
-**One defect neither review caught.** The E4 protocol (§5) promised that "evaluation-set SE is reported separately". The E4 report does not do this, and saved units hold only mean regrets. It has now been fixed by an evaluation-only recomputation from the saved estimates (`experiments/check_e4_eval_se.py` → `results/e4/stage1/eval_se_check.json`). The recomputed mean regrets equal the saved values exactly. The prefix-level SE of J − EX is ≤ 7 × 10⁻⁵ VOI per replicate, against Δ = 0.002; that of ETA⁻ − J is 0.0010–0.0019, against an effect of 0.0283. No classification changes.
+**One defect neither review caught.** The E4 protocol (§5) promised that "evaluation-set SE is reported separately". The E4 report does not do this, and saved units hold only mean regrets. It has now been fixed by an evaluation-only recomputation from the saved estimates (`experiments/check_e4_eval_se.py` → `results/e4/stage1/eval_se_check.json`; recomputed mean regrets equal the saved values exactly). Evaluation-prefix SE of the replicate-average contrast (fits and VOI_clean fixed; `experiments/decision_id/se_e4.py`): J − EX 4.0e-6 (lead) and 7.7e-6 (secondary); ETA⁻ − J 0.0016 and 0.0014 VOI. A crossed (replicate + prefix) SE for population regret, from the unbiased two-way ANOVA estimator (MS_R + MS_C − MS_E)/(RN) under independently sampled fits and prefixes, is 4.0e-5 and 5.2e-5 for J − EX, and 0.0017 and 0.0016 VOI for ETA⁻ − J. The Table A intervals are replicate intervals conditional on the fixed evaluation set (fit uncertainty only). SE²_shared = SE²_indep + (R²N)⁻¹ Σ_{r≠r′} Cov_i(D_r, D_r′), so the independent-evaluation-set figure (J − EX 2.5e-6 and 4.0e-6; ETA⁻ − J 0.00036 and 0.00032) is an approximation, not a bound; individual J − EX cross-replicate correlations reach −0.9998. Conclusions are unchanged: ETA⁻ − J ≈ 0.0283 is about 15 crossed SEs above Δ, and J − EX stays within ±Δ.
 
 ## 2. Point-by-point response
 
@@ -46,8 +46,8 @@ On one point the reviewer is stronger than our own work. **B (the proof route) i
 - **Proposition.**
   - **(i) η known, η < ½:** q is identified iff L ≥ 3. At L = 2 only β is identified; at L = 1 nothing is.
   - **(ii) η unknown, L ≥ 4:** (η, q) is globally identified on [0, ½) × simplex.
-  - **(iii) L = 3:** for every η ∈ (0, ½) and every q, the pairs (η', B_ν ∗ F) with η' ∈ [0, η) are observationally equivalent, and their beliefs generally differ. L = 2 and L = 1 are likewise unidentified.
-  - **(iv) η = ½:** no channel information at all.
+  - **(iii) L = 3:** for every η ∈ (0, ½) and every q, the pairs (η', B_ν ∗ F) with η' ∈ [0, η) are observationally equivalent, and their beliefs generally differ. L = 2 and L = 1 are likewise unidentified. (η, q) is identified at L = 3 iff η = 0 and some footprint mass is zero; with full support an upper branch η′ ∈ (η, η_hi] also exists (Proposition A, [decision_identification_discussion.md](decision_identification_discussion.md) §3; accepted in the closeout for nonuniform footprint laws, connectedness of the arc added in the closeout Part III). If F is uniform on the two-edge cube, every η′ < ½ with uniform F′ is compatible, and at η′ = ½ every channel is: the identified set then contains a boundary stratum and is not a compact arc. The 0.4999 cutoff in the code is a numerical cutoff, not an identification endpoint.
+  - **(iv) η = ½:** no channel information at all. This holds with η known, or L ≥ 4. At L = 3 with η unknown, (η′ < ½, uniform footprint law, β′ = ¾) is observationally equivalent and its beliefs are not zero (mean |μ| ≈ 0.71 in the discussion's check); admissibility of that alternative depends on the declared channel domain, since it needs β′ = ¾.
   - **(v) Clean family unrestricted:** if an allowed clean law reproduces the corrupted law, attribution is not identified.
 - **Why the threshold is L = 4.** The L + 1 footprints fill {0,1}^{L−1} exactly when L ≤ 3, and leave a non-footprint pattern when L ≥ 4.
 
@@ -70,12 +70,13 @@ Margin Δ = clip(0.1 V₂, 0.002 VOI, 0.02 VOI). All claims hold for S2, the exo
 | C20 | Channel identified from unlabeled prefixes iff L ≥ 3 (η known) = Proposition (i) | Lemma 1 assumptions | analytic + verified | research_synthesis §4; `tests/test_e3.py` TE3_1/2 | — |
 | C21, C23, C24 | Full-simplex MLE near-oracle by n = 10⁴; restricted-grid PP fails off-grid (misspecification); moment estimator identifies, at 1.6–41× MLE regret | correct clean law | measured | [E3](reports/e3_report.md) §3, §5 | true-law oracle; fixed q̄; Δ_t |
 | C22 | At a fixed wrong η̂, clean-law error is absorbed as spurious corruption (η̂ = 0.03 → β̂ ≈ 0.054 at β = 0; harm rate 1.00 at n = 10⁴) | in-family η error | measured; sign predicted | E3 §3.3 | naive, Δ = 0.002 VOI |
-| C25 | Joint identification = Proposition (ii)–(iv): global for L ≥ 4, explicit ridge at L = 3 (material only at β = 0: 1.6–3.0% of VOI vs 0.2%) | Lemma 1 assumptions; Markov family | **analytic (proof complete)**; numerically consistent | research_synthesis §4; `experiments/check_joint_identification.py`; `results/e4/stage0/` | — |
+| C25 | Joint identification = Proposition (ii)–(iv): global for L ≥ 4, explicit arc at L = 3 (η′ ∈ [0, η_hi]; endpoint-pair lower bound 1.4–4.6% of VOI at β = 0.2–0.35, above the common reference margin in 5 of 6 cells; 2.7–5.0% at β = 0) | Lemma 1 assumptions; Markov family | **analytic (proof complete)**; numerically consistent | research_synthesis §4; `experiments/check_joint_identification.py`; `results/e4/stage0/` | — |
 | C27 | J-MLE from corrupted prefixes alone is equivalent to known-η EX-MLE at L = 8, n = 10⁴, β = 0, in both physics, and better than η̂ = 0.03 by 0.0283 VOI. L = 4 likewise. L = 3 fails at every n | Markov family; physics supplied; R = 20 (R = 10 at n = 10⁵) | measured (primary P1) | [E4](reports/e4_report.md) §2, §9; `results/e4/stage1/units/` | EX-MLE (**not** the oracle), Δ = 0.002 VOI, paired 90% CI |
 | C27b | Equivalence to EX-MLE ≠ near-oracle: at n = 300, J-MLE regret is 0.2–0.5 Δ (lead) and 0.4–3.9 Δ (secondary) on corrupted truths; ≤ 0.13 Δ by n = 10⁴ | — | measured (descriptive) | E4 §9 | true-law oracle (regret 0) |
 | C27c | Stage-0 Fisher SE predicted the measured SD(η̂): 23/24 ratios in [0.7, 1.4] | interior truths T3, T6; n ≥ 10⁴ | measured | E4 §5 | — |
 | C28 | Family error, one mild instance: record-heterogeneous persistence {0.02, 0.08} gives β̂ ≈ 0.010 at n = 10⁴ and 3 × 10⁴ (in-family 0.0045 → 0.0026); regret 0.0007 VOI < Δ. CV-1000 also absorbs | one violation; R = 10 | measured (descriptive) | E4 §6, §9 | EX-MLE; Δ = 0.002 VOI |
 | CV | Clean set + corrupted set vs J-MLE at n = 10⁴, L ∈ {4, 8}: CV-30 / 100 / 1,000 equivalent in 4 / 10 / 15 of 16 cells; at L = 3 the CV arms beat J-MLE | extra information (not an equal budget) | measured | E4 §4 | J-MLE, Δ_t |
+| C29–C31 | Decision identification at L ≤ 3: bracket and endpoint-ball criterion; segment / triangle / arc target sets; decision cost (L = 3 lower bound > common reference margin in 5 of 6 corrupted cells; L = 2 three-point least-favourable prior); side information as stated assumptions | S2, supplied (or S2-identified) physics, full single-flip simplex | proved / certified on the evaluation measure / computed | `experiments/decision_id/`, `results/decision_id/`; [closeout](decision_identification_closeout.md) | common reference margin of the reference truth |
 | C26 | Harm oracle h* = κ(μ − μ₂)² + κVar(μ(T_θS) \| S); recoverable target g(S) = κ(μ − μ₂)²; learned route gap vanishes for a converged learner | one-step decision | analytic | literature_review §4.1–4.2 | — |
 | — | Multi-view consistency detects harmful records beyond posterior/residual/dynamics baselines | — | **not tested** | — | — |
 
@@ -104,7 +105,7 @@ Margin Δ = clip(0.1 V₂, 0.002 VOI, 0.02 VOI). All claims hold for S2, the exo
 
 | id | gap | blocks a claim? |
 |---|---|---|
-| G1 | E4 evaluation-set SE not reported, contrary to protocol §5 | **Resolved.** `results/e4/stage1/eval_se_check.json`: saved regrets reproduce exactly; evaluation SE negligible against the margins |
+| G1 | E4 evaluation-set SE not reported, contrary to protocol §5 | **Resolved.** `results/e4/stage1/eval_se_check.json` (historical) and `results/decision_id/se_e4.json` (shared-prefix, delta-method and crossed ANOVA accounting): saved regrets reproduce exactly; evaluation SE negligible against the margins |
 | G2 | Chen & Liu and Balsells-Rodas et al. not read in full | Limits positioning only; no claim depends on them |
 | G3 | Wider search of the switching-model / outlier literature | Limits the novelty statement (§5), which is kept conditional |
 | G4 | Family-violation dose–response untested (one mild instance) | Limits external validity of C28. **Blocks** any quantitative claim about family-error size |

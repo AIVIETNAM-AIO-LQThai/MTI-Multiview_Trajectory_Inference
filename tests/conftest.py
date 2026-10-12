@@ -13,12 +13,21 @@ from mti.params import ChannelSpec, Physics  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+def record_path(env=None):
+    """Where the max-error record goes. A full-suite run overwrites the COMMITTED artifact results/oracle_v1/test_max_errors.json only when
+    MTI_WRITE_TEST_RECORD=1; otherwise it goes to .pytest_cache/ so that verification runs never modify committed results."""
+    env = os.environ if env is None else env
+    if env.get("MTI_WRITE_TEST_RECORD") == "1":
+        return os.path.join(ROOT, "results", "oracle_v1", "test_max_errors.json")
+    return os.path.join(ROOT, ".pytest_cache", "test_max_errors.json")
+
+
 def pytest_sessionfinish(session, exitstatus):
     if os.environ.get("MTI_MUTATION") or session.testscollected < 60:
-        return   # only a full-suite run may overwrite the recorded maxima (subset runs would drop entries)
-    out = os.path.join(ROOT, "results", "oracle_v1")
-    os.makedirs(out, exist_ok=True)
-    with open(os.path.join(out, "test_max_errors.json"), "w") as f:
+        return   # only a full-suite run records maxima (subset runs would drop entries)
+    path = record_path()
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w") as f:
         json.dump(dict(exit_status=int(exitstatus), max_errors=RECORD), f, indent=1, sort_keys=True)
 
 
