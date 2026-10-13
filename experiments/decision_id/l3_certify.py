@@ -168,7 +168,7 @@ def main():
     out = dict(tolerances=TOL, grid_points=GRID, cells={})
     ts_cache = {}
     bad = []
-    arch = os.path.join(OUT, "archive_received_2026-10-11", "diam_se.json")
+    arch = os.path.join(OUT, "archive", "diam_se.json")
     archive = json.load(open(arch)) if os.path.exists(arch) else {}
     for pname in PHYS:
         for tname, truth in truths(3):

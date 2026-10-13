@@ -4025,8 +4025,8 @@
  },
  "failed_cells": [],
  "_provenance": {
-  "git_commit": "08dd58e86ed4d127004e356c3329b389356b1548",
-  "working_tree_dirty_code": true,
+  "git_commit": "69ca28ffb28f8782bc11dbe597d76ae59890f5e1",
+  "working_tree_dirty_code": false,
   "script": "experiments/decision_id/l3_beta_cap.py",
   "script_sha256": "a1d00b953398035b",
   "numpy": "2.5.3",

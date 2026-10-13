@@ -13,7 +13,7 @@
 ## Historical run provenance (unchanged)
 - E4 stage 0: `3f868c5`. E4 stage 1: run at `ea8bca4` + the A1 patch; committed in `7b95b9d`. Opus E4 review: `64e2234`. Consolidation: `08dd58e`.
 - Closeout computations: run on the working tree at `08dd58e` (provenance in each `results/decision_id/*.json` shows a dirty tree; rerun after committing to refresh).
-- Received verification archive (2026-10-11): `results/decision_id/archive_received_2026-10-11/`, all nine scripts as received.
+- Received verification archive (2026-10-11): `results/decision_id/archive/`, all nine scripts as received.
 
 ## Where things stand
 - Claims: [findings_summary.md](findings_summary.md) v9 (C1–C31); final thesis claim table: closeout III.3; claim-to-evidence map: [consolidation_review.md](consolidation_review.md) §4.

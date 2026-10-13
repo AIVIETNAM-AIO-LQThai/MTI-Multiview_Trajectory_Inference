@@ -2,7 +2,7 @@
 
 Evaluation / exact-law only: no fitting, no training. numpy + scipy; no torch (the TestSet replica below makes identical `simulate` calls, so it does
 not import mti.learned.evalset, which imports torch). Paths are relative to the repository root; outputs go to results/decision_id/ and never overwrite
-historical results (the received archive lives in results/decision_id/archive_received_2026-10-11/).
+historical results (the received archive lives in results/decision_id/archive/).
 """
 import hashlib
 import json
