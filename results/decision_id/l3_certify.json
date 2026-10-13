@@ -874,10 +874,10 @@
  },
  "failed_cells": [],
  "_provenance": {
-  "git_commit": "69ca28ffb28f8782bc11dbe597d76ae59890f5e1",
-  "working_tree_dirty_code": true,
+  "git_commit": "296afe6b440733bee843373a62593818544dc04e",
+  "working_tree_dirty_code": false,
   "script": "experiments/decision_id/l3_certify.py",
-  "script_sha256": "3fb8896b7588fe08",
+  "script_sha256": "9680a9d29d8e49b2",
   "numpy": "2.5.3",
   "python": "3.14.7"
  }

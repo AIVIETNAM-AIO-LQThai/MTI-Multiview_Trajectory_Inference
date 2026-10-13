@@ -49,8 +49,8 @@
   ]
  },
  "_provenance": {
-  "git_commit": "69ca28ffb28f8782bc11dbe597d76ae59890f5e1",
-  "working_tree_dirty_code": true,
+  "git_commit": "296afe6b440733bee843373a62593818544dc04e",
+  "working_tree_dirty_code": false,
   "script": "experiments/decision_id/nuisance.py",
   "script_sha256": "23a631aac554c82c",
   "numpy": "2.5.3",
