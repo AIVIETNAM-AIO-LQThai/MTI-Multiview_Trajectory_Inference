@@ -167,3 +167,25 @@ def test_TD_8_conftest_record_path_does_not_touch_committed_artifact_by_default(
     assert conftest.record_path({}).endswith(os.path.join(".pytest_cache", "test_max_errors.json"))
     assert conftest.record_path({"MTI_WRITE_TEST_RECORD": "0"}).endswith(os.path.join(".pytest_cache", "test_max_errors.json"))
     assert conftest.record_path({"MTI_WRITE_TEST_RECORD": "1"}).endswith(os.path.join("results", "oracle_v1", "test_max_errors.json"))
+
+
+def test_TD_9_uniform_footprint_branch_belief_is_nonzero_at_L3():
+    """Proposition 6(b) of docs/decision_identification_chapter.md: at L = 3 with P uniform, the branch world (eta' < 1/2, q_unif) has belief
+    1/2 r z2 - 1/2 r^2 z0 z1 z2 + 1/2 r^2 z1 + 1/2 r^3 z0 (not identically zero), while eta' = 1/2 gives mu = 0 for every channel."""
+    assert np.allclose(R.GHAT[R.A_IDX], [0.5, -0.5, 0.5, 0.5])
+    phys = PHYS["sec"].with_(L=3)
+    ts = TestSet(phys, 1500, cell_id=0, master=8601)
+    z = np.tanh(phys.c * ts.a_rec * (ts.s_rec[:, 1:] - phys.rho * ts.s_rec[:, :-1]) / phys.q_w)
+    q_unif = np.full(4, 0.25)
+    worst = 0.0
+    for e2 in (0.0, 0.2, 0.4):
+        e = ExactRecords(ts, phys.with_(eta=e2))
+        mu = Precomputed.build(e.ll, e.mu).compose(q_unif)
+        r = 1 - 2 * e2
+        form = 0.5 * r * z[:, 2] - 0.5 * r ** 2 * z[:, 0] * z[:, 1] * z[:, 2] + 0.5 * r ** 2 * z[:, 1] + 0.5 * r ** 3 * z[:, 0]
+        worst = max(worst, float(np.abs(mu - form).max()))
+        assert np.abs(mu).mean() > 0.01
+    rec("TD_9_uniform_branch_formula_vs_hmm", worst)
+    assert worst <= 1e-12
+    e = ExactRecords(ts, phys.with_(eta=0.5))
+    assert np.abs(Precomputed.build(e.ll, e.mu).compose(np.array([0.6, 0.1, 0.2, 0.1]))).max() <= 1e-15
