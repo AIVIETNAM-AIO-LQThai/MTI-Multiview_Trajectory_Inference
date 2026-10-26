@@ -264,12 +264,12 @@ Details, proofs and evidence paths: [decision_identification_closeout.md](decisi
 **Side information, each stated as an assumption** (no intended application currently supplies any of them):
 - A cap β′ ≤ β̄ restricts the arc. On T3 and T6 (true β = 0.2), caps up to about 0.23–0.24 bound the certified worst-case cost below Δ. It bounds the cost but does not identify the decision, except at the single point cap = β_true on the boundary truth T4.
 - Clean calibration needs clean prefixes with at least one mode edge. It identifies the decision at L = 3 (Proposition (i)), but only β at L = 2, and nothing at L = 1.
-- Trusted outcomes (y, u) on the corrupted prefixes identify μ₂ through E[u(y − ρ s_L) | S]/q_u = cμ₂(S), under exogenous u, intact s_L, mean-zero noise and calibration–deployment transfer. No Markov or clean-family assumption is needed. This is a corollary (discussion §5.3, slope check 0.81 / 1.00 / 1.11 along the arc).
+- Trusted outcomes (y, u) on the corrupted prefixes identify γ = cμ₂ through E[u(y − ρ s_L) | S]/q_u = cμ₂(S), under exogenous u with 0 < q_u < ∞, intact s_L, mean-zero noise with E[ε²] < ∞, and calibration–deployment transfer; μ₂ itself also needs the sign of c. No Markov or clean-family assumption is needed. This is a corollary (discussion §5.3, slope check 0.81 / 1.00 / 1.11 along the arc).
 - There is no intrinsic ordering of these regimes without an application and a resource model.
 
 **Structural corollaries (concise).**
-- *Physics within S2:* ρ, q_a, c² and q_w are identified by channel-invariant moments, and the decision is invariant to the sign of c. Lemma 1 and the Proposition therefore hold with the physics identified rather than supplied, within S2 (discussion §5.4; `experiments/decision_id/nuisance.py`). The plug-in finite-sample cost is unmeasured.
-- *At most k flips (common η):* the channel is identified with η known iff L ≥ 2k + 1, and jointly iff L ≥ 2k + 2. Sketch in discussion §5.5; LP-consistent for k ≤ 3, L ≤ 9 (`kflip.py`, 0 mismatches).
+- *Physics within S2:* ρ, q_a, c² and q_w are identified by channel-invariant moments, and the decision (through γ = cμ and a*) is invariant to the sign of c, which is not identified (μ itself needs a supplied sign or a label convention). Lemma 1 and the Proposition therefore hold with the physics identified rather than supplied, within S2 (discussion §5.4; `experiments/decision_id/nuisance.py`). The plug-in finite-sample cost is unmeasured.
+- *At most k flips (common η):* on [0, ½] × Δ(A_k), the channel is globally identified with η < ½ known iff L ≥ 2k + 1; (η, channel) is globally identified on [0, ½) × Δ(A_k) iff L ≥ 2k + 2; at η = ½ no channel information exists at any L (precise statement: [decision_identification_chapter.md](decision_identification_chapter.md) Corollary 14). Sketch in discussion §5.5; LP-consistent for k ≤ 3, L ≤ 9 (`kflip.py`, 0 mismatches).
 
 ## 5. Empirical results
 

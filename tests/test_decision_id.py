@@ -189,3 +189,46 @@ def test_TD_9_uniform_footprint_branch_belief_is_nonzero_at_L3():
     assert worst <= 1e-12
     e = ExactRecords(ts, phys.with_(eta=0.5))
     assert np.abs(Precomputed.build(e.ll, e.mu).compose(np.array([0.6, 0.1, 0.2, 0.1]))).max() <= 1e-15
+
+
+def test_TD_10_rho_zero_gives_zero_decision_weight():
+    """Chapter §2.1 decision-weight remark / Proposition 8(c): with rho = 0, kappa == 0 and G = 0, so the decision geometry is trivial."""
+    phys = PHYS["sec"].with_(L=2, rho=0.0)
+    ts = TestSet(phys, 500, cell_id=0, master=8601)
+    k = np.repeat(ts.kap, ts.V)
+    z = np.tanh(phys.c * ts.a_rec * (ts.s_rec[:, 1:] - phys.rho * ts.s_rec[:, :-1]) / phys.q_w)
+    phi = np.stack([z[:, 1], z[:, 0]], 1) / (1 + 0.54 * z[:, 0] * z[:, 1])[:, None]
+    assert np.all(k == 0) and np.all((phi * k[:, None]).T @ phi == 0)
+    pos = PHYS["sec"].with_(L=2)                                             # rho = 0.9: G positive definite
+    ts2 = TestSet(pos, 500, cell_id=0, master=8601)
+    k2 = np.repeat(ts2.kap, ts2.V)
+    z2 = np.tanh(pos.c * ts2.a_rec * (ts2.s_rec[:, 1:] - pos.rho * ts2.s_rec[:, :-1]) / pos.q_w)
+    phi2 = np.stack([z2[:, 1], z2[:, 0]], 1) / (1 + 0.54 * z2[:, 0] * z2[:, 1])[:, None]
+    assert np.linalg.eigvalsh((phi2 * k2[:, None]).T @ phi2).min() > 0
+
+
+def test_TD_11_sign_of_c_preserves_record_law_and_cmu():
+    """Corollary 12: (c, m) -> (-c, -m) leaves the record law unchanged, negates mu_2 and preserves gamma = c mu_2."""
+    from mti.inference import candidate_from_queries, flip_batch
+    from mti.simulate import Prefix
+    phys = PHYS["lead"].with_(L=3)
+    ts = TestSet(phys, 800, cell_id=0, master=8601)
+    S = Prefix(ts.s_rec, ts.a_rec)
+    ch = truths(3)[1][1]
+    l1, m1 = flip_batch(S, phys)
+    l2, m2 = flip_batch(S, phys.with_(c=-phys.c))
+    a, b = candidate_from_queries(l1, m1, ch), candidate_from_queries(l2, m2, ch)
+    assert np.abs((l1[:, 0] + a.log_Z) - (l2[:, 0] + b.log_Z)).max() <= 1e-12
+    assert np.abs(a.mu2 + b.mu2).max() <= 1e-12 and np.abs(phys.c * a.mu2 - (-phys.c) * b.mu2).max() <= 1e-12
+
+
+def test_TD_12_eta_half_record_law_does_not_depend_on_channel():
+    """Corollary 14(c) / Proposition 1: at eta = 1/2 the apparent-edge law is uniform, so the record law is the same for every channel (here L = 8)."""
+    from mti.inference import candidate_from_queries, flip_batch
+    from mti.simulate import Prefix
+    phys = PHYS["lead"].with_(eta=0.5)
+    ts = TestSet(phys, 400, cell_id=0, master=8601)
+    ll, mu = flip_batch(Prefix(ts.s_rec, ts.a_rec), phys)
+    z0 = candidate_from_queries(ll, mu, ChannelSpec.uniform(8, 0.0)).log_Z
+    for ch in (ChannelSpec.point_mass(8, 0.4, 7), ChannelSpec.interp(8, 0.3, 0.5)):
+        assert np.abs(candidate_from_queries(ll, mu, ch).log_Z - z0).max() <= 1e-12

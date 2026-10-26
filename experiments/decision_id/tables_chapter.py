@@ -200,7 +200,8 @@ def table_corollaries():
         p = pm[pn]
         rows.append(f"| physics identified within S2 by channel-invariant moments ({'secondary' if pn == 'sec' else pn}; 2×10⁵ records, β = 0.35 on the last action) | ρ̂, q̂_a, ĉ², q̂_w | {p['rho']:.4f} ({p['rho_true']}), {p['q_a']:.4f} ({p['q_a_true']}), {p['c2']:.4f} ({p['c2_true']}), {p['q_w']:.4f} ({p['q_w_true']}) | {prov('results/decision_id/nuisance.json', nu)} |")
     to = nu["trusted_outcome"]["arc_points"]
-    rows.append(f"| trusted outcomes select the decision-equivalence class (L = 3, lead T3, 4×10⁵ records) | slope of u(y − ρs_L)/q_u on candidate μ₂ at η′ = 0, 0.05 (truth), η_hi | {', '.join(f'{r['slope_z_on_mu2']:.3f}' for r in to)} (1 at the truth) | same |")
+    slopes = ", ".join("%.3f" % r["slope_z_on_mu2"] for r in to)          # kept outside the f-string: nested same-quote f-strings need Python >= 3.12
+    rows.append(f"| trusted outcomes select the decision-equivalence class (L = 3, lead T3, 4×10⁵ records) | slope of u(y − ρs_L)/q_u on candidate γ = cμ₂ at η′ = 0, 0.05 (truth), η_hi | {slopes} (1 at the truth) | same |")
     rows.append(f"| at most k flips: thresholds L ≥ 2k + 1 (η known), L ≥ 2k + 2 (joint) | LP consistency, k ≤ 3, L = 2–9 | {kf['mismatches']} mismatches in {len(kf['rows'])} cases | {prov('results/decision_id/kflip.json', kf)} |")
     return "**Table 7. Structural corollaries: numerical consistency.** Moment estimates are single-sample values (no fitting of models). Scripts `experiments/decision_id/nuisance.py`, `experiments/decision_id/kflip.py`.\n\n" + "\n".join(rows) + "\n"
 

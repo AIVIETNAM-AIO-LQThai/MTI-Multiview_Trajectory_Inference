@@ -1,6 +1,6 @@
 # Decision identification under recorded-action sign corruption
 
-*Core thesis section, paper-first draft. Opus 5.5, 2026-10-13. Branch `exp/joint-identification`, base commit `9332c05`.*
+*Core thesis section, paper-first draft. Opus 5.5, 2026-10-13; assumption audit after Codex's review of `f14a2c0`, 2026-10-27 (§6.4). Branch `exp/joint-identification`.*
 *All numerical tables are generated from saved JSON by `experiments/decision_id/tables_chapter.py` (blocks between `TABLE` markers); do not edit them by hand.*
 
 **Status labels.**
@@ -62,11 +62,13 @@ For j = 0, …, L − 1:
   s_{j+1} = ρ s_j + c m_j a_j + w_j.
 
 **Assumptions A1–A5.**
-- **A1. Physics.** |ρ| < 1, c ≠ 0, q_a > 0, q_w > 0. The physics (ρ, c, q_a, q_w) is supplied; Corollary 12 relaxes this within S2.
+- **A1. Physics and loss.** |ρ| < 1, c ≠ 0, q_a > 0, q_w > 0, and the decision-maker's action penalty λ ≥ 0. (What the derivations use is c² + λ > 0, which makes the one-step problem strictly convex in the action; λ ≥ 0 with c ≠ 0 guarantees it.) The physics (ρ, c, q_a, q_w) is supplied; Corollary 12 relaxes this within S2, where only c² is identified.
 - **A2. Regime process.** m₀ ~ Unif{±1}; edges E_k = 1{m_{k+1} ≠ m_k} iid Bern(η) with η ∈ [0, ½].
 - **A3. Exogeneity.** a_j iid N(0, q_a), w_j iid N(0, q_w), s₀ stationary. Modes, actions, noise and s₀ are mutually independent.
 - **A4. Channel.** θ ∈ {none, 0, …, L − 1} is independent of everything in A2–A3, with law q in the full simplex Δ_L. q_j = Pr(θ = j), β = Σ_j q_j. T_θ negates the recorded sign of action θ only; states are never altered.
 - **A5. Access.** A record is S = (s₀, ã, s₁, …, s_L) with ã = σ ⊙ a, where σ_θ = −1 and every other coordinate is +1. Hidden modes, θ and outcomes are not observed.
+
+*Decision-weight remark.* κ > 0 almost surely iff ρ ≠ 0, because c ≠ 0 and s_L has a continuous law. A1 allows ρ = 0. Then κ ≡ 0: every rule has zero regret, T(P) is a single point of L²(P, κ), and V*(P) = 0, whatever the identified set. Statements about non-trivial decision geometry (Proposition 6(b)–(c), Proposition 8(c), the numerical decision costs) therefore assume ρ ≠ 0. Parameter-identification statements do not depend on ρ.
 
 *Domain remark.* The study's specification also mentions a declared cap β ≤ ½. Results below are stated on the **full simplex** unless a cap is named; Proposition 6(b) shows where this matters.
 
@@ -161,9 +163,10 @@ Numerical consistency checks of Lemma 1 and Propositions 2–4 are in Table 1 (�
 - **(a)** Parameter identification at P implies decision identification at P.
 - **(b) η = ½.** Every compatible world with η′ = ½ has μ ≡ 0.
   - With η known, or with L ≥ 4 (Proposition 2(a)), the decision is identified (μ ≡ 0) although q is not.
+  - The two items below concern ρ ≠ 0. With ρ = 0 the decision is trivially identified (decision-weight remark, §2.1).
   - At L = 3 with η unknown and the full simplex, the interior branch (η′ < ½, q_unif) is compatible, and its belief ½r′z₂ − ½r′²z₀z₁z₂ + ½r′²z₁ + ½r′³z₀ (with r′ = 1 − 2η′ > 0) is not identically zero. The decision is **not** identified.
   - Under a declared cap β ≤ ½, q_unif (β = ¾) is inadmissible and the decision is identified.
-- **(c) Elsewhere at L ≤ 3.** Compatible worlds generally imply different beliefs. For the tested truths this holds numerically:
+- **(c) Elsewhere at L ≤ 3.** Compatible worlds generally imply different beliefs, and, when ρ ≠ 0, different decisions. For the tested truths (ρ = 0.9) this holds numerically:
   - the ridge in Table 1 has max |Δμ₂| = 0.21;
   - every L = 3 and L = 2 cell in Tables 2a and 3 has a positive diameter, except T0 at L = 2 with η known.
 
@@ -185,22 +188,24 @@ The endpoint-pair quantity ¼d² is therefore always a **lower bound**. It equal
 
 **Proposition 8 (L = 2, η unknown: the target triangle) [P].** Let L = 2, Θ = [0, ½] × Δ₂, and suppose the identified h lies in **(0, 1)**.
 - **(a) Beliefs.** Every compatible world has μ = φ·(u, v), with φ = (z₁, z₀)/(1 + h z₀z₁), u = r(1 − 2q₁) and v = r²(1 − 2q₀).
-- **(b) Target set.** The set of (u, v) is the triangle 𝒯_h = {h ≤ u ≤ 1, hu ≤ v ≤ 1 + h − u}, with vertices:
+- **(b) Coefficient triangle.** The set of compatible coefficients (u, v) is the triangle 𝒯_h = {h ≤ u ≤ 1, hu ≤ v ≤ 1 + h − u}. It depends only on h, not on ρ or the other physics. Its vertices are:
   - A = (h, h²): η = (1 − h)/2, β = 0;
   - B = (h, 1): η = 0, q₁ = (1 − h)/2;
   - C = (1, h): η = 0, q₀ = (1 − h)/2.
 
   The three vertex worlds are exactly observationally equivalent.
-- **(c) Minimax.** Let G = E_P[κ φφᵀ], which is positive definite. V* is the squared radius of the smallest enclosing circle of 𝒯_h in the G metric:
+- **(c) Decision triangle and minimax.** The decision target set is the image {φ·(u, v) : (u, v) ∈ 𝒯_h} ⊂ L²(P, κ). Let G = E_P[κ φφᵀ].
+  - **ρ = 0:** G = 0, the image is a single point, and V* = 0.
+  - **ρ ≠ 0:** κ > 0 a.s., G is positive definite, and the image is a non-degenerate triangle isometric to 𝒯_h with the G metric. V* is the squared radius of the smallest enclosing circle of 𝒯_h in that metric:
   - if the triangle is acute in that metric, this is the circumradius, and the least-favourable prior puts the circumcentre's barycentric weights on all **three** vertices;
   - otherwise it is ¼ of the longest side squared, with a two-point prior.
-- **(d) Analytic acuteness near ρ = 1.** With all other physics fixed, the triangle is acute in the G metric for every ρ < 1 sufficiently close to 1. Acuteness at ρ = 0.9 for the eight tested cells is a **numerical** result (Table 3), not part of this proposition.
+- **(d) Analytic acuteness near ρ = 1** (so ρ ≠ 0). With all other physics fixed, the triangle is acute in the G metric for every ρ < 1 sufficiently close to 1. Acuteness at ρ = 0.9 for the eight tested cells is a **numerical** result (Table 3), not part of this proposition.
 - **Scope.** h ≤ 0 is not covered. At h = 1 the triangle degenerates to the point (1, 1).
 
 **Proposition 9 (segments: exact minimax) [P].**
 - **L = 1:** μ = γ z₀ with γ = r(1 − 2β).
   - Full simplex: γ ∈ [−r, r] with η known, or γ ∈ [−1, 1] with η unknown.
-  - The minimax rule is b ≡ 0, with V* = γ_max² E_P[κ z₀²].
+  - The minimax rule is b ≡ 0, with V* = γ_max² E_P[κ z₀²] (zero when ρ = 0).
   - Under a cap β ≤ ½: γ ∈ [0, r] and V* = ¼ r² E_P[κ z₀²].
 - **L = 2, η known, h ∈ (0, 1):** T is the segment between (u, v) = (h, r²) and (r, rh), i.e. q₁ ∈ [0, β].
   - The endpoint midpoint is minimax, and V* = ¼d² exactly.
@@ -222,17 +227,23 @@ The endpoint-pair quantity ¼d² is therefore always a **lower bound**. It equal
 The theorem does **not** say which maximiser a particular implementation returns. The observed selections of the E4 J-MLE are reported separately in Table 6.
 
 **Structural corollaries** (each stated with its assumptions; proofs or sketches in Appendix A):
-- **Corollary 12 (physics within S2) [P].** Under A1–A5, ρ, q_a, c² and q_w are identified by channel-invariant moments, because states and action magnitudes are intact.
-  - The sign of c is not identified, but the decision is invariant to it.
-  - Lemma 1 and Propositions 1–11 therefore hold with the physics identified rather than supplied, within S2.
+- **Corollary 12 (physics within S2) [P].** Under A1–A5, ρ, q_a, c² and q_w are identified by channel-invariant moments, because states and action magnitudes are intact. The sign of c is **not** identified: (c, m) ↦ (−c, −m) preserves the record law and maps μ ↦ −μ. The consequences, when only c² is identified:
+  - The parameter statements (Lemma 1, Propositions 1–5 and 11) hold unchanged, because (η, q) is the same in both sign representations.
+  - The decision-relevant quantities are invariant: γ = cμ, the optimal action a* = −ρ s_L γ/(c² + λ), and the regret κ(b − μ)² = ρ²s_L²(cb − cμ)²/(c² + λ). So Theorem 7 and Propositions 6 and 8–10 hold for γ, with identical numerical values.
+  - The signed belief μ itself is identified only with a supplied sign of c or a labelling convention (for example c > 0, i.e. naming m = +1 the regime in which positive actions raise the state).
   - The finite-sample plug-in cost is not measured.
 - **Corollary 13 (trusted outcomes) [P].** Suppose one observes (u, y) with y = ρ s_L + c m_L u + ε, where:
-  - u is independent of (S, m_L), with E[u²] = q_u;
-  - E[ε | S, u, m_L] = 0;
+  - u is independent of (S, m_L), with 0 < q_u = E[u²] < ∞;
+  - E[ε²] < ∞ and E[ε | S, u, m_L] = 0, so that u(y − ρ s_L) is integrable and the conditional moments exist;
   - calibration and deployment share the law of (S, m_L).
 
-  Then E[u(y − ρ s_L) | S]/q_u = c μ₂(S). μ₂ is identified without any clean-family or Markov assumption. No intended application is currently known to supply such outcomes.
-- **Corollary 14 (at most k flips, common η) [sketch; numerical consistency C].** The channel is identified with η known iff L ≥ 2k + 1, and jointly with η iff L ≥ 2k + 2. The sketch is in [decision_identification_discussion.md](decision_identification_discussion.md) §5.5; the LP check is in Table 7.
+  Then E[u(y − ρ s_L) | S]/q_u = c μ₂(S) = γ(S). So γ, and with it the decision, is identified without any clean-family or Markov assumption. μ₂ itself also needs the sign of c (Corollary 12). No intended application is currently known to supply such outcomes.
+- **Corollary 14 (at most k flips, common η) [sketch; numerical consistency C].** Let the channel be an exogenous law on the flip sets A_k = {b ∈ {0,1}^L : |b| ≤ k}, with footprint D(b)_j = b_j ⊕ b_{j+1}, and a single persistence η for all edges. The parameter class is Θ_k = [0, ½] × Δ(A_k).
+  - **(a) η known, η < ½.** The channel is globally identified on Δ(A_k) iff L ≥ 2k + 1. For L ≤ 2k, a flip set b and its complement b ⊕ 1 can both lie in A_k and have the same footprint. A channel is then point-identified at P iff it puts no mass on such confounded sets (L − k ≤ |b| ≤ k).
+  - **(b) η unknown.** For L ≥ 2k + 2, η is identified at every P, and the channel iff η < ½; so (η, channel) is globally identified on [0, ½) × Δ(A_k). For L ≤ 2k + 1, every footprint law is attainable, so the lower branch exists at every P with η > 0 and global identification fails. Point identification at η = 0 can occur (as at k = 1, L = 3, Proposition 3(b)) but is not characterised for k ≥ 2.
+  - **(c) η = ½.** The apparent-edge law is uniform for every channel. No horizon recovers any channel information.
+  - k = 1 recovers Propositions 1–3.
+  - *Status:* the argument is sketched in [decision_identification_discussion.md](decision_identification_discussion.md) §5.5 and summarised in Appendix A.15. It is checked numerically by LP (Table 7) for k ≤ 3, L = 2–9, at η = 0.05 with one random interior channel per case. (c) is checked numerically at L = 8 by test TD_12.
 
 ---
 
@@ -416,7 +427,7 @@ The theorem does **not** say which maximiser a particular implementation returns
 |---|---|---|---|
 | physics identified within S2 by channel-invariant moments (lead; 2×10⁵ records, β = 0.35 on the last action) | ρ̂, q̂_a, ĉ², q̂_w | 0.9004 (0.9), 1.0003 (1.0), 0.9998 (1.0), 0.0201 (0.02) | `results/decision_id/nuisance.json` (file last committed in `9332c05`; produced at `296afe6`, clean tree) |
 | physics identified within S2 by channel-invariant moments (secondary; 2×10⁵ records, β = 0.35 on the last action) | ρ̂, q̂_a, ĉ², q̂_w | 0.9002 (0.9), 1.0003 (1.0), 0.9993 (1.0), 0.5002 (0.5) | `results/decision_id/nuisance.json` (file last committed in `9332c05`; produced at `296afe6`, clean tree) |
-| trusted outcomes select the decision-equivalence class (L = 3, lead T3, 4×10⁵ records) | slope of u(y − ρs_L)/q_u on candidate μ₂ at η′ = 0, 0.05 (truth), η_hi | 0.812, 1.000, 1.108 (1 at the truth) | same |
+| trusted outcomes select the decision-equivalence class (L = 3, lead T3, 4×10⁵ records) | slope of u(y − ρs_L)/q_u on candidate γ = cμ₂ at η′ = 0, 0.05 (truth), η_hi | 0.812, 1.000, 1.108 (1 at the truth) | same |
 | at most k flips: thresholds L ≥ 2k + 1 (η known), L ≥ 2k + 2 (joint) | LP consistency, k ≤ 3, L = 2–9 | 0 mismatches in 24 cases | `results/decision_id/kflip.json` (file last committed in `296afe6`; produced at `69ca28f`, clean tree) |
 <!-- TABLE:corollaries:END -->
 
@@ -445,7 +456,7 @@ The wording that replaces earlier statements (history in Appendix B and [decisio
 6. **Side information bounds rather than resolves the ambiguity.**
    - A β cap bounds the worst-case cost (Table 4).
    - Clean calibration resolves the ambiguity only at L ≥ 3 (Proposition 1), and only if clean prefixes contain at least one mode edge.
-   - Trusted outcomes identify μ₂ under the assumptions of Corollary 13.
+   - Trusted outcomes identify γ = cμ₂ (μ₂ itself given the sign of c) under the assumptions of Corollary 13.
 7. **Uncertainty reporting.** Shared-prefix and crossed ANOVA SEs are used; the independent-set figure is an approximation, not a bound. The search domain is stated as implemented (effective [0.001, 0.155]).
 
 ### 6.2 Limitations
@@ -463,6 +474,28 @@ The wording that replaces earlier statements (history in Appendix B and [decisio
 - finite-sample identified-set estimation, which is non-regular at the simplex boundary;
 - unknown physics outside S2.
 
+### 6.4 Assumption audit (2026-10-27, after Codex's review of `f14a2c0`)
+
+Each item names the hypothesis, whether omitting it changes a stated conclusion, the evidence, and the fix. Evidence marked TD_* is a saved test in `tests/test_decision_id.py`; the Python 3.11 check is `tests/test_py311_compat.py`.
+
+| hypothesis | effect if omitted | evidence | fix |
+|---|---|---|---|
+| ρ ≠ 0 for decision geometry | **changes conclusions**: at ρ = 0, κ ≡ 0, G = 0, every rule has zero regret, and T(P) is a point. Proposition 8(c)'s "G positive definite" and the decision non-identification of Propositions 6(b)–(c) fail | TD_10: ρ = 0 gives κ ≡ 0 and G = 0 | decision-weight remark (§2.1); Propositions 6, 8, 9 qualified; coefficient triangle vs decision triangle separated |
+| η < ½ in the k-flip corollary | **changes conclusions**: at η = ½ the apparent-edge law is uniform for every channel | TD_12: at L = 8, η = ½, the record log-likelihoods of a clean and a β = 0.4 point-mass channel coincide | Corollary 14 restated on Θ_k with (a)–(c) |
+| 0 < q_u < ∞, E[ε²] < ∞ in Corollary 13 | changes the statement: q_u = 0 gives no information, and q_u = ∞ or non-integrable noise leave the moment undefined | proof A.14 | Corollary 13 restated |
+| sign of c (Corollary 12) | changes what is identified: μ flips sign under (c, m) ↦ (−c, −m) | TD_11: identical record law, μ₂ negated, cμ₂ unchanged | γ = cμ and a* identified; μ needs a supplied sign or a label convention |
+| λ ≥ 0 | A1 did not state it. The derivations need c² + λ > 0; with c² + λ ≤ 0 the one-step problem has no minimiser | — | added to A1 |
+| full channel simplex (Propositions 3, 8, 11) | changes conclusions under a declared cap. Propositions 3 and 8 describe different (restricted) sets. Proposition 11's nesting can fail, because the lower branch raises β′. Example: under the cap β̄ = 0.2 at L = 3, T3, the compatible set is only η′ ∈ [0.05, 0.0848] (Table 4), so the population profile is not maximised at the bottom of [0, ½] | Table 4 | scope already stated in each proposition; recorded here |
+| Python ≥ 3.11 (declared) | the table generator used 3.12-only f-string syntax and failed to compile on 3.11 | `tests/test_py311_compat.py` flags the reviewed line 203; all files compile under the pre-3.12 grammar | generator fixed; compatibility test added |
+
+**Checked, no change needed:**
+- q_w > 0 (needed for |z_j| < 1 in Proposition 8(d), and for densities);
+- q_a > 0 and c ≠ 0 (distinct mixture means in Lemma 1);
+- m₀ uniform and exogenous θ (Lemma 1);
+- finite dimension in Theorem 7(iii) (true for every set used here);
+- E_P[κ] < ∞ (stationary s₀);
+- h ∈ (0, 1) in Proposition 8 (already stated).
+
 ---
 
 ## 7. What this contributes to the thesis
@@ -473,10 +506,12 @@ The wording that replaces earlier statements (history in Appendix B and [decisio
 3. **Quantification.** Under the stated assumptions and reference scales, the ambiguity is decision-material in most tested cases.
 4. **Side information as explicit assumptions**, each with what it buys.
 
-**Novelty (provisional).**
-- The thresholds are a structural specialisation of known-support noisy population recovery, and the minimax facts are standard (Γ-minimax, Jung).
-- The candidate contribution is the decision-level characterisation for this channel, with its measured and certified costs.
-- This assessment remains provisional until Chen & Liu (1993) and Balsells-Rodas, Wang & Li (2024) have been read in full; both were read at abstract level only.
+**Novelty (provisional).** The literature pass of 2026-10-27 is in [literature_positioning_decision_identification.md](literature_positioning_decision_identification.md).
+- **Established background:**
+  - Lemma 1 is finite-mixture identification (the device of Balsells-Rodas, Wang & Li 2024, App. A–B);
+  - Theorem 7 is Chebyshev-center minimax under squared loss (Eldar, Beck & Teboulle 2008, §II, eqs. 5–6) together with Γ-minimax and Jung's bound.
+- **Structural specialisations:** Propositions 2–4 specialise unknown-noise population recovery (Lovett & Zhang 2017) to a known, proper support. Chen & Liu (1993) is conceptual background for the outlier/dynamics confound; it offers a procedure, not an identification theorem.
+- **Potentially original:** the exact identified sets and the decision-target geometry for recorded-action sign corruption (segment, triangle with a multi-point least-favourable prior, arc), and the certified decision costs. This remains provisional: the closest unsearched areas are regime-switching models with misrecorded exogenous inputs and robust-RL action-label noise.
 
 **Place in the thesis.** This section is the core of chapter 3 (information and identification) and the second half of chapter 5 (clean-law/channel confounding) in the map of [research_synthesis.md](research_synthesis.md) §9. Chapters 4 (prior risk, adaptation) and 6 (learned estimators) attach as the estimation side. §6.3 bounds the original MTM motivation.
 
@@ -493,9 +528,9 @@ The wording that replaces earlier statements (history in Appendix B and [decisio
 | Prop. 3 | P | App. A.5 | `experiments/decision_id/l3_certify.py` (`ridgelib.eta_hi`); test TD_4 | `results/decision_id/l3_certify.json` | 1, 2a | singleton iff η = 0 and F has a zero; uniform case: non-compact branch plus boundary stratum |
 | Prop. 4 | P | App. A.6 | tests TE3_1 (L = 1, 2 exact) | — | — | L = 2 depends only on h |
 | Prop. 5 | P | App. A.7 | — | (F1 instance: `results/e4/stage1/units/f1_*.json`) | — | attribution vs detection |
-| Prop. 6 | P (a, b); C (c) | App. A.8 | `check_joint_identification.py`; `l3_certify.py`; `l2_geometry.py`; test TD_9 (uniform-branch belief vs HMM, (b)) | `joint_identification.json`; `l3_certify.json`; `l2_geometry.json` | 1, 2a, 3 | (b) depends on the channel domain (β′ = ¾) |
+| Prop. 6 | P (a, b); C (c); ρ ≠ 0 for (b)–(c) | App. A.8 | `check_joint_identification.py`; `l3_certify.py`; `l2_geometry.py`; test TD_9 (uniform-branch belief vs HMM, (b)) | `joint_identification.json`; `l3_certify.json`; `l2_geometry.json` | 1, 2a, 3 | (b) depends on the channel domain (β′ = ¾) |
 | Thm. 7 | P | App. A.9 | tests TD_5, TD_6 | — | — | Jung: standard, not re-read; (iii) for finite-dimensional T |
-| Prop. 8 (a–c) | P | App. A.10 | `experiments/decision_id/l2_geometry.py`, `l2lib.py`; tests TD_1, TD_2 | `results/decision_id/l2_geometry.json` | 1, 3 | h ∈ (0, 1) |
+| Prop. 8 (a–c) | P | App. A.10 | `experiments/decision_id/l2_geometry.py`, `l2lib.py`; tests TD_1, TD_2 | `results/decision_id/l2_geometry.json` | 1, 3 | h ∈ (0, 1); ρ ≠ 0 for a non-degenerate decision triangle (ρ = 0: G = 0, V* = 0); coefficient triangle independent of ρ |
 | Prop. 8 (d) | P (limit ρ ↑ 1) | App. A.10 | — | — | — | acuteness at ρ = 0.9 is C (Table 3) |
 | L = 2 three-point prior in 8 of 8 cells | C | Prop. 8(c) | `l2_geometry.py` | `l2_geometry.json` | 0, 3 | evaluation measure; G differs by up to 7.7% on a fresh sample, same structure |
 | Prop. 9 | P | App. A.11 | `l2_geometry.py` (segment) | `l2_geometry.json` | 3 | full simplex unless capped |
@@ -506,9 +541,9 @@ The wording that replaces earlier statements (history in Appendix B and [decisio
 | Prop. 11 | P | App. A.13 | — | — | — | theorem about the profile, not about an implementation |
 | J-MLE near-bottom selections at L = 3 | M/D | — | `experiments/run_e4.py` | `results/e4/stage1/units/*_L3_*.json` | 6 | implementation-specific; secondary T3 exception |
 | Joint estimation feasible at L = 4, 8 (n = 10⁴) | M | — | `experiments/run_e4.py`; `experiments/decision_id/se_e4.py` | `results/e4/stage1/units/*.json`; `results/decision_id/se_e4.json` | 5, 5b | context only; one design point per cell |
-| Cor. 12 | P (+ C check) | App. A.14 | `experiments/decision_id/nuisance.py` | `results/decision_id/nuisance.json` | 7 | within S2; plug-in cost unmeasured |
-| Cor. 13 | P (+ C check) | App. A.14 | `nuisance.py` | `nuisance.json` | 7 | assumed access |
-| Cor. 14 | sketch + C | discussion §5.5 | `experiments/decision_id/kflip.py` | `results/decision_id/kflip.json` | 7 | common η; k ≤ 3, L ≤ 9 checked |
+| Cor. 12 | P (+ C check) | App. A.14 | `experiments/decision_id/nuisance.py` | `results/decision_id/nuisance.json` | 7 | within S2; only c² identified, so γ = cμ and a* are identified, μ needs a sign or a convention; plug-in cost unmeasured |
+| Cor. 13 | P (+ C check) | App. A.14 | `nuisance.py` | `nuisance.json` | 7 | assumed access; 0 < q_u < ∞, E[ε²] < ∞; identifies γ |
+| Cor. 14 | sketch + C | App. A.15; discussion §5.5 | `experiments/decision_id/kflip.py` | `results/decision_id/kflip.json` | 7 | parameter class Θ_k = [0, ½] × Δ(A_k); global identification needs η < ½; common η; LP checks k ≤ 3, L ≤ 9 at η = 0.05 |
 
 ---
 
@@ -598,7 +633,7 @@ Notation: d = L − 1; χ_A(x) = (−1)^{Σ_{i∈A} x_i}; for a law Q on {0,1}^d
 - *(c)* For fixed b, the risk is a convex quadratic in (u, v), so its maximum over 𝒯_h is attained at a vertex. Projecting b onto span{φ₁, φ₂} does not increase any risk. This reduces the problem to the smallest enclosing circle of three points in the plane with metric G.
   - That circle is the circumcircle if the triangle is acute, otherwise the circle on the longest side.
   - The least-favourable prior's weights are the centre's barycentric coordinates.
-  - G is positive definite because φ₁ and φ₂ are not proportional (they depend on different record coordinates).
+  - If ρ ≠ 0, then κ > 0 a.s. (c ≠ 0 and s_L has a density), and G is positive definite because φ₁ and φ₂ are not proportional (they depend on different record coordinates). The linear map (u, v) ↦ φ·(u, v) is then injective, so the decision triangle is isometric to 𝒯_h with the G metric. If ρ = 0, then κ ≡ 0 and G = 0.
 - *(d)* With all other physics fixed:
   1. s_L = ρ^L s₀ + Σ_j ρ^{L−1−j}δ_j, with s₀ independent of (ã, δ), zero mean, and Var s₀ = (c²q_a + q_w)/(1 − ρ²) → ∞ as ρ ↑ 1.
   2. The law of (ã, δ) does not depend on ρ, and φ is bounded (|φ_i| ≤ 1/(1 − h)). Hence G/E_P[κ] → E_P[φφᵀ].
@@ -626,7 +661,17 @@ Notation: d = L − 1; χ_A(x) = (−1)^{Σ_{i∈A} x_i}; for a law Q on {0,1}^d
   - E[ã²] = q_a, since flips preserve magnitude.
   - E[δ_j² | ã_j] = c²ã_j² + q_w (m² = 1), so c² = Cov(ã², δ²)/Var(ã²) with Var(a²) = 2q_a² > 0, and q_w = E[δ²] − c²q_a.
   - The map (c, m) ↦ (−c, −m) preserves the record law and leaves γ = cμ and a* unchanged.
-- *Corollary 13.* E[u(y − ρs_L) | S] = c E[u²m_L | S] + E[uε | S] = c q_u μ₂(S) under the stated independence and mean-zero conditions. ∎
+- *Corollary 12, sign.* Replacing (c, m) by (−c, −m) leaves every c m_j a_j unchanged, so the law of (s, a, ã) is unchanged. m₀ is symmetric, and the edges and the channel do not depend on the labels, so (η, q) is unchanged and μ = E[m_L | S] changes sign. γ = cμ, a* and κ(b − μ)² = ρ²s_L²(cb − cμ)²/(c² + λ) depend on c only through c² and cμ.
+- *Corollary 13.* E[u(y − ρs_L) | S] = c E[u²m_L | S] + E[uε | S].
+  - With u independent of (S, m_L) and 0 < q_u < ∞, the first term is c q_u μ₂(S).
+  - With E[ε²] < ∞, uε is integrable (Cauchy–Schwarz), and E[uε | S] = E[u E[ε | S, u, m_L] | S] = 0.
+  - Dividing by q_u > 0 gives γ(S). ∎
+
+**A.15 Corollary 14 (sketch).** Here D(b)_j = b_j ⊕ b_{j+1}, and the apparent edge law is B_η ∗ F_w, with F_w the law of D(b) under the channel w; Lemma 1 extends verbatim.
+- *Kernel and injectivity.* D(b) = D(b′) iff b ⊕ b′ ∈ {0, 1}. So D is injective on A_k iff no b with |b| ≤ k has |b ⊕ 1| = L − |b| ≤ k, i.e. iff L ≥ 2k + 1. For a confounded pair only the total mass is identified. That gives (a), with B_η invertible for η < ½.
+- *Image.* Each pattern has the two preimages b and b ⊕ 1, of weights w and L − w, and min(w, L − w) ≤ ⌊L/2⌋. So D(A_k) is the whole cube iff L ≤ 2k + 1; for L ≥ 2k + 2 the all-ones pattern is missed, because its preimages are the two alternating flip sets, of weights ⌊L/2⌋ and ⌈L/2⌉ ≥ k + 1.
+- *(b)* If D(A_k) is not the whole cube, the argument of A.4 applies verbatim: η′ < η forces F′ = B_ν ∗ F to have full support. Then η′ = η; for η < ½, F′ = F, and injectivity (L ≥ 2k + 2 > 2k + 1) gives the channel. If D(A_k) is the whole cube, every footprint law is attainable, so B_ν ∗ F is a valid channel for every η′ < η.
+- *(c)* B̂_½(A) = 0 for A ≠ ∅. ∎
 
 ---
 
@@ -654,5 +699,5 @@ These seven corrections inform the current wording in §6.1. Each was documented
   ```
   It writes `results/decision_id/chapter_tables.md` and refreshes the `TABLE` blocks above.
 - **Recompute the underlying results:** `python experiments/decision_id/{l3_certify,l2_geometry,l3_beta_cap,se_e4,kflip,nuisance}.py`. These are evaluation-only and need no training.
-- **Tests:** `python -m pytest -q` runs 124 tests. `tests/test_decision_id.py` covers Propositions 3, 6(b), 8 and 10 and Theorem 7. Set `MTI_WRITE_TEST_RECORD=1` only to refresh the committed test record.
+- **Tests:** `python -m pytest -q` runs the full suite (counts in the latest review notes). `tests/test_decision_id.py` covers Propositions 3, 6(b), 8 and 10, Theorem 7 and the §6.4 audit checks (TD_10–TD_12); `tests/test_py311_compat.py` guards Python 3.11 syntax. Set `MTI_WRITE_TEST_RECORD=1` only to refresh the committed test record.
 - **Sources:** the received verification archive of 2026-10-11 is in `results/decision_id/archive/`.
